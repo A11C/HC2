@@ -5,6 +5,15 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_main">MainActivity</string>
 
+    <string-array name="Tags">
+        <item>Frente</item>
+        <item>Patio</item>
+        <item>Cochera</item>
+        <item>Sala</item>
+        <item>Habitación 1</item>
+        <item>Habitación 2</item>
+    </string-array>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
