@@ -1,13 +1,34 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.fiuady.hadp.homecontrol.CocheraFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <Switch
+        android:id="@+id/cochera_switch"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
+        android:text="Abrir/Cerrar Puerta de la Cochera"
+        android:textAlignment="center" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/cochera_estadotag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cochera_switch"
+        android:text="Estado actual de la puerta"
+        android:textAlignment="center"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/cochera_estadotext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cochera_estadotag"
+        android:textAlignment="center"
+        tools:text="Abierta" />
+
+
+</RelativeLayout>

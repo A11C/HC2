@@ -1,13 +1,142 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.fiuady.hadp.homecontrol.Hab2Fragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Luces: "
+        android:padding="10dp"
+        android:id="@+id/luces_hab2_text"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
 
-</FrameLayout>
+    <Switch
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/luces_hab2_text"
+        android:id="@+id/luz_hab2_switch"
+        android:text="Encender/Apagar Luz"
+        android:textAlignment="center"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/luz_hab2_switch"
+        android:id="@+id/color_select2"
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:enabled="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Color: "/>
+
+        <View
+            android:elevation="20dp"
+            android:layout_width="30dp"
+            android:layout_height="20dp"
+            android:background="#000"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Estado de la ventana: "
+        android:padding="10dp"
+        android:layout_below="@+id/color_select2"
+        android:id="@+id/Ventana_hab2_text"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+    <Switch
+        android:enabled="false"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Ventana_hab2_text"
+        android:id="@+id/ventana2_switch"
+        tools:text="Abierta "/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ventilador: "
+        android:padding="10dp"
+        android:layout_below="@+id/ventana2_switch"
+        android:id="@+id/Ventilador_hab2_text"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+    <Switch
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Ventilador_hab2_text"
+        android:id="@+id/ventilador_hab2_switch"
+        android:text="Encender/Apagar Ventilador"
+        android:textAlignment="center"/>
+
+    <Switch
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ventilador_hab2_switch"
+        android:id="@+id/ventilador_hab2_control"
+        android:text="Control automático"
+        android:textAlignment="center"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/ventilador_hab2_control"
+        android:id="@+id/temperatura_control2">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textAlignment="center"
+            android:text="Temperatura
+máxima: "/>
+
+        <NumberPicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+
+        </NumberPicker>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textAlignment="center"
+            android:text="Temperatura
+mínima: "/>
+
+        <NumberPicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/temperatura_control2">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Temperatura actual: "/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="50°C"/>
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

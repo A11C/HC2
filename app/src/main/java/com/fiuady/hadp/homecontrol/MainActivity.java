@@ -1,12 +1,12 @@
 package com.fiuady.hadp.homecontrol;
 
 import android.content.res.Configuration;
-import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,12 +22,15 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ListView drawerList;
     private ActionBarDrawerToggle drawerToggle;
+    private CharSequence activityTitle;
+    private CharSequence itemTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        itemTitle = activityTitle = getTitle();
         tagTitles = getResources().getStringArray(R.array.Tags);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerList = (ListView) findViewById(R.id.left_drawer);
@@ -56,6 +59,33 @@ public class MainActivity extends AppCompatActivity {
 
                         drawerList.setItemChecked(i, true);
                         drawerLayout.closeDrawer(drawerList);
+                        break;
+
+                    case(2):
+                        CocheraFragment fragment2 = new CocheraFragment();
+                        Bundle args2 = new Bundle();
+                        args2.putInt("acd", i);
+                        fragment2.setArguments(args2);
+
+                        FragmentManager fragmentManager2 = getSupportFragmentManager();
+                        fragmentManager2.beginTransaction().replace(R.id.content_frame, fragment2).commit();
+
+                        drawerList.setItemChecked(i, true);
+                        drawerLayout.closeDrawer(drawerList);
+                        break;
+
+                    case(4):
+                        Hab1Fragment fragment4 = new Hab1Fragment();
+                        Bundle args4 = new Bundle();
+                        args4.putInt("acd", i);
+                        fragment4.setArguments(args4);
+
+                        FragmentManager fragmentManager4 = getSupportFragmentManager();
+                        fragmentManager4.beginTransaction().replace(R.id.content_frame, fragment4).commit();
+
+                        drawerList.setItemChecked(i, true);
+                        drawerLayout.closeDrawer(drawerList);
+                        break;
                 }
             }
         });
@@ -91,10 +121,6 @@ public class MainActivity extends AppCompatActivity {
         };
         //Seteamos la escucha
         drawerLayout.setDrawerListener(drawerToggle);
-
-        if (savedInstanceState == null) {
-            selectItem(0);
-        }
 
     }
 
