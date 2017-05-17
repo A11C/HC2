@@ -58,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
                         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 
                         drawerList.setItemChecked(i, true);
+                        itemTitle = tagTitles[i];
+                        getSupportActionBar().setTitle(itemTitle);
                         drawerLayout.closeDrawer(drawerList);
                         break;
 
@@ -71,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
                         fragmentManager2.beginTransaction().replace(R.id.content_frame, fragment2).commit();
 
                         drawerList.setItemChecked(i, true);
+                        itemTitle = tagTitles[i];
+                        getSupportActionBar().setTitle(itemTitle);
                         drawerLayout.closeDrawer(drawerList);
                         break;
 
@@ -84,6 +88,23 @@ public class MainActivity extends AppCompatActivity {
                         fragmentManager4.beginTransaction().replace(R.id.content_frame, fragment4).commit();
 
                         drawerList.setItemChecked(i, true);
+                        itemTitle = tagTitles[i];
+                        getSupportActionBar().setTitle(itemTitle);
+                        drawerLayout.closeDrawer(drawerList);
+                        break;
+
+                    case(5):
+                        Hab2Fragment fragment5 = new Hab2Fragment();
+                        Bundle args5 = new Bundle();
+                        args5.putInt("acd", i);
+                        fragment5.setArguments(args5);
+
+                        FragmentManager fragmentManager5 = getSupportFragmentManager();
+                        fragmentManager5.beginTransaction().replace(R.id.content_frame, fragment5).commit();
+
+                        drawerList.setItemChecked(i, true);
+                        itemTitle = tagTitles[i];
+                        getSupportActionBar().setTitle(itemTitle);
                         drawerLayout.closeDrawer(drawerList);
                         break;
                 }
