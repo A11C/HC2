@@ -10,7 +10,6 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/User"
         android:layout_centerHorizontal="true"
         android:id="@+id/image_user"
         />
@@ -43,6 +42,7 @@
         android:layout_below="@id/pass_name"
         android:id="@+id/pass_text"/>
     <Button
+        android:id="@+id/btn_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"

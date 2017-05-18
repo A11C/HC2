@@ -1,6 +1,11 @@
 package com.fiuady.hadp.homecontrol;
 
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -12,11 +17,54 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final int REQUEST_ENABLE_BT = 1;
+    private static final UUID SERIAL_PORT_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
+
+    private BluetoothSocket connectedSocket;
+    private BluetoothDevice device ;
+
+
+    private EditText txtState;
+    private EditText txtMessages;
+    private EditText txtToSend;
+
+    // ************************************************
+    // BtBackgroundTask
+    // ************************************************
+
+    private class BtBackgroundTask extends AsyncTask<BufferedReader, String, Void> {
+        @Override
+        protected Void doInBackground(BufferedReader... params) {
+            try {
+                while (!isCancelled()) {
+                    publishProgress(params[0].readLine());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            appendMessageText("[Recibido] " + values[0]);
+        }
+    }
+
+
 
     private String[] tagTitles;
     private DrawerLayout drawerLayout;
@@ -145,6 +193,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException {
+
+        return  device.createRfcommSocketToServiceRecord(SERIAL_PORT_UUID);
+        //creates secure outgoing connecetion with BT device using UUID
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -155,8 +209,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
+
+    BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
         if (drawerToggle.onOptionsItemSelected(item)) {
             // Toma los eventos de selección del toggle aquí
+            return true;
+        }
+        if(item.getItemId()== R.id.menu_item_connect){
+            if (btAdapter == null) {
+                appendStateText("[Error] Dispositivo Bluetooth no encontrado!");
+            }
+            // Check if device adapter is not enabled
+            else if (!btAdapter.isEnabled()) {
+                // Issue a request to enable Bluetooth through the system settings (without stopping application)
+                Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                startActivityForResult(intent, REQUEST_ENABLE_BT);
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -173,5 +241,67 @@ public class MainActivity extends AppCompatActivity {
         super.onConfigurationChanged(newConfig);
 
         drawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+        switch (resultCode) {
+            case RESULT_OK:
+                if (requestCode == REQUEST_ENABLE_BT) {
+                    // Get device's own Bluetooth adapter
+
+                    BluetoothSocket tmpSocket = null;
+
+                    // Connect with BluetoothDevice
+                    if (connectedSocket == null) {
+                        try {
+                            tmpSocket = device.createRfcommSocketToServiceRecord(MainActivity.SERIAL_PORT_UUID);
+
+                            // Get device's own Bluetooth adapter
+                            BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
+
+                            // Connect to the remote device through the socket. This call blocks until it succeeds or throws an exception
+                            tmpSocket.connect();
+
+                            // Acknowledge connected socket
+                            connectedSocket = tmpSocket;
+                            //MAC:  98:D3:31:30:6D:3F
+
+                            // Create socket reader thread
+                            BufferedReader br = new BufferedReader(new InputStreamReader(connectedSocket.getInputStream()));
+                            new BtBackgroundTask().execute(br);
+
+                            appendStateText("[Estado] Conectado.");
+                        } catch (IOException e) {
+                            try {
+                                if (tmpSocket != null) {
+                                    tmpSocket.close();
+                                }
+                            } catch (IOException closeExceptione) {
+                            }
+
+                            appendStateText("[Error] No se pudo establecer conexión!");
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                break;
+
+            case RESULT_CANCELED:
+            default:
+                appendStateText("[Error] El dispositivo Bluetooth no pudo ser habilitado!");
+                break;
+        }
+    }
+
+    private void appendStateText(String text) {
+        txtState.setText(text + "\n" + txtState.getText());
+    }
+
+    private void appendMessageText(String text) {
+        txtMessages.setText(text + "\n" + txtMessages.getText());
     }
 }

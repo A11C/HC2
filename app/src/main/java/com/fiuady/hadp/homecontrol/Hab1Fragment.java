@@ -1,12 +1,21 @@
 package com.fiuady.hadp.homecontrol;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.flask.colorpicker.ColorPickerPreference;
+import com.flask.colorpicker.ColorPickerView;
+import com.flask.colorpicker.OnColorSelectedListener;
+import com.flask.colorpicker.builder.ColorPickerClickListener;
+import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 
 
 /**
@@ -23,12 +32,57 @@ public class Hab1Fragment extends Fragment {
         // Required empty public constructor
     }
 
+    private View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_hab1, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_hab1, container, false);
+
+        view = rootView.findViewById(R.id.color_picker1);
+
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ColorPickerDialogBuilder
+                        .with(getContext())
+                        .setTitle("Choose color")
+                        .initialColor(0xffffffff)
+                        .noSliders()
+                        .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
+                        .density(20)
+                        .setOnColorSelectedListener(new OnColorSelectedListener() {
+                            @Override
+                            public void onColorSelected(int selectedColor) {
+                                Toast.makeText(getContext(),"onColorSelected: 0x" + Integer.toHexString(selectedColor),Toast.LENGTH_SHORT).show();
+                                //8 caracteres, los primeros dos se ignoran.
+                            }
+                        })
+                        .setPositiveButton("ok", new ColorPickerClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
+                               change_color(selectedColor);
+                            }
+                        })
+                        .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .build()
+                        .show();
+
+            }
+        });
+        return rootView;
+
+    }
+
+    public void change_color(int colorSelected){
+        view.setBackgroundColor(colorSelected);
     }
 
 //    // TODO: Rename method, update argument and hook method into UI event
