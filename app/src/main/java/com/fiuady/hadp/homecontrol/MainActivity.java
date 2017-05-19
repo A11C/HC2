@@ -216,14 +216,43 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         if(item.getItemId()== R.id.menu_item_connect){
-            if (btAdapter == null) {
-                appendStateText("[Error] Dispositivo Bluetooth no encontrado!");
-            }
-            // Check if device adapter is not enabled
-            else if (!btAdapter.isEnabled()) {
+            if (!btAdapter.isEnabled()) {
                 // Issue a request to enable Bluetooth through the system settings (without stopping application)
                 Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                 startActivityForResult(intent, REQUEST_ENABLE_BT);
+            }else if (btAdapter.isEnabled()){
+                device = btAdapter.getRemoteDevice("74:DF:BF:36:2B:78");
+                //98:D3:31:30:6D:3F
+                BluetoothSocket tmpSocket = null;
+
+                // Connect with BluetoothDevice
+                if (connectedSocket == null) {
+                    try {
+                        tmpSocket = device.createRfcommSocketToServiceRecord(MainActivity.SERIAL_PORT_UUID);
+
+                        // Connect to the remote device through the socket. This call blocks until it succeeds or throws an exception
+
+                        tmpSocket.connect();
+
+                        // Acknowledge connected socket
+                        connectedSocket = tmpSocket;
+                        //MAC:  98:D3:31:30:6D:3F
+
+                        // Create socket reader thread
+                        BufferedReader br = new BufferedReader(new InputStreamReader(connectedSocket.getInputStream()));
+                        new BtBackgroundTask().execute(br);
+
+                    } catch (IOException e) {
+                        try {
+                            if (tmpSocket != null) {
+                                tmpSocket.close();
+                            }
+                        } catch (IOException closeExceptione) {
+                        }
+
+                        e.printStackTrace();
+                    }
+                }
             }
             return true;
         }
@@ -247,23 +276,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-
+        BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
         switch (resultCode) {
             case RESULT_OK:
                 if (requestCode == REQUEST_ENABLE_BT) {
                     // Get device's own Bluetooth adapter
 
                     BluetoothSocket tmpSocket = null;
+                    device = btAdapter.getRemoteDevice("74:DF:BF:36:2B:78");
 
                     // Connect with BluetoothDevice
                     if (connectedSocket == null) {
                         try {
                             tmpSocket = device.createRfcommSocketToServiceRecord(MainActivity.SERIAL_PORT_UUID);
 
-                            // Get device's own Bluetooth adapter
-                            BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
-
                             // Connect to the remote device through the socket. This call blocks until it succeeds or throws an exception
+
                             tmpSocket.connect();
 
                             // Acknowledge connected socket
@@ -274,7 +302,6 @@ public class MainActivity extends AppCompatActivity {
                             BufferedReader br = new BufferedReader(new InputStreamReader(connectedSocket.getInputStream()));
                             new BtBackgroundTask().execute(br);
 
-                            appendStateText("[Estado] Conectado.");
                         } catch (IOException e) {
                             try {
                                 if (tmpSocket != null) {
@@ -283,7 +310,6 @@ public class MainActivity extends AppCompatActivity {
                             } catch (IOException closeExceptione) {
                             }
 
-                            appendStateText("[Error] No se pudo establecer conexión!");
                             e.printStackTrace();
                         }
                     }
@@ -292,14 +318,10 @@ public class MainActivity extends AppCompatActivity {
 
             case RESULT_CANCELED:
             default:
-                appendStateText("[Error] El dispositivo Bluetooth no pudo ser habilitado!");
                 break;
         }
     }
 
-    private void appendStateText(String text) {
-        txtState.setText(text + "\n" + txtState.getText());
-    }
 
     private void appendMessageText(String text) {
         txtMessages.setText(text + "\n" + txtMessages.getText());

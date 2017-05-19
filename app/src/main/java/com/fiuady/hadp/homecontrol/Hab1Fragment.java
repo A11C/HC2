@@ -9,6 +9,8 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.flask.colorpicker.ColorPickerPreference;
@@ -33,6 +35,7 @@ public class Hab1Fragment extends Fragment {
     }
 
     private View view;
+    private Switch vent1, luzhab1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,6 +44,23 @@ public class Hab1Fragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_hab1, container, false);
 
         view = rootView.findViewById(R.id.color_picker1);
+        vent1 = (Switch) rootView.findViewById(R.id.ventana1_switch);
+        luzhab1 = (Switch) rootView.findViewById(R.id.luz_hab1_switch);
+
+        luzhab1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(luzhab1.isChecked()){
+                    vent1.setText("Abierta");
+                    vent1.setChecked(true);
+                }
+                else{
+                    vent1.setText("Cerrada");
+                    vent1.setChecked(false);
+                }
+            }
+        });
+
 
 
         view.setOnClickListener(new View.OnClickListener() {
@@ -50,9 +70,9 @@ public class Hab1Fragment extends Fragment {
                         .with(getContext())
                         .setTitle("Choose color")
                         .initialColor(0xffffffff)
-                        .noSliders()
+                        .lightnessSliderOnly()
                         .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
-                        .density(20)
+                        .density(15)
                         .setOnColorSelectedListener(new OnColorSelectedListener() {
                             @Override
                             public void onColorSelected(int selectedColor) {
