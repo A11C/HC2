@@ -337,6 +337,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public BluetoothSocket Socket(){
+        return connectedSocket;
+    }
+
 
     private void appendMessageText(String text) {
         txtMessages.setText(text + "\n" + txtMessages.getText());

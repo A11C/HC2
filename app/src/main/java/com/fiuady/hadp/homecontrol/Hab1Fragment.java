@@ -23,6 +23,7 @@ import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.net.Socket;
 
 
 /**
@@ -113,6 +114,7 @@ public class Hab1Fragment extends Fragment {
     }
 
     public void SendCommand(String command){
+        connectedSocket = ((MainActivity)getActivity()).Socket();
         try {
             if ((connectedSocket != null) && (connectedSocket.isConnected())) {
                 String toSend = command.trim();
