@@ -64,6 +64,7 @@ public class Hab1Fragment extends Fragment {
                 }
                 else{
                     vent1.setText("Cerrada");
+                    SendCommand("L1d.");
                     vent1.setChecked(false);
                 }
             }
