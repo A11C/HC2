@@ -110,6 +110,20 @@ public class MainActivity extends AppCompatActivity {
                         getSupportActionBar().setTitle(itemTitle);
                         drawerLayout.closeDrawer(drawerList);
                         break;
+                    case(1):
+                        PatioFragment fragment1 = new PatioFragment();
+                        Bundle args1 = new Bundle();
+                        args1.putInt("acd", i);
+                        fragment1.setArguments(args1);
+
+                        FragmentManager fragmentManager1 = getSupportFragmentManager();
+                        fragmentManager1.beginTransaction().replace(R.id.content_frame, fragment1).commit();
+
+                        drawerList.setItemChecked(i, true);
+                        itemTitle = tagTitles[i];
+                        getSupportActionBar().setTitle(itemTitle);
+                        drawerLayout.closeDrawer(drawerList);
+                        break;
 
                     case(2):
                         CocheraFragment fragment2 = new CocheraFragment();
@@ -119,6 +133,21 @@ public class MainActivity extends AppCompatActivity {
 
                         FragmentManager fragmentManager2 = getSupportFragmentManager();
                         fragmentManager2.beginTransaction().replace(R.id.content_frame, fragment2).commit();
+
+                        drawerList.setItemChecked(i, true);
+                        itemTitle = tagTitles[i];
+                        getSupportActionBar().setTitle(itemTitle);
+                        drawerLayout.closeDrawer(drawerList);
+                        break;
+
+                    case(3):
+                        SalaFragment fragment3 = new SalaFragment();
+                        Bundle args3 = new Bundle();
+                        args3.putInt("acd", i);
+                        fragment3.setArguments(args3);
+
+                        FragmentManager fragmentManager3 = getSupportFragmentManager();
+                        fragmentManager3.beginTransaction().replace(R.id.content_frame, fragment3).commit();
 
                         drawerList.setItemChecked(i, true);
                         itemTitle = tagTitles[i];
@@ -149,6 +178,21 @@ public class MainActivity extends AppCompatActivity {
 
                         FragmentManager fragmentManager5 = getSupportFragmentManager();
                         fragmentManager5.beginTransaction().replace(R.id.content_frame, fragment5).commit();
+
+                        drawerList.setItemChecked(i, true);
+                        itemTitle = tagTitles[i];
+                        getSupportActionBar().setTitle(itemTitle);
+                        drawerLayout.closeDrawer(drawerList);
+                        break;
+
+                    case(6):
+                        AlarmsFragment fragment6 = new AlarmsFragment();
+                        Bundle args6 = new Bundle();
+                        args6.putInt("acd", i);
+                        fragment6.setArguments(args6);
+
+                        FragmentManager fragmentManager6 = getSupportFragmentManager();
+                        fragmentManager6.beginTransaction().replace(R.id.content_frame, fragment6).commit();
 
                         drawerList.setItemChecked(i, true);
                         itemTitle = tagTitles[i];
