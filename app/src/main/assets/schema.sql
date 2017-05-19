@@ -16,41 +16,58 @@ CREATE TABLE [pin_puerta](
 CREATE TABLE [area_cochera](
     [id] INTEGER PRIMARY KEY,
     [perfil_id] INTEGER NOT NULL REFERENCES perfiles([id]),
-    [dato1] TEXT NOT NULL,
-    [dato2] TEXT NOT NULL,
-    [dato3] TEXT NOT NULL);
+    [puerta] TEXT NOT NULL;
 
 CREATE TABLE [area_frente](
     [id] INTEGER PRIMARY KEY,
     [perfil_id] INTEGER NOT NULL REFERENCES perfiles([id]),
-    [dato1] TEXT NOT NULL,
-    [dato2] TEXT NOT NULL,
-    [dato3] TEXT NOT NULL);
+    [puerta] TEXT NOT NULL,
+    [luz] TEXT NOT NULL,
+    [sensor] TEXT NOT NULL,
+    [intensidad] TEXT NOT NULL);
 
 CREATE TABLE [area_hab1](
     [id] INTEGER PRIMARY KEY,
     [perfil_id] INTEGER NOT NULL REFERENCES perfiles([id]),
-    [dato1] TEXT NOT NULL,
-    [dato2] TEXT NOT NULL,
-    [dato3] TEXT NOT NULL);
+    [luz] TEXT NOT NULL,
+    [luzr] TEXT NOT NULL,
+    [luzg] TEXT NOT NULL,
+    [luzb] TEXT NOT NULL,
+    [ventana] TEXT NOT NULL,
+    [ventilador] TEXT NOT NULL,
+    [autoventi] TEXT NOT NULL,
+    [tempmin] TEXT NOT NULL,
+    [tempmax] TEXT NOT NULL,
+    [tempact] TEXT NOT NULL);
 
 CREATE TABLE [area_hab2](
     [id] INTEGER PRIMARY KEY,
     [perfil_id] INTEGER NOT NULL REFERENCES perfiles([id]),
-    [dato1] TEXT NOT NULL,
-    [dato2] TEXT NOT NULL,
-    [dato3] TEXT NOT NULL);
+    [luz] TEXT NOT NULL,
+    [luzr] TEXT NOT NULL,
+    [luzg] TEXT NOT NULL,
+    [luzb] TEXT NOT NULL,
+    [ventana] TEXT NOT NULL,
+    [ventilador] TEXT NOT NULL,
+    [autoventi] TEXT NOT NULL,
+    [tempmin] TEXT NOT NULL,
+    [tempmax] TEXT NOT NULL,
+    [tempact] TEXT NOT NULL);
 
 CREATE TABLE [area_patio](
     [id] INTEGER PRIMARY KEY,
     [perfil_id] INTEGER NOT NULL REFERENCES perfiles([id]),
-    [dato1] TEXT NOT NULL,
-    [dato2] TEXT NOT NULL,
-    [dato3] TEXT NOT NULL);
+    [luzext] TEXT NOT NULL,
+    [sensorext] TEXT NOT NULL,
+    [intenext] TEXT NOT NULL,
+    [luzpisci] TEXT NOT NULL,
+    [sensorpisci] TEXT NOT NULL,
+    [intenpisci] TEXT NOT NULL,
+    [ventana] TEXT NOT NULL);
 
 CREATE TABLE [area_sala](
     [id] INTEGER PRIMARY KEY,
     [perfil_id] INTEGER NOT NULL REFERENCES perfiles([id]),
-    [dato1] TEXT NOT NULL,
-    [dato2] TEXT NOT NULL,
-    [dato3] TEXT NOT NULL);
+    [puerta] TEXT NOT NULL,
+    [ventana] TEXT NOT NULL,
+    [sensormov] TEXT NOT NULL);

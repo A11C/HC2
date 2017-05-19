@@ -13,6 +13,7 @@ public final class HomeDbSchema {
         }
     }
 
+    /*
     public static final class PerfilesTable {
         public static final String NAME = "perfiles";
 
@@ -103,5 +104,5 @@ public final class HomeDbSchema {
             public static final String DATO2 = "dato2";
             public static final String DATO3 = "dato3";
         }
-    }
+    }*/
 }
