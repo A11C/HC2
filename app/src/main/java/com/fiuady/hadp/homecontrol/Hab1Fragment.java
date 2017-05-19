@@ -1,5 +1,6 @@
 package com.fiuady.hadp.homecontrol;
 
+import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
@@ -19,6 +20,10 @@ import com.flask.colorpicker.OnColorSelectedListener;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,6 +41,7 @@ public class Hab1Fragment extends Fragment {
 
     private View view;
     private Switch vent1, luzhab1;
+    private BluetoothSocket connectedSocket;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,6 +58,7 @@ public class Hab1Fragment extends Fragment {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(luzhab1.isChecked()){
                     vent1.setText("Abierta");
+                    SendCommand("Ledon");
                     vent1.setChecked(true);
                 }
                 else{
@@ -103,6 +110,30 @@ public class Hab1Fragment extends Fragment {
 
     public void change_color(int colorSelected){
         view.setBackgroundColor(colorSelected);
+    }
+
+    public void SendCommand(String command){
+        try {
+            if ((connectedSocket != null) && (connectedSocket.isConnected())) {
+                String toSend = command.trim();
+
+                if (toSend.length() > 0) {
+                    // TBI - This object "should" be a member variable
+                    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(connectedSocket.getOutputStream()));
+                    bw.write(toSend);
+                    bw.write("\r\n");
+                    bw.flush();
+
+                    Toast.makeText(getContext(), "[Enviado] " + toSend, Toast.LENGTH_SHORT).show();
+                }
+
+            } else {
+                Toast.makeText(getContext(), "[Error] La conexión no parece estar activa!", Toast.LENGTH_SHORT).show();
+            }
+        } catch (IOException e) {
+            Toast.makeText(getContext(), "[Error] Ocurrió un problema durante el envío de datos!", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
     }
 
 //    // TODO: Rename method, update argument and hook method into UI event
