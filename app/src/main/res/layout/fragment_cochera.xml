@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:paddingBottom="20dp"
         android:paddingTop="20dp"
-        android:text="Abrir/Cerrar Puerta de la Cochera"
+        android:text="@string/puerta_coch_op_cl"
         android:textAlignment="center" />
 
     <TextView
@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/cochera_switch"
-        android:text="Estado actual de la puerta"
+        android:text="@string/actual_state_puerta"
         android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 

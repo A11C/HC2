@@ -7,7 +7,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Luces: "
+        android:text="@string/luces_tag"
         android:padding="10dp"
         android:id="@+id/luces_hab2_text"
         android:textAppearance="?android:attr/textAppearanceMedium"/>
@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/luces_hab2_text"
         android:id="@+id/luz_hab2_switch"
-        android:text="Encender/Apagar Luz"
+        android:text="@string/on_off_luces"
         android:textAlignment="center"/>
 
     <LinearLayout
@@ -28,10 +28,9 @@
         android:layout_centerHorizontal="true">
 
         <TextView
-            android:enabled="false"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Color: "/>
+            android:text="@string/color_tag"/>
 
         <View
             android:elevation="20dp"
@@ -44,7 +43,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Estado de la ventana: "
+        android:text="@string/status_vent_tag"
         android:padding="10dp"
         android:layout_below="@+id/color_select2"
         android:id="@+id/Ventana_hab2_text"
@@ -62,7 +61,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ventilador: "
+        android:text="@string/fan_tag"
         android:padding="10dp"
         android:layout_below="@+id/ventana2_switch"
         android:id="@+id/Ventilador_hab2_text"
@@ -73,7 +72,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/Ventilador_hab2_text"
         android:id="@+id/ventilador_hab2_switch"
-        android:text="Encender/Apagar Ventilador"
+        android:text="@string/on_off_fan"
         android:textAlignment="center"/>
 
     <Switch
@@ -81,7 +80,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/ventilador_hab2_switch"
         android:id="@+id/ventilador_hab2_control"
-        android:text="Control automático"
+        android:text="@string/control_auto_tag"
         android:textAlignment="center"/>
 
     <LinearLayout
@@ -96,8 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:textAlignment="center"
-            android:text="Temperatura
-máxima: "/>
+            android:text="@string/max_temp"/>
 
         <NumberPicker
             android:layout_width="wrap_content"
@@ -111,8 +109,7 @@ máxima: "/>
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:textAlignment="center"
-            android:text="Temperatura
-mínima: "/>
+            android:text="@string/min_temp"/>
 
         <NumberPicker
             android:layout_width="wrap_content"
@@ -128,7 +125,7 @@ mínima: "/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Temperatura actual: "/>
+            android:text="@string/actual_temp"/>
 
         <TextView
             android:layout_width="wrap_content"

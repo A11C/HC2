@@ -22,4 +22,33 @@
     <string name="user_tag">Usuario: </string>
     <string name="pass_tag">Contraseña: </string>
     <string name="aceptar">Aceptar</string>
+
+    <string name="luces_tag">Luces: </string>
+    <string name="on_off_luces">Encender/Apagar Luz </string>
+    <string name="color_tag">Color: </string>
+    <string name="status_vent_tag">Estado de la ventana: </string>
+    <string name="fan_tag">Ventilador: </string>
+    <string name="on_off_fan">Encender/Apagar Ventilador</string>
+    <string name="control_auto_tag">Control automático: </string>
+    <string name="max_temp">Temperatura máxima: </string>
+    <string name="min_temp">Temperatura mínima: </string>
+    <string name="actual_temp">Temperatura actual: </string>
+    <string name="puerta_tag">Puerta: </string>
+    <string name="puerta_princ_op_cl">Abrir/Cerrar Puerta Principal</string>
+    <string name="puerta_coch_op_cl">Abrir/Cerrar Puerta de la Cochera</string>
+    <string name="sensor_tag">Sensor: </string>
+    <string name="intens_tag">Intensidad: </string>
+    <string name="actual_state_puerta">Estado actual de la puerta</string>
+    <string name="sensor_mov">Sensor de movimiento: </string>
+    <string name="luz_ext">Exteriores: </string>
+    <string name="piscina_tag">Piscina: </string>
+    <string name="alarm_tag">Alarmas: </string>
+    <string name="act_all">Activar todas </string>
+    <string name="p_principal_tag">Puerta Principal:  </string>
+    <string name="cochera_tag">Cochera:  </string>
+    <string name="ventana_sala_tag">Ventana Sala:  </string>
+    <string name="ventana_hab1_tag">Ventana habitación 1:  </string>
+    <string name="ventana_hab2_tag">Ventana habitaación 2:  </string>
+    <string name="desact_tag">Desactivar</string>
+
 </resources>

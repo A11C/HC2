@@ -4,21 +4,77 @@
     android:layout_height="match_parent"
     tools:context="com.fiuady.hadp.homecontrol.FrenteFragment">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/puerta_tag"
+        android:text="@string/puerta_tag"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"/>
+
     <Switch
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/frente_sw"
+        android:layout_below="@id/puerta_tag"
+        android:layout_centerHorizontal="true"
+        android:text="@string/puerta_princ_op_cl"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/luces_tag"
+        android:layout_below="@id/frente_sw"
+        android:text="@string/luces_tag"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"/>
+
+    <Switch
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/luz_frente_sw"
-        android:text="Encender/Apagar luces"
+        android:text="@string/on_off_luces"
+        android:layout_below="@id/luces_tag"
         android:layout_centerHorizontal="true"
         android:paddingBottom="20dp"
         android:paddingTop="20dp" />
-    <Switch
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sens_tag"
+        android:text="@string/sensor_tag"
+        android:layout_toStartOf="@id/luz_frente_sw"
+        android:layout_below="@id/luz_frente_sw"
+        android:textColor="#000"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"/>
+    <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/frente_sw"
+        android:id="@+id/sens_spinner"
+        android:layout_toEndOf="@id/sens_tag"
         android:layout_below="@id/luz_frente_sw"
-        android:text="Abrir/Cerrar Puerta Principal"
-        android:paddingBottom="20dp"
-        android:paddingTop="20dp" />
+        >
+
+    </Spinner>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/int_tag"
+        android:text="@string/intens_tag"
+        android:layout_toStartOf="@id/luz_frente_sw"
+        android:layout_below="@id/sens_tag"
+        android:textColor="#000"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"/>
+
+    <SeekBar
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/int_bar"
+        android:layout_below="@id/sens_tag"
+        android:layout_toEndOf="@id/int_tag"/>
 
 </RelativeLayout>

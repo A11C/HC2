@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,8 +6,140 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/luces_tag"
+        android:padding="10dp"
+        android:id="@+id/luces_patio_tag"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/exteriores_tag"
+        android:text="@string/luz_ext"
+        android:layout_below="@id/luces_patio_tag"
+        android:translationX="20dp"
+        android:textColor="#000"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        />
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/luz_ext_sw"
+        android:text="@string/on_off_luces"
+        android:layout_below="@id/exteriores_tag"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+         />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sens_ext_tag"
+        android:text="@string/sensor_tag"
+        android:layout_toStartOf="@id/luz_ext_sw"
+        android:layout_below="@id/luz_ext_sw"
+        android:textColor="#000"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"/>
+    <Spinner
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:id="@+id/sens_ext_spinner"
+        android:layout_toEndOf="@id/sens_ext_tag"
+        android:layout_below="@id/luz_ext_sw"
+        >
 
-</FrameLayout>
+    </Spinner>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/int_ext_tag"
+        android:text="@string/intens_tag"
+        android:layout_toStartOf="@id/luz_ext_sw"
+        android:layout_below="@id/sens_ext_tag"
+        android:textColor="#000"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"/>
+
+    <SeekBar
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/int_ext_bar"
+        android:layout_below="@id/sens_ext_tag"
+        android:layout_toEndOf="@id/int_ext_tag"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/piscina_tag"
+        android:text="@string/piscina_tag"
+        android:layout_below="@id/int_ext_tag"
+        android:translationX="20dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:textColor="#000"
+        />
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/luz_pisc_sw"
+        android:text="@string/on_off_luces"
+        android:layout_below="@id/piscina_tag"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sens_pisc_tag"
+        android:text="@string/sensor_tag"
+        android:layout_toStartOf="@id/luz_ext_sw"
+        android:layout_below="@id/luz_pisc_sw"
+        android:textColor="#000"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"/>
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sens_pisc_spinner"
+        android:layout_toEndOf="@id/sens_pisc_tag"
+        android:layout_below="@id/luz_pisc_sw"
+        >
+
+    </Spinner>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/int_pisc_tag"
+        android:text="@string/intens_tag"
+        android:layout_toStartOf="@id/luz_ext_sw"
+        android:layout_below="@id/sens_pisc_tag"
+        android:textColor="#000"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"/>
+
+    <SeekBar
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/int_pisc_bar"
+        android:layout_below="@id/sens_pisc_tag"
+        android:layout_toEndOf="@id/int_ext_tag"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/status_vent_patio"
+        android:text="@string/status_vent_tag"
+        android:layout_below="@id/int_pisc_tag"
+        android:padding="10dp"/>
+    <Switch
+        android:enabled="false"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/status_vent_patio"
+        android:id="@+id/ventana1_switch"
+        tools:text="Abierta "/>
+
+
+</RelativeLayout>
