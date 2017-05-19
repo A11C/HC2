@@ -1,5 +1,6 @@
 package com.fiuady.hadp.homecontrol;
 
+import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
@@ -9,6 +10,8 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.flask.colorpicker.ColorPickerPreference;
@@ -16,6 +19,11 @@ import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.OnColorSelectedListener;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
+
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.Socket;
 
 
 /**
@@ -33,6 +41,8 @@ public class Hab1Fragment extends Fragment {
     }
 
     private View view;
+    private Switch vent1, luzhab1;
+    private BluetoothSocket connectedSocket;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,6 +51,25 @@ public class Hab1Fragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_hab1, container, false);
 
         view = rootView.findViewById(R.id.color_picker1);
+        vent1 = (Switch) rootView.findViewById(R.id.ventana1_switch);
+        luzhab1 = (Switch) rootView.findViewById(R.id.luz_hab1_switch);
+
+        luzhab1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(luzhab1.isChecked()){
+                    vent1.setText("Abierta");
+                    SendCommand("L1255.");
+                    vent1.setChecked(true);
+                }
+                else{
+                    vent1.setText("Cerrada");
+                    SendCommand("L1d.");
+                    vent1.setChecked(false);
+                }
+            }
+        });
+
 
 
         view.setOnClickListener(new View.OnClickListener() {
@@ -50,9 +79,9 @@ public class Hab1Fragment extends Fragment {
                         .with(getContext())
                         .setTitle("Choose color")
                         .initialColor(0xffffffff)
-                        .noSliders()
+                        .lightnessSliderOnly()
                         .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
-                        .density(20)
+                        .density(15)
                         .setOnColorSelectedListener(new OnColorSelectedListener() {
                             @Override
                             public void onColorSelected(int selectedColor) {
@@ -83,6 +112,31 @@ public class Hab1Fragment extends Fragment {
 
     public void change_color(int colorSelected){
         view.setBackgroundColor(colorSelected);
+    }
+
+    public void SendCommand(String command){
+        connectedSocket = ((MainActivity)getActivity()).Socket();
+        try {
+            if ((connectedSocket != null) && (connectedSocket.isConnected())) {
+                String toSend = command.trim();
+
+                if (toSend.length() > 0) {
+                    // TBI - This object "should" be a member variable
+                    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(connectedSocket.getOutputStream()));
+                    bw.write(toSend);
+                    bw.write("\r\n");
+                    bw.flush();
+
+                    Toast.makeText(getContext(), "[Enviado] " + toSend, Toast.LENGTH_SHORT).show();
+                }
+
+            } else {
+                Toast.makeText(getContext(), "[Error] La conexión no parece estar activa!", Toast.LENGTH_SHORT).show();
+            }
+        } catch (IOException e) {
+            Toast.makeText(getContext(), "[Error] Ocurrió un problema durante el envío de datos!", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
     }
 
 //    // TODO: Rename method, update argument and hook method into UI event
