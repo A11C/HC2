@@ -42,6 +42,7 @@ public class Hab1Fragment extends Fragment {
 
     private View view;
     private Switch vent1, luzhab1;
+    private String color = "R1255255255.";
     private BluetoothSocket connectedSocket;
 
     @Override
@@ -59,12 +60,12 @@ public class Hab1Fragment extends Fragment {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(luzhab1.isChecked()){
                     vent1.setText("Abierta");
-                    SendCommand("L1255.");
+                    SendCommand(color);
                     vent1.setChecked(true);
                 }
                 else{
                     vent1.setText("Cerrada");
-                    SendCommand("L1d.");
+                    SendCommand("R1d.");
                     vent1.setChecked(false);
                 }
             }
@@ -85,14 +86,14 @@ public class Hab1Fragment extends Fragment {
                         .setOnColorSelectedListener(new OnColorSelectedListener() {
                             @Override
                             public void onColorSelected(int selectedColor) {
-                                Toast.makeText(getContext(),"onColorSelected: 0x" + Integer.toHexString(selectedColor),Toast.LENGTH_SHORT).show();
-                                //8 caracteres, los primeros dos se ignoran.
+                                colorString(selectedColor);
                             }
                         })
                         .setPositiveButton("ok", new ColorPickerClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
                                change_color(selectedColor);
+                                colorString(selectedColor);
                             }
                         })
                         .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
@@ -112,6 +113,28 @@ public class Hab1Fragment extends Fragment {
 
     public void change_color(int colorSelected){
         view.setBackgroundColor(colorSelected);
+    }
+
+    public void colorString(int selectedColor){
+        int r = Integer.valueOf(((Integer.toHexString(selectedColor)).substring(2,4)),16);
+        int v = Integer.valueOf(((Integer.toHexString(selectedColor)).substring(4,6)),16);
+        int a = Integer.valueOf(((Integer.toHexString(selectedColor)).substring(6)),16);
+        String rojo, verde, azul;
+
+        if (r<100){
+            rojo = "0"+Integer.toString(r);
+        }else{rojo = Integer.toString(r);}
+        if(v<100){
+            verde = "0"+Integer.toString(v);
+        }else{ verde = Integer.toString(v);}
+        if (a<100){
+            azul = "0"+Integer.toString(a);
+        }else{ azul = Integer.toString(a);}
+
+        color = "R1"+rojo+verde+azul+".";
+        if(luzhab1.isChecked()) {
+            SendCommand(color);
+        }else{SendCommand("R1d.");}
     }
 
     public void SendCommand(String command){
