@@ -221,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                 startActivityForResult(intent, REQUEST_ENABLE_BT);
             }else if (btAdapter.isEnabled()){
-                device = btAdapter.getRemoteDevice("74:DF:BF:36:2B:78");
+                device = btAdapter.getRemoteDevice("98:D3:31:30:6D:3F");
                 //98:D3:31:30:6D:3F
                 BluetoothSocket tmpSocket = null;
 
@@ -283,7 +283,7 @@ public class MainActivity extends AppCompatActivity {
                     // Get device's own Bluetooth adapter
 
                     BluetoothSocket tmpSocket = null;
-                    device = btAdapter.getRemoteDevice("74:DF:BF:36:2B:78");
+                    device = btAdapter.getRemoteDevice("98:D3:31:30:6D:3F");
 
                     // Connect with BluetoothDevice
                     if (connectedSocket == null) {
