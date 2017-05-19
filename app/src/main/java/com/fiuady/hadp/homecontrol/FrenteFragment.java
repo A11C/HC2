@@ -1,14 +1,25 @@
 package com.fiuady.hadp.homecontrol;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentContainer;
+import android.text.InputType;
+import android.text.method.PasswordTransformationMethod;
+import android.text.method.TransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -27,12 +38,37 @@ import java.io.OutputStreamWriter;
 public class FrenteFragment extends Fragment {
 
     //private OnFragmentInteractionListener mListener;
+    public static class mDialogFragment extends DialogFragment{
+        static mDialogFragment newInstance(){
+            mDialogFragment dF = new mDialogFragment();
+            return dF;
+        }
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            final EditText et = new EditText(getContext());
+            et.setInputType(InputType.TYPE_CLASS_NUMBER);
+            et.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            return new AlertDialog.Builder(getActivity())
+                    .setTitle("Escriba su PIN")
+                    .setView(et)
+                    .setIcon(R.drawable.ic_key)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Toast.makeText(getContext(), "PIN Introducido: " + et.getText().toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .setCancelable(false)
+                    .create();
+        }
+    }
 
     public FrenteFragment() {
         // Required empty public constructor
     }
 
-    private Switch luzfrente;
+    private Switch luzfrente, puerta;
     private SeekBar intensidad;
     private BluetoothSocket connectedSocket;
     private int valor = 255;
@@ -42,6 +78,7 @@ public class FrenteFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_frente, container, false);
+        puerta = (Switch) rootView.findViewById(R.id.frente_sw);
         luzfrente = (Switch) rootView.findViewById(R.id.luz_frente_sw);
         intensidad = (SeekBar) rootView.findViewById(R.id.int_bar);
 
@@ -75,6 +112,17 @@ public class FrenteFragment extends Fragment {
 
             }
         });
+        puerta.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (puerta.isChecked()){
+                    mDialogFragment fragment = mDialogFragment.newInstance();
+                    fragment.show(getFragmentManager(), "PIN");
+                }else{
+
+                }
+            }
+        });
 
 
         return rootView;
@@ -103,6 +151,10 @@ public class FrenteFragment extends Fragment {
             Toast.makeText(getContext(), "[Error] Ocurrió un problema durante el envío de datos!", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
+    }
+
+    public void PinCancel(){
+        puerta.setChecked(false);
     }
 
     // // TODO: Rename method, update argument and hook method into UI event
