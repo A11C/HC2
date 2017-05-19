@@ -49,9 +49,9 @@ public class FrenteFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (luzfrente.isChecked()) {
-                    SendCommand("R2"+Integer.valueOf(valor)+".");
+                    SendCommand("L1"+valor+".");
                 } else {
-                    SendCommand("R2d.");
+                    SendCommand("L1d.");
                 }
             }
         });
@@ -59,7 +59,10 @@ public class FrenteFragment extends Fragment {
         intensidad.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                SendCommand("R2"+i+".");
+                if (luzfrente.isChecked()) {
+                    SendCommand("L1"+i+".");
+                }
+                valor = i;
             }
 
             @Override
