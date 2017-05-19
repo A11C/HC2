@@ -84,12 +84,12 @@ public class MainActivity extends AppCompatActivity {
         drawerList = (ListView) findViewById(R.id.left_drawer);
 
         ArrayList<DrawerItem> items = new ArrayList<>();
-        items.add(new DrawerItem(tagTitles[0],R.drawable.ic_action_name));
-        items.add(new DrawerItem(tagTitles[1],R.drawable.ic_action_name));
-        items.add(new DrawerItem(tagTitles[2],R.drawable.ic_action_name));
-        items.add(new DrawerItem(tagTitles[3],R.drawable.ic_action_name));
-        items.add(new DrawerItem(tagTitles[4],R.drawable.ic_action_name));
-        items.add(new DrawerItem(tagTitles[5],R.drawable.ic_action_name));
+        items.add(new DrawerItem(tagTitles[0],R.drawable.ic_frente));
+        items.add(new DrawerItem(tagTitles[1],R.drawable.ic_patio));
+        items.add(new DrawerItem(tagTitles[2],R.drawable.ic_cochera));
+        items.add(new DrawerItem(tagTitles[3],R.drawable.ic_sala));
+        items.add(new DrawerItem(tagTitles[4],R.drawable.ic_hab));
+        items.add(new DrawerItem(tagTitles[5],R.drawable.ic_hab2));
 
         drawerList.setAdapter(new DrawerListAdapter(this,items));
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
