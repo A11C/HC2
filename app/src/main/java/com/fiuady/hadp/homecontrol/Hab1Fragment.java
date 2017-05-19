@@ -134,7 +134,7 @@ public class Hab1Fragment extends Fragment {
         color = "R1"+rojo+verde+azul+".";
         if(luzhab1.isChecked()) {
             SendCommand(color);
-        }else{SendCommand("R1d.");}
+        }
     }
 
     public void SendCommand(String command){
