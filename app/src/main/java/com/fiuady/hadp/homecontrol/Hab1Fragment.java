@@ -58,7 +58,7 @@ public class Hab1Fragment extends Fragment {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(luzhab1.isChecked()){
                     vent1.setText("Abierta");
-                    SendCommand("Ledon");
+                    SendCommand("L1255.");
                     vent1.setChecked(true);
                 }
                 else{
