@@ -50,5 +50,5 @@
     <string name="ventana_hab1_tag">Ventana habitación 1:  </string>
     <string name="ventana_hab2_tag">Ventana habitaación 2:  </string>
     <string name="desact_tag">Desactivar</string>
-
+    <string name="sensor_amb">Sensor luz ambiental</string>
 </resources>

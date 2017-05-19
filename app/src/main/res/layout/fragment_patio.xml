@@ -61,6 +61,14 @@
         android:textColor="#000"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"/>
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/luz_amb_ext_chk"
+        android:text="@string/sensor_amb"
+        android:layout_below="@id/int_ext_tag"
+        android:layout_centerHorizontal="true"
+        />
 
     <SeekBar
         android:layout_width="280dp"
@@ -73,7 +81,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/piscina_tag"
         android:text="@string/piscina_tag"
-        android:layout_below="@id/int_ext_tag"
+        android:layout_below="@id/luz_amb_ext_chk"
         android:translationX="20dp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
@@ -119,6 +127,15 @@
         android:paddingTop="5dp"
         android:paddingBottom="5dp"/>
 
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/luz_amb_pisc_chk"
+        android:text="@string/sensor_amb"
+        android:layout_below="@id/int_pisc_tag"
+        android:layout_centerHorizontal="true"
+        />
+
     <SeekBar
         android:layout_width="280dp"
         android:layout_height="wrap_content"
@@ -130,7 +147,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/status_vent_patio"
         android:text="@string/status_vent_tag"
-        android:layout_below="@id/int_pisc_tag"
+        android:layout_below="@id/luz_amb_pisc_chk"
         android:padding="10dp"/>
     <Switch
         android:enabled="false"
@@ -140,6 +157,24 @@
         android:layout_below="@id/status_vent_patio"
         android:id="@+id/ventana1_switch"
         tools:text="Abierta "/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/act_temp_patio_tag"
+        android:text="@string/actual_temp"
+        android:layout_below="@id/ventana1_switch"
+        android:paddingLeft="120dp"
+        android:paddingTop="40dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/act_temp_patio_text"
+        android:layout_toEndOf="@id/act_temp_patio_tag"
+        android:layout_below="@id/ventana1_switch"
+        android:paddingTop="40dp"
+        tools:text="50°C"/>
 
 
 </RelativeLayout>

@@ -51,5 +51,21 @@
         android:layout_below="@id/sensor_mov_tag"
         android:layout_centerHorizontal="true"
         tools:text="...Activado..."/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/act_temp_sala_tag"
+        android:text="@string/actual_temp"
+        android:layout_below="@id/sensor_mov_text"
+        android:padding="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/act_temp_sala_text"
+        android:layout_below="@id/act_temp_sala_tag"
+        android:layout_centerHorizontal="true"
+        tools:text="50°C"/>
+
 
 </RelativeLayout>
