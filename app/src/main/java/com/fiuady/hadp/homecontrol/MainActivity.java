@@ -232,7 +232,14 @@ public class MainActivity extends AppCompatActivity {
 
                         // Connect to the remote device through the socket. This call blocks until it succeeds or throws an exception
 
+
                         tmpSocket.connect();
+
+                        if(tmpSocket.isConnected()){
+                            Toast.makeText(getApplicationContext(), "Conexión exitosa", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(getApplicationContext(), "No se puedo conectar", Toast.LENGTH_SHORT).show();
+                        }
 
                         // Acknowledge connected socket
                         connectedSocket = tmpSocket;
@@ -241,6 +248,8 @@ public class MainActivity extends AppCompatActivity {
                         // Create socket reader thread
                         BufferedReader br = new BufferedReader(new InputStreamReader(connectedSocket.getInputStream()));
                         new BtBackgroundTask().execute(br);
+
+
 
                     } catch (IOException e) {
                         try {
@@ -293,6 +302,12 @@ public class MainActivity extends AppCompatActivity {
                             // Connect to the remote device through the socket. This call blocks until it succeeds or throws an exception
 
                             tmpSocket.connect();
+
+                            if(tmpSocket.isConnected()){
+                                Toast.makeText(getApplicationContext(), "Conexión exitosa", Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(getApplicationContext(), "No se puedo conectar", Toast.LENGTH_SHORT).show();
+                            }
 
                             // Acknowledge connected socket
                             connectedSocket = tmpSocket;
