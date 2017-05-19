@@ -49,7 +49,7 @@ public class Hab2Fragment extends Fragment {
        View rootView = inflater.inflate(R.layout.fragment_hab2, container, false);
 
         view = rootView.findViewById(R.id.color_picker2);
-        luzhab2 = (Switch) rootView.findViewById(R.id.luz_hab1_switch);
+        luzhab2 = (Switch) rootView.findViewById(R.id.luz_hab2_switch);
 
         luzhab2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
