@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -29,41 +30,15 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
-
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
  * {@link FrenteFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
  */
-public class FrenteFragment extends Fragment {
+public class FrenteFragment extends Fragment implements mDialogFragment.mDialogFragmentListener {
 
     //private OnFragmentInteractionListener mListener;
-    public static class mDialogFragment extends DialogFragment{
-        static mDialogFragment newInstance(){
-            mDialogFragment dF = new mDialogFragment();
-            return dF;
-        }
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            final EditText et = new EditText(getContext());
-            et.setInputType(InputType.TYPE_CLASS_NUMBER);
-            et.setTransformationMethod(PasswordTransformationMethod.getInstance());
-            return new AlertDialog.Builder(getActivity())
-                    .setTitle("Escriba su PIN")
-                    .setView(et)
-                    .setIcon(R.drawable.ic_key)
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            Toast.makeText(getContext(), "PIN Introducido: " + et.getText().toString(), Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .setCancelable(false)
-                    .create();
-        }
-    }
 
     public FrenteFragment() {
         // Required empty public constructor
@@ -120,6 +95,7 @@ public class FrenteFragment extends Fragment {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (puerta.isChecked()){
                     mDialogFragment fragment = mDialogFragment.newInstance();
+                    fragment.setTargetFragment(FrenteFragment.this,0);
                     fragment.show(getFragmentManager(), "PIN");
                 }else{
 
@@ -139,6 +115,10 @@ public class FrenteFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    @Override
+    public void pinswitch(String pin){
     }
 
     public void SendCommand(String command){
@@ -164,10 +144,6 @@ public class FrenteFragment extends Fragment {
             Toast.makeText(getContext(), "[Error] Ocurrió un problema durante el envío de datos!", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
-    }
-
-    public void PinCancel(){
-        puerta.setChecked(false);
     }
 
     // // TODO: Rename method, update argument and hook method into UI event

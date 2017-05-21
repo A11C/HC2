@@ -24,7 +24,7 @@ import java.io.OutputStreamWriter;
  * {@link CocheraFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
  */
-public class CocheraFragment extends Fragment {
+public class CocheraFragment extends Fragment implements mDialogFragment.mDialogFragmentListener{
 
  //   private OnFragmentInteractionListener mListener;
 
@@ -47,7 +47,13 @@ public class CocheraFragment extends Fragment {
         puerta.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (puerta.isChecked()){
+                    mDialogFragment fragment = mDialogFragment.newInstance();
+                    fragment.setTargetFragment(CocheraFragment.this,0);
+                    fragment.show(getFragmentManager(), "PIN");
+                }else{
 
+                }
             }
         });
 
@@ -81,7 +87,12 @@ public class CocheraFragment extends Fragment {
         }
     }
 
- //   // TODO: Rename method, update argument and hook method into UI event
+    @Override
+    public void pinswitch(String pin) {
+
+    }
+
+    //   // TODO: Rename method, update argument and hook method into UI event
  //   public void onButtonPressed(Uri uri) {
  //       if (mListener != null) {
  //           mListener.onFragmentInteraction(uri);

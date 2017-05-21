@@ -70,6 +70,7 @@ public class Hab1Fragment extends Fragment {
         tempmax.setMaxValue(50);
         tempmax.setValue(35);
         tempmax.setWrapSelectorWheel(true);
+        temp = (TextView) rootView.findViewById(R.id.temp_hab1);
 
         luzhab1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -162,6 +163,9 @@ public class Hab1Fragment extends Fragment {
 
         return rootView;
 
+    }
+    public void temp_change(String valor){
+        temp.setText(valor + " °C");
     }
 
     public void change_color(int colorSelected){

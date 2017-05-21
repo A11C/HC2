@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -266,7 +267,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                 startActivityForResult(intent, REQUEST_ENABLE_BT);
             }else if (btAdapter.isEnabled()){
-                device = btAdapter.getRemoteDevice("98:D3:31:30:6D:3F");
+                device = btAdapter.getRemoteDevice("74:DF:BF:36:2B:78");
                 //98:D3:31:30:6D:3F
                 BluetoothSocket tmpSocket = null;
 
@@ -337,7 +338,7 @@ public class MainActivity extends AppCompatActivity {
                     // Get device's own Bluetooth adapter
 
                     BluetoothSocket tmpSocket = null;
-                    device = btAdapter.getRemoteDevice("98:D3:31:30:6D:3F");
+                    device = btAdapter.getRemoteDevice("74:DF:BF:36:2B:78");
 
                     // Connect with BluetoothDevice
                     if (connectedSocket == null) {
@@ -388,11 +389,20 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void appendMessageText(String text) {
+        Fragment f = getSupportFragmentManager().findFragmentById(R.id.content_frame);
+
+        if(f instanceof Hab1Fragment){
+            Hab1Fragment hab1fragment = (Hab1Fragment)getSupportFragmentManager().findFragmentById(R.id.content_frame);
+            hab1fragment.temp_change(text);
+        }else if(f instanceof Hab2Fragment){
+            Hab2Fragment hab2fragment = (Hab2Fragment)getSupportFragmentManager().findFragmentById(R.id.content_frame);
+        }
+
         Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        moveTaskToBack(true);
     }
 }

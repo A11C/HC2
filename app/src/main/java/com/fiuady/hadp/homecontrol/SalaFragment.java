@@ -33,36 +33,7 @@ import java.io.OutputStreamWriter;
  * {@link SalaFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
  */
-public class SalaFragment extends Fragment {
-
-   // private OnFragmentInteractionListener mListener;
-
-    public static class mDialogFragment extends DialogFragment {
-        static mDialogFragment newInstance(){
-            mDialogFragment dF = new mDialogFragment();
-            return dF;
-        }
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            final EditText et = new EditText(getContext());
-            et.setInputType(InputType.TYPE_CLASS_NUMBER);
-            et.setTransformationMethod(PasswordTransformationMethod.getInstance());
-            return new AlertDialog.Builder(getActivity())
-                    .setTitle("Escriba su PIN")
-                    .setView(et)
-                    .setIcon(R.drawable.ic_key)
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            Toast.makeText(getContext(), "PIN Introducido: " + et.getText().toString(), Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .setCancelable(false)
-                    .create();
-        }
-
-    }
+public class SalaFragment extends Fragment implements mDialogFragment.mDialogFragmentListener{
 
     public SalaFragment() {
         // Required empty public constructor
@@ -89,6 +60,7 @@ public class SalaFragment extends Fragment {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(puertas.isChecked()){
                     mDialogFragment fragment = mDialogFragment.newInstance();
+                    fragment.setTargetFragment(SalaFragment.this,0);
                     fragment.show(getFragmentManager(), "PIN");
                 }else{
 
@@ -128,7 +100,16 @@ public class SalaFragment extends Fragment {
         }
     }
 
-   // // TODO: Rename method, update argument and hook method into UI event
+    @Override
+    public void pinswitch(String pin) {
+        if(pin.equals("1234")){
+            Toast.makeText(getContext(), "PIN Introducido: " + pin, Toast.LENGTH_SHORT).show();
+        }else{
+            puertas.setChecked(false);
+        }
+    }
+
+    // // TODO: Rename method, update argument and hook method into UI event
    // public void onButtonPressed(Uri uri) {
    //     if (mListener != null) {
    //         mListener.onFragmentInteraction(uri);
