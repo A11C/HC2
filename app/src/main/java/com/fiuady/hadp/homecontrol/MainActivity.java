@@ -387,8 +387,8 @@ public class MainActivity extends AppCompatActivity {
         return connectedSocket;
     }
 
-
     private void appendMessageText(String text) {
+
         Fragment f = getSupportFragmentManager().findFragmentById(R.id.content_frame);
 
         if(f instanceof Hab1Fragment){
@@ -396,6 +396,16 @@ public class MainActivity extends AppCompatActivity {
             hab1fragment.temp_change(text);
         }else if(f instanceof Hab2Fragment){
             Hab2Fragment hab2fragment = (Hab2Fragment)getSupportFragmentManager().findFragmentById(R.id.content_frame);
+        }else if(f instanceof FrenteFragment){
+            FrenteFragment frenteFragment = (FrenteFragment)getSupportFragmentManager().findFragmentById(R.id.content_frame);
+        }else if(f instanceof PatioFragment){
+            PatioFragment patioFragment = (PatioFragment)getSupportFragmentManager().findFragmentById(R.id.content_frame);
+        }else if(f instanceof SalaFragment){
+            SalaFragment salaFragment = (SalaFragment)getSupportFragmentManager().findFragmentById(R.id.content_frame);
+        }else if(f instanceof CocheraFragment){
+            CocheraFragment cocheraFragment = (CocheraFragment)getSupportFragmentManager().findFragmentById(R.id.content_frame);
+        }else if(f instanceof AlarmsFragment) {
+            AlarmsFragment alarmsFragment = (AlarmsFragment) getSupportFragmentManager().findFragmentById(R.id.content_frame);
         }
 
         Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
