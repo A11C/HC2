@@ -16,7 +16,7 @@ CREATE TABLE [pin_puerta](
 CREATE TABLE [area_cochera](
     [id] INTEGER PRIMARY KEY,
     [perfil_id] INTEGER NOT NULL REFERENCES perfiles([id]),
-    [puerta] TEXT NOT NULL;
+    [puerta] TEXT NOT NULL);
 
 CREATE TABLE [area_frente](
     [id] INTEGER PRIMARY KEY,

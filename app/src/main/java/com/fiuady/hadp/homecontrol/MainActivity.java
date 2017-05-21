@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onProgressUpdate(String... values) {
-            appendMessageText("[Recibido] " + values[0]);
+            appendMessageText(values[0]);
         }
     }
 
@@ -90,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
         items.add(new DrawerItem(tagTitles[3],R.drawable.ic_sala));
         items.add(new DrawerItem(tagTitles[4],R.drawable.ic_hab));
         items.add(new DrawerItem(tagTitles[5],R.drawable.ic_hab2));
+        items.add(new DrawerItem(tagTitles[6],R.drawable.ic_action_name));
 
         drawerList.setAdapter(new DrawerListAdapter(this,items));
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -387,6 +388,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void appendMessageText(String text) {
-        txtMessages.setText(text + "\n" + txtMessages.getText());
+        Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

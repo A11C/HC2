@@ -101,6 +101,7 @@
         <NumberPicker
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/minhab1"
             >
 
         </NumberPicker>
@@ -114,7 +115,8 @@
 
         <NumberPicker
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:id="@+id/maxhab1"/>
     </LinearLayout>
 
     <LinearLayout

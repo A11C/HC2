@@ -18,6 +18,7 @@ import android.text.method.TransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.SeekBar;
@@ -71,6 +72,7 @@ public class FrenteFragment extends Fragment {
     private Switch luzfrente, puerta;
     private SeekBar intensidad;
     private BluetoothSocket connectedSocket;
+    private CheckBox chksens;
     private int valor = 255;
 
     @Override
@@ -81,6 +83,7 @@ public class FrenteFragment extends Fragment {
         puerta = (Switch) rootView.findViewById(R.id.frente_sw);
         luzfrente = (Switch) rootView.findViewById(R.id.luz_frente_sw);
         intensidad = (SeekBar) rootView.findViewById(R.id.int_bar);
+        chksens =(CheckBox) rootView.findViewById(R.id.luz_amb_chk);
 
         luzfrente.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -124,6 +127,16 @@ public class FrenteFragment extends Fragment {
             }
         });
 
+        chksens.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(chksens.isChecked()){
+
+                }else{
+
+                }
+            }
+        });
 
         return rootView;
     }

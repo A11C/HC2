@@ -12,6 +12,7 @@
         <item>Sala</item>
         <item>Habitación 1</item>
         <item>Habitación 2</item>
+        <item>Alarmas</item>
     </string-array>
     <string name="drawer_open">Abrir navigation drawer</string>
     <string name="drawer_close">Cerrar navigation drawer</string>
