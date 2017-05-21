@@ -79,7 +79,7 @@ public class SalaFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_sala, container, false);
 
         puertas = (Switch) rootView.findViewById(R.id.sala_frente_sw);
-        vents = (Switch) rootView.findViewById(R.id.vent_sala_sw);
+        vents = (Switch) rootView.findViewById(R.id.ventana_sala_switch);
 
         pir = (TextView) rootView.findViewById(R.id.sensor_mov_text);
         temp = (TextView) rootView.findViewById(R.id.act_temp_sala_text);

@@ -68,8 +68,8 @@ public class Hab1Fragment extends Fragment {
         tempmax = (NumberPicker) rootView.findViewById(R.id.maxhab1);
         tempmax.setMinValue(31);
         tempmax.setMaxValue(50);
-        tempmin.setValue(35);
-        tempmin.setWrapSelectorWheel(true);
+        tempmax.setValue(35);
+        tempmax.setWrapSelectorWheel(true);
 
         luzhab1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

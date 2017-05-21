@@ -10,7 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.NumberPicker;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.flask.colorpicker.ColorPickerView;
@@ -38,8 +40,10 @@ public class Hab2Fragment extends Fragment {
     }
 
     private View view;
-    private Switch vent2, luzhab2;
+    private Switch vent2, luzhab2, venti2s, venticonts;
+    private NumberPicker tempmin,tempmax;
     private String color = "R2255255255.";
+    private TextView temp;
     private BluetoothSocket connectedSocket;
 
     @Override
@@ -49,7 +53,21 @@ public class Hab2Fragment extends Fragment {
        View rootView = inflater.inflate(R.layout.fragment_hab2, container, false);
 
         view = rootView.findViewById(R.id.color_picker2);
+
+        vent2 = (Switch) rootView.findViewById(R.id.ventana2_switch);
         luzhab2 = (Switch) rootView.findViewById(R.id.luz_hab2_switch);
+        venti2s = (Switch) rootView.findViewById(R.id.ventilador_hab2_switch);
+        venticonts = (Switch) rootView.findViewById(R.id.ventilador_hab2_control);
+        tempmin = (NumberPicker) rootView.findViewById(R.id.minhab2);
+        tempmin.setMinValue(0);
+        tempmin.setMaxValue(30);
+        tempmin.setValue(10);
+        tempmin.setWrapSelectorWheel(true);
+        tempmax = (NumberPicker) rootView.findViewById(R.id.maxhab2);
+        tempmax.setMinValue(31);
+        tempmax.setMaxValue(50);
+        tempmax.setValue(35);
+        tempmax.setWrapSelectorWheel(true);
 
         luzhab2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -99,6 +117,43 @@ public class Hab2Fragment extends Fragment {
 
             }
         });
+
+        venti2s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(venti2s.isChecked()){
+
+                }else{
+
+                }
+            }
+        });
+        venticonts.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(venticonts.isChecked()){
+
+                }else{
+
+                }
+            }
+        });
+
+        tempmin.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+
+            }
+        });
+
+        tempmax.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+
+            }
+        });
+
+
         return rootView;
 
     }
