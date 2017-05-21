@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         items.add(new DrawerItem(tagTitles[3],R.drawable.ic_sala));
         items.add(new DrawerItem(tagTitles[4],R.drawable.ic_hab));
         items.add(new DrawerItem(tagTitles[5],R.drawable.ic_hab2));
-        items.add(new DrawerItem(tagTitles[6],R.drawable.ic_action_name));
+        items.add(new DrawerItem(tagTitles[6],R.drawable.ic_alarm));
 
         drawerList.setAdapter(new DrawerListAdapter(this,items));
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
