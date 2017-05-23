@@ -37,11 +37,13 @@
         android:textSize="20sp"
         android:textColor="#000"
         android:id="@+id/pass_name"/>
+
     <EditText
+        android:id="@+id/pass_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/pass_name"
-        android:id="@+id/pass_text"/>
+        android:inputType="textPassword" />
     <Button
         android:id="@+id/btn_login"
         android:layout_width="wrap_content"
