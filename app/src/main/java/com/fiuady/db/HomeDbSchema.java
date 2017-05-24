@@ -13,7 +13,6 @@ public final class HomeDbSchema {
         }
     }
 
-    /*
     public static final class PerfilesTable {
         public static final String NAME = "perfiles";
 
@@ -40,9 +39,7 @@ public final class HomeDbSchema {
         public static final class Columns {
             public static final String ID = "id";
             public static final String PERFIL_ID = "perfil_id";
-            public static final String DATO1 = "dato1";
-            public static final String DATO2 = "dato2";
-            public static final String DATO3 = "dato3";
+            public static final String PUERTA = "puerta";
         }
     }
 
@@ -52,9 +49,10 @@ public final class HomeDbSchema {
         public static final class Columns {
             public static final String ID = "id";
             public static final String PERFIL_ID = "perfil_id";
-            public static final String DATO1 = "dato1";
-            public static final String DATO2 = "dato2";
-            public static final String DATO3 = "dato3";
+            public static final String PUERTA = "puerta";
+            public static final String LUZ = "luz";
+            public static final String SENSOR = "sensor";
+            public static final String INTENSIDAD = "intensidad";
         }
     }
 
@@ -64,9 +62,16 @@ public final class HomeDbSchema {
         public static final class Columns {
             public static final String ID = "id";
             public static final String PERFIL_ID = "perfil_id";
-            public static final String DATO1 = "dato1";
-            public static final String DATO2 = "dato2";
-            public static final String DATO3 = "dato3";
+            public static final String LUZ = "luz";
+            public static final String LUZR = "luzr";
+            public static final String LUZG = "luzg";
+            public static final String LUZB = "luzb";
+            public static final String VENTANA = "ventana";
+            public static final String VENTILADOR = "ventilador";
+            public static final String AUTOVENTI = "autoventi";
+            public static final String TEMPMIN = "tempmin";
+            public static final String TEMPMAX = "tempmax";
+            public static final String TEMPACT = "tempact";
         }
     }
 
@@ -76,9 +81,16 @@ public final class HomeDbSchema {
         public static final class Columns {
             public static final String ID = "id";
             public static final String PERFIL_ID = "perfil_id";
-            public static final String DATO1 = "dato1";
-            public static final String DATO2 = "dato2";
-            public static final String DATO3 = "dato3";
+            public static final String LUZ = "luz";
+            public static final String LUZR = "luzr";
+            public static final String LUZG = "luzg";
+            public static final String LUZB = "luzb";
+            public static final String VENTANA = "ventana";
+            public static final String VENTILADOR = "ventilador";
+            public static final String AUTOVENTI = "autoventi";
+            public static final String TEMPMIN = "tempmin";
+            public static final String TEMPMAX = "tempmax";
+            public static final String TEMPACT = "tempact";
         }
     }
 
@@ -88,9 +100,13 @@ public final class HomeDbSchema {
         public static final class Columns {
             public static final String ID = "id";
             public static final String PERFIL_ID = "perfil_id";
-            public static final String DATO1 = "dato1";
-            public static final String DATO2 = "dato2";
-            public static final String DATO3 = "dato3";
+           public static final String LUZEXT = "luzext";
+           public static final String SENSOREXT = "sensorext";
+           public static final String INTENEXT = "intenext";
+           public static final String LUZPISCI = "luzpisci";
+           public static final String SENSORPISCI = "sensorpisci";
+           public static final String INTENPISCI = "intenpisci";
+           public static final String VENTANA = "ventana";
         }
     }
 
@@ -100,9 +116,9 @@ public final class HomeDbSchema {
         public static final class Columns {
             public static final String ID = "id";
             public static final String PERFIL_ID = "perfil_id";
-            public static final String DATO1 = "dato1";
-            public static final String DATO2 = "dato2";
-            public static final String DATO3 = "dato3";
+            public static final String PUERTA = "puerta";
+            public static final String VENTANA = "ventana";
+            public static final String SENSORMOV = "sensormov";
         }
-    }*/
+    }
 }
