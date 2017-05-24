@@ -96,7 +96,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:textAlignment="center"
-            android:text="@string/max_temp"/>
+            android:text="@string/min_temp"/>
 
         <NumberPicker
             android:layout_width="wrap_content"
@@ -110,7 +110,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:textAlignment="center"
-            android:text="@string/min_temp"/>
+            android:text="@string/max_temp"/>
 
         <NumberPicker
             android:layout_width="wrap_content"

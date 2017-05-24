@@ -47,7 +47,7 @@ public class Hab2Fragment extends Fragment {
     private TextView temp;
     private BluetoothSocket connectedSocket;
 
-    private int valtemp;
+    private float valtemp;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -143,7 +143,7 @@ public class Hab2Fragment extends Fragment {
             @Override
             public void onValueChange(NumberPicker numberPicker, int i, int i1) {
                 if (venticonts.isChecked()) {
-                    SendCommand("V2" + valtemp + ".");
+                    SendCommand("V2M" + valtemp + ".");
                 }
             }
         });
@@ -152,7 +152,11 @@ public class Hab2Fragment extends Fragment {
             @Override
             public void onValueChange(NumberPicker numberPicker, int i, int i1) {
                 if (venticonts.isChecked()) {
-                    SendCommand("V2" + valtemp + ".");
+                    if (valtemp<10){
+                        SendCommand("V2m0"+valtemp+".");
+                    }else {
+                        SendCommand("V2m" + valtemp + ".");
+                    }
                 }
             }
         });
@@ -162,16 +166,26 @@ public class Hab2Fragment extends Fragment {
 
     }
 
+    public void state_change(String text){
+        if(text.equals("RS2A")) {
+            vent2.setText("Abierta");
+            vent2.setChecked(true);
+        }else if(text.equals("RS2C")){
+            vent2.setText("Cerrada");
+            vent2.setChecked(false);
+        }
+    }
+
     public void temp_change(String valor) {
         temp.setText(valor + " °C");
-      /*  valtemp = Integer.valueOf(valor);
+        valtemp = Float.valueOf(valor);
         if(venticonts.isChecked()){
-            if(valtemp == tempmax.getValue()){
+            if(valtemp >= tempmax.getValue()){
                 SendCommand("V2a.");
-            }else if (valtemp == tempmin.getValue()){
-                SendCommand("V");
+            }else if (valtemp <= tempmin.getValue()){
+                SendCommand("V2d.");
             }
-        }*/
+        }
     }
 
     public void change_color(int colorSelected) {

@@ -75,11 +75,28 @@ public class SalaFragment extends Fragment implements mDialogFragment.mDialogFra
             }
         });
 
-        vents.setText("Cerrada");
-        pir.setText("No hay movimiento");
-        temp.setText("35 °C");
-
         return rootView;
+    }
+
+    public void state_change(String text){
+        if(text.equals("RS4A")) {
+            vents.setText("Abierta");
+        }else if(text.equals("RS4C")){
+            vents.setText("Cerrada");
+        }
+    }
+
+    public void temp_change(String text){
+        temp.setText(text + " °C");
+    }
+
+    public void pir_change(String text){
+        if (text.equals("PIRa")){
+            pir.setText("Hay movimiento");
+        }else{
+            pir.setText("No hay movimiento");
+        }
+
     }
 
     public void SendCommand(String command){

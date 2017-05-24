@@ -142,7 +142,19 @@ public class PatioFragment extends Fragment {
         return rootView;
     }
 
+    public void temp_change(String text){
+        temptext.setText(text + " °C");
+    }
 
+    public void state_change(String text){
+        if(text.equals("RS2A")) {
+            vents.setText("Abierta");
+            vents.setChecked(true);
+        }else if(text.equals("RS2C")){
+            vents.setText("Cerrada");
+            vents.setChecked(false);
+        }
+    }
 
     public void SendCommand(String command) {
         try {

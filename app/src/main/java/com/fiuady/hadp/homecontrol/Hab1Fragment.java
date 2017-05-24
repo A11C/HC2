@@ -86,13 +86,9 @@ public class Hab1Fragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (luzhab1.isChecked()) {
-                    vent1.setText("Abierta");
                     SendCommand(color);
-                    vent1.setChecked(true);
                 } else {
-                    vent1.setText("Cerrada");
                     SendCommand("R1d.");
-                    vent1.setChecked(false);
                 }
             }
         });
@@ -148,7 +144,7 @@ public class Hab1Fragment extends Fragment {
             @Override
             public void onValueChange(NumberPicker numberPicker, int i, int i1) {
                 if (venticonts.isChecked()) {
-                    SendCommand("V1" + valtemp + ".");
+                    SendCommand("V1M" + valtemp + ".");
                 }
             }
         });
@@ -157,13 +153,27 @@ public class Hab1Fragment extends Fragment {
             @Override
             public void onValueChange(NumberPicker numberPicker, int i, int i1) {
                 if (venticonts.isChecked()) {
-                    SendCommand("V1" + valtemp + ".");
+                    if (valtemp<10) {
+                        SendCommand("V1m0" + valtemp + ".");
+                    }else {
+                        SendCommand("V1m" + valtemp + ".");
+                    }
                 }
             }
         });
 
         return rootView;
 
+    }
+
+    public void state_change(String text){
+        if(text.equals("RS1A")) {
+            vent1.setText("Abierta");
+            vent1.setChecked(true);
+        }else if(text.equals("RS1C")){
+            vent1.setText("Cerrada");
+            vent1.setChecked(false);
+        }
     }
 
     public void temp_change(String valor) {
