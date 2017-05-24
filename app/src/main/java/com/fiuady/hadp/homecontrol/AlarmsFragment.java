@@ -92,9 +92,9 @@ public class AlarmsFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(cochera.isChecked()){
-
+                    SendCommand("Aa.");
                 }else{
-
+                    SendCommand("Ad.");
                 }
             }
         });
