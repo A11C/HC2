@@ -4,31 +4,24 @@ public class Area_hab1 {
     private int id;
     private int perfil_id;
     private String luz;
-    private String luzr;
-    private String luzg;
-    private String luzb;
+    private String rgb;
     private String ventana;
     private String ventilador;
     private String autoventi;
     private String tempmin;
     private String tempmax;
-    private String tempact;
 
-    public Area_hab1(int id, int perfil_id, String luz, String luzr, String luzg,
-                     String luzb, String ventana, String ventilador, String autoventi,
-                     String tempmin, String tempmax, String tempact) {
+    public Area_hab1(int id, int perfil_id, String luz, String rgb, String ventana, String ventilador, String autoventi,
+                     String tempmin, String tempmax) {
         this.id = id;
         this.perfil_id = perfil_id;
         this.luz = luz;
-        this.luzr = luzr;
-        this.luzg = luzg;
-        this.luzb = luzb;
+        this.rgb = rgb;
         this.ventana = ventana;
         this.ventilador = ventilador;
         this.autoventi = autoventi;
         this.tempmin = tempmin;
         this.tempmax = tempmax;
-        this.tempact = tempact;
     }
 
     public int getId() {
@@ -51,28 +44,12 @@ public class Area_hab1 {
         this.luz = luz;
     }
 
-    public String getLuzr() {
-        return luzr;
+    public String getRgb() {
+        return rgb;
     }
 
-    public void setLuzr(String luzr) {
-        this.luzr = luzr;
-    }
-
-    public String getLuzg() {
-        return luzg;
-    }
-
-    public void setLuzg(String luzg) {
-        this.luzg = luzg;
-    }
-
-    public String getLuzb() {
-        return luzb;
-    }
-
-    public void setLuzb(String luzb) {
-        this.luzb = luzb;
+    public void setRgb(String luzr) {
+        this.rgb = rgb;
     }
 
     public String getVentana() {
@@ -113,13 +90,5 @@ public class Area_hab1 {
 
     public void setTempmax(String tempmax) {
         this.tempmax = tempmax;
-    }
-
-    public String getTempact() {
-        return tempact;
-    }
-
-    public void setTempact(String tempact) {
-        this.tempact = tempact;
     }
 }
