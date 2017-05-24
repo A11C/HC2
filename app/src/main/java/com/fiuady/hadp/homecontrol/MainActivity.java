@@ -201,6 +201,9 @@ public class MainActivity extends AppCompatActivity {
                         getSupportActionBar().setTitle(itemTitle);
                         drawerLayout.closeDrawer(drawerList);
                         break;
+                    case(7):
+                        BluetoothAdapter btadapter = BluetoothAdapter.getDefaultAdapter();
+                        finish();
                 }
             }
         });

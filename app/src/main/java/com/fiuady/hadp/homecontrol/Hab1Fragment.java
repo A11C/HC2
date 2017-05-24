@@ -55,6 +55,7 @@ public class Hab1Fragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        connectedSocket = ((MainActivity) getActivity()).Socket();
         SendCommand("T1.");
     }
 
@@ -167,14 +168,14 @@ public class Hab1Fragment extends Fragment {
 
     public void temp_change(String valor) {
         temp.setText(valor + " °C");
-        valtemp = Integer.valueOf(valor);
+/*        valtemp = Integer.valueOf(valor);
         if (venticonts.isChecked()) {
             if (valtemp == tempmax.getValue()) {
                 SendCommand("V1a.");
             } else if (valtemp == tempmin.getValue()) {
                 SendCommand("V1d.");
             }
-        }
+        }*/
     }
 
     public void change_color(int colorSelected) {
@@ -210,7 +211,7 @@ public class Hab1Fragment extends Fragment {
     }
 
     public void SendCommand(String command) {
-        connectedSocket = ((MainActivity) getActivity()).Socket();
+
         try {
             if ((connectedSocket != null) && (connectedSocket.isConnected())) {
                 String toSend = command.trim();

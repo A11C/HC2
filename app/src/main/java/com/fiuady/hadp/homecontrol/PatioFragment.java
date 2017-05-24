@@ -36,7 +36,7 @@ public class PatioFragment extends Fragment {
 
     private Switch exts, piscs, vents;
     private SeekBar extsb, piscsb;
-    private CheckBox extchk, piscchk;
+    private CheckBox extchk;
     private TextView temptext;
     private int intext = 255, intpisc = 255;
 
@@ -56,7 +56,6 @@ public class PatioFragment extends Fragment {
         piscsb.setMax(255);
 
         extchk = (CheckBox) rootView.findViewById(R.id.luz_amb_ext_chk);
-        piscchk = (CheckBox) rootView.findViewById(R.id.luz_amb_pisc_chk);
 
         temptext = (TextView) rootView.findViewById(R.id.act_temp_patio_text);
 
