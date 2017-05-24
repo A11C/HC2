@@ -142,9 +142,15 @@ public class Hab2Fragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(venticonts.isChecked()){
-                    SendCommand("C1a"+tempmin+tempmax+".");
+                    String min ="";
+                    if (tempmin.getValue() < 10) {
+                        min="0" + String.valueOf(tempmin.getValue());
+                    } else {
+                        min = String.valueOf(tempmin.getValue());
+                    }
+                    SendCommand("C2a"+min+tempmax+".");
                 }else{
-                    SendCommand("C1d.");
+                    SendCommand("C2d.");
                 }
             }
         });
@@ -153,7 +159,13 @@ public class Hab2Fragment extends Fragment {
             @Override
             public void onValueChange(NumberPicker numberPicker, int i, int i1) {
                 if (venticonts.isChecked()) {
-                    SendCommand("V2M" + valtemp + ".");
+                    String min ="";
+                    if (tempmin.getValue() < 10) {
+                        min="0" + String.valueOf(tempmin.getValue());
+                    } else {
+                        min = String.valueOf(tempmin.getValue());
+                    }
+                    SendCommand("C2a"+min+tempmax+".");
                 }
             }
         });
@@ -162,11 +174,13 @@ public class Hab2Fragment extends Fragment {
             @Override
             public void onValueChange(NumberPicker numberPicker, int i, int i1) {
                 if (venticonts.isChecked()) {
-                    if (valtemp<10){
-                        SendCommand("V2m0"+valtemp+".");
-                    }else {
-                        SendCommand("V2m" + valtemp + ".");
+                    String min ="";
+                    if (tempmin.getValue() < 10) {
+                        min="0" + String.valueOf(tempmin.getValue());
+                    } else {
+                        min = String.valueOf(tempmin.getValue());
                     }
+                    SendCommand("C2a"+min+tempmax+".");
                 }
             }
         });

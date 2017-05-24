@@ -140,13 +140,36 @@ public class Hab1Fragment extends Fragment {
             }
         });
 
+        venticonts.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (venticonts.isChecked()) {
+                    String min = "";
+                    if (tempmin.getValue() < 10) {
+                        min = "0" + String.valueOf(tempmin.getValue());
+                    } else {
+                        min = String.valueOf(tempmin.getValue());
+                    }
 
+                    SendCommand("C1a" + min + tempmax.getValue() + ".");
+                } else {
+                    SendCommand("C1d.");
+                }
+            }
+        });
 
         tempmin.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker numberPicker, int i, int i1) {
                 if (venticonts.isChecked()) {
-                    SendCommand("V1M" + valtemp + ".");
+                    String min = "";
+                    if (tempmin.getValue() < 10) {
+                        min = "0" + String.valueOf(tempmin.getValue());
+                    } else {
+                        min = String.valueOf(tempmin.getValue());
+                    }
+
+                    SendCommand("C1a" + min + tempmax.getValue() + ".");
                 }
             }
         });
@@ -155,11 +178,14 @@ public class Hab1Fragment extends Fragment {
             @Override
             public void onValueChange(NumberPicker numberPicker, int i, int i1) {
                 if (venticonts.isChecked()) {
-                    if (valtemp<10) {
-                        SendCommand("V1m0" + valtemp + ".");
-                    }else {
-                        SendCommand("V1m" + valtemp + ".");
+                    String min = "";
+                    if (tempmin.getValue() < 10) {
+                        min = "0" + String.valueOf(tempmin.getValue());
+                    } else {
+                        min = String.valueOf(tempmin.getValue());
                     }
+
+                    SendCommand("C1a" + min + tempmax.getValue() + ".");
                 }
             }
         });
@@ -168,11 +194,11 @@ public class Hab1Fragment extends Fragment {
 
     }
 
-    public void state_change(String text){
-        if(text.equals("RS1A")) {
+    public void state_change(String text) {
+        if (text.equals("RS1A")) {
             vent1.setText("Abierta");
             vent1.setChecked(true);
-        }else if(text.equals("RS1C")){
+        } else if (text.equals("RS1C")) {
             vent1.setText("Cerrada");
             vent1.setChecked(false);
         }
@@ -291,3 +317,4 @@ public class Hab1Fragment extends Fragment {
 //        void onFragmentInteraction(Uri uri);
 //    }
 }
+
