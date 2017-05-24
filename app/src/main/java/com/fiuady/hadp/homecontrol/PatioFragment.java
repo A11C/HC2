@@ -132,7 +132,7 @@ public class PatioFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (extchk.isChecked()) {
-                    SendCommand("D2.");
+                    SendCommand("D2a.");
                 } else {
                     SendCommand("D2d.");
                 }

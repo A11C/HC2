@@ -138,6 +138,16 @@ public class Hab2Fragment extends Fragment {
             }
         });
 
+        venticonts.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(venticonts.isChecked()){
+                    SendCommand("C1a"+tempmin+tempmax+".");
+                }else{
+                    SendCommand("C1d.");
+                }
+            }
+        });
 
         tempmin.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
@@ -178,14 +188,6 @@ public class Hab2Fragment extends Fragment {
 
     public void temp_change(String valor) {
         temp.setText(valor + " °C");
-        valtemp = Float.valueOf(valor);
-        if(venticonts.isChecked()){
-            if(valtemp >= tempmax.getValue()){
-                SendCommand("V2a.");
-            }else if (valtemp <= tempmin.getValue()){
-                SendCommand("V2d.");
-            }
-        }
     }
 
     public void change_color(int colorSelected) {

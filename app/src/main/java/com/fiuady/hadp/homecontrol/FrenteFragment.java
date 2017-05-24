@@ -113,7 +113,7 @@ public class FrenteFragment extends Fragment implements mDialogFragment.mDialogF
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(chksens.isChecked()){
-                    SendCommand("D1.");
+                    SendCommand("D1a.");
                 }else{
                     SendCommand("D1d.");
                 }
