@@ -12,7 +12,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -267,8 +266,9 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                 startActivityForResult(intent, REQUEST_ENABLE_BT);
             }else if (btAdapter.isEnabled()){
-                device = btAdapter.getRemoteDevice("74:DF:BF:36:2B:78");
+                device = btAdapter.getRemoteDevice("98:D3:31:30:6D:3F");
                 //98:D3:31:30:6D:3F
+                //74:DF:BF:36:2B:78
                 BluetoothSocket tmpSocket = null;
 
                 // Connect with BluetoothDevice
@@ -338,7 +338,7 @@ public class MainActivity extends AppCompatActivity {
                     // Get device's own Bluetooth adapter
 
                     BluetoothSocket tmpSocket = null;
-                    device = btAdapter.getRemoteDevice("74:DF:BF:36:2B:78");
+                    device = btAdapter.getRemoteDevice("98:D3:31:30:6D:3F");
 
                     // Connect with BluetoothDevice
                     if (connectedSocket == null) {
@@ -396,6 +396,7 @@ public class MainActivity extends AppCompatActivity {
             hab1fragment.temp_change(text);
         }else if(f instanceof Hab2Fragment){
             Hab2Fragment hab2fragment = (Hab2Fragment)getSupportFragmentManager().findFragmentById(R.id.content_frame);
+            hab2fragment.temp_change(text);
         }else if(f instanceof FrenteFragment){
             FrenteFragment frenteFragment = (FrenteFragment)getSupportFragmentManager().findFragmentById(R.id.content_frame);
         }else if(f instanceof PatioFragment){
@@ -404,6 +405,7 @@ public class MainActivity extends AppCompatActivity {
             SalaFragment salaFragment = (SalaFragment)getSupportFragmentManager().findFragmentById(R.id.content_frame);
         }else if(f instanceof CocheraFragment){
             CocheraFragment cocheraFragment = (CocheraFragment)getSupportFragmentManager().findFragmentById(R.id.content_frame);
+            cocheraFragment.state_change(text);
         }else if(f instanceof AlarmsFragment) {
             AlarmsFragment alarmsFragment = (AlarmsFragment) getSupportFragmentManager().findFragmentById(R.id.content_frame);
         }

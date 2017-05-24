@@ -24,9 +24,9 @@ import java.io.OutputStreamWriter;
  * {@link CocheraFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
  */
-public class CocheraFragment extends Fragment implements mDialogFragment.mDialogFragmentListener{
+public class CocheraFragment extends Fragment implements mDialogFragment.mDialogFragmentListener {
 
- //   private OnFragmentInteractionListener mListener;
+    //   private OnFragmentInteractionListener mListener;
 
     public CocheraFragment() {
         // Required empty public constructor
@@ -47,23 +47,39 @@ public class CocheraFragment extends Fragment implements mDialogFragment.mDialog
         puerta.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (puerta.isChecked()){
+                if (puerta.isChecked()) {
                     mDialogFragment fragment = mDialogFragment.newInstance();
-                    fragment.setTargetFragment(CocheraFragment.this,0);
+                    fragment.setTargetFragment(CocheraFragment.this, 0);
                     fragment.show(getFragmentManager(), "PIN");
-                }else{
-
+                } else {
+                    SendCommand("S2c.");
                 }
             }
         });
 
-        estado.setText("Cerrada");
 
         return rootView;
     }
 
-    public void SendCommand(String command){
-        connectedSocket = ((MainActivity)getActivity()).Socket();
+    @Override
+    public void pinswitch(String pin) {
+        if (pin.equals("1234")) {
+            SendCommand("S2a.");
+        } else {
+            puerta.setChecked(false);
+        }
+    }
+
+    public void state_change(String text) {
+        if (text.equals("")) {
+            estado.setText("Cerrada");
+        } else if (text.equals("")) {
+            estado.setText("Abierta");
+        }
+    }
+
+    public void SendCommand(String command) {
+        connectedSocket = ((MainActivity) getActivity()).Socket();
         try {
             if ((connectedSocket != null) && (connectedSocket.isConnected())) {
                 String toSend = command.trim();
@@ -75,7 +91,6 @@ public class CocheraFragment extends Fragment implements mDialogFragment.mDialog
                     bw.write("\r\n");
                     bw.flush();
 
-                    Toast.makeText(getContext(), "[Enviado] " + toSend, Toast.LENGTH_SHORT).show();
                 }
 
             } else {
@@ -87,47 +102,43 @@ public class CocheraFragment extends Fragment implements mDialogFragment.mDialog
         }
     }
 
-    @Override
-    public void pinswitch(String pin) {
-
-    }
 
     //   // TODO: Rename method, update argument and hook method into UI event
- //   public void onButtonPressed(Uri uri) {
- //       if (mListener != null) {
- //           mListener.onFragmentInteraction(uri);
- //       }
- //   }
+    //   public void onButtonPressed(Uri uri) {
+    //       if (mListener != null) {
+    //           mListener.onFragmentInteraction(uri);
+    //       }
+    //   }
 //
- //   @Override
- //   public void onAttach(Context context) {
- //       super.onAttach(context);
- //       if (context instanceof OnFragmentInteractionListener) {
- //           mListener = (OnFragmentInteractionListener) context;
- //       } else {
- //           throw new RuntimeException(context.toString()
- //                   + " must implement OnFragmentInteractionListener");
- //       }
- //   }
+    //   @Override
+    //   public void onAttach(Context context) {
+    //       super.onAttach(context);
+    //       if (context instanceof OnFragmentInteractionListener) {
+    //           mListener = (OnFragmentInteractionListener) context;
+    //       } else {
+    //           throw new RuntimeException(context.toString()
+    //                   + " must implement OnFragmentInteractionListener");
+    //       }
+    //   }
 //
- //   @Override
- //   public void onDetach() {
- //       super.onDetach();
- //       mListener = null;
- //   }
+    //   @Override
+    //   public void onDetach() {
+    //       super.onDetach();
+    //       mListener = null;
+    //   }
 //
- //   /**
- //    * This interface must be implemented by activities that contain this
- //    * fragment to allow an interaction in this fragment to be communicated
- //    * to the activity and potentially other fragments contained in that
- //    * activity.
- //    * <p>
- //    * See the Android Training lesson <a href=
- //    * "http://developer.android.com/training/basics/fragments/communicating.html"
- //    * >Communicating with Other Fragments</a> for more information.
- //    */
- //   public interface OnFragmentInteractionListener {
- //       // TODO: Update argument type and name
- //       void onFragmentInteraction(Uri uri);
- //   }
+    //   /**
+    //    * This interface must be implemented by activities that contain this
+    //    * fragment to allow an interaction in this fragment to be communicated
+    //    * to the activity and potentially other fragments contained in that
+    //    * activity.
+    //    * <p>
+    //    * See the Android Training lesson <a href=
+    //    * "http://developer.android.com/training/basics/fragments/communicating.html"
+    //    * >Communicating with Other Fragments</a> for more information.
+    //    */
+    //   public interface OnFragmentInteractionListener {
+    //       // TODO: Update argument type and name
+    //       void onFragmentInteraction(Uri uri);
+    //   }
 }

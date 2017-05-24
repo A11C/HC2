@@ -63,7 +63,7 @@ public class SalaFragment extends Fragment implements mDialogFragment.mDialogFra
                     fragment.setTargetFragment(SalaFragment.this,0);
                     fragment.show(getFragmentManager(), "PIN");
                 }else{
-
+                    SendCommand("S1c.");
                 }
             }
         });
@@ -88,7 +88,6 @@ public class SalaFragment extends Fragment implements mDialogFragment.mDialogFra
                     bw.write("\r\n");
                     bw.flush();
 
-                    Toast.makeText(getContext(), "[Enviado] " + toSend, Toast.LENGTH_SHORT).show();
                 }
 
             } else {
@@ -103,7 +102,7 @@ public class SalaFragment extends Fragment implements mDialogFragment.mDialogFra
     @Override
     public void pinswitch(String pin) {
         if(pin.equals("1234")){
-            Toast.makeText(getContext(), "PIN Introducido: " + pin, Toast.LENGTH_SHORT).show();
+            SendCommand("S1a.");
         }else{
             puertas.setChecked(false);
         }

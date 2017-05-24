@@ -98,7 +98,7 @@ public class FrenteFragment extends Fragment implements mDialogFragment.mDialogF
                     fragment.setTargetFragment(FrenteFragment.this,0);
                     fragment.show(getFragmentManager(), "PIN");
                 }else{
-
+                    SendCommand("S1c.");
                 }
             }
         });
@@ -107,9 +107,9 @@ public class FrenteFragment extends Fragment implements mDialogFragment.mDialogF
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(chksens.isChecked()){
-
+                    SendCommand("D1.");
                 }else{
-
+                    SendCommand("D1d.");
                 }
             }
         });
@@ -118,7 +118,12 @@ public class FrenteFragment extends Fragment implements mDialogFragment.mDialogF
     }
 
     @Override
-    public void pinswitch(String pin){
+    public void pinswitch(String pin) {
+        if(pin.equals("1234")){
+            SendCommand("S1a.");
+        }else{
+            puerta.setChecked(false);
+        }
     }
 
     public void SendCommand(String command){
@@ -134,7 +139,6 @@ public class FrenteFragment extends Fragment implements mDialogFragment.mDialogF
                     bw.write("\r\n");
                     bw.flush();
 
-                    Toast.makeText(getContext(), "[Enviado] " + toSend, Toast.LENGTH_SHORT).show();
                 }
 
             } else {

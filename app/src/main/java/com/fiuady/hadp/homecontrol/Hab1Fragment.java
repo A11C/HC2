@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -36,7 +37,7 @@ import java.net.Socket;
  */
 public class Hab1Fragment extends Fragment {
 
-   // private OnFragmentInteractionListener mListener;
+    // private OnFragmentInteractionListener mListener;
 
     public Hab1Fragment() {
         // Required empty public constructor
@@ -48,6 +49,14 @@ public class Hab1Fragment extends Fragment {
     private String color = "R1255255255.";
     private TextView temp;
     private BluetoothSocket connectedSocket;
+
+    private int valtemp;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        SendCommand("T1.");
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,19 +84,17 @@ public class Hab1Fragment extends Fragment {
         luzhab1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(luzhab1.isChecked()){
+                if (luzhab1.isChecked()) {
                     vent1.setText("Abierta");
                     SendCommand(color);
                     vent1.setChecked(true);
-                }
-                else{
+                } else {
                     vent1.setText("Cerrada");
                     SendCommand("R1d.");
                     vent1.setChecked(false);
                 }
             }
         });
-
 
 
         view.setOnClickListener(new View.OnClickListener() {
@@ -109,7 +116,7 @@ public class Hab1Fragment extends Fragment {
                         .setPositiveButton("ok", new ColorPickerClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
-                               change_color(selectedColor);
+                                change_color(selectedColor);
                                 colorString(selectedColor);
                             }
                         })
@@ -128,21 +135,10 @@ public class Hab1Fragment extends Fragment {
         venti1s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (venti1s.isChecked()){
-
-                }else{
-
-                }
-            }
-        });
-
-        venticonts.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (venticonts.isChecked()){
-
-                }else{
-
+                if (venti1s.isChecked()) {
+                    SendCommand("V1a.");
+                } else {
+                    SendCommand("V1d.");
                 }
             }
         });
@@ -150,52 +146,71 @@ public class Hab1Fragment extends Fragment {
         tempmin.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker numberPicker, int i, int i1) {
-
+                if (venticonts.isChecked()) {
+                    SendCommand("V1" + valtemp + ".");
+                }
             }
         });
 
         tempmax.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker numberPicker, int i, int i1) {
-
+                if (venticonts.isChecked()) {
+                    SendCommand("V1" + valtemp + ".");
+                }
             }
         });
 
         return rootView;
 
     }
-    public void temp_change(String valor){
+
+    public void temp_change(String valor) {
         temp.setText(valor + " °C");
+        valtemp = Integer.valueOf(valor);
+        if (venticonts.isChecked()) {
+            if (valtemp == tempmax.getValue()) {
+                SendCommand("V1a.");
+            } else if (valtemp == tempmin.getValue()) {
+                SendCommand("V1d.");
+            }
+        }
     }
 
-    public void change_color(int colorSelected){
+    public void change_color(int colorSelected) {
         view.setBackgroundColor(colorSelected);
     }
 
-    public void colorString(int selectedColor){
-        int r = Integer.valueOf(((Integer.toHexString(selectedColor)).substring(2,4)),16);
-        int v = Integer.valueOf(((Integer.toHexString(selectedColor)).substring(4,6)),16);
-        int a = Integer.valueOf(((Integer.toHexString(selectedColor)).substring(6)),16);
+    public void colorString(int selectedColor) {
+        int r = Integer.valueOf(((Integer.toHexString(selectedColor)).substring(2, 4)), 16);
+        int v = Integer.valueOf(((Integer.toHexString(selectedColor)).substring(4, 6)), 16);
+        int a = Integer.valueOf(((Integer.toHexString(selectedColor)).substring(6)), 16);
         String rojo, verde, azul;
 
-        if (r<100){
-            rojo = "0"+Integer.toString(r);
-        }else{rojo = Integer.toString(r);}
-        if(v<100){
-            verde = "0"+Integer.toString(v);
-        }else{ verde = Integer.toString(v);}
-        if (a<100){
-            azul = "0"+Integer.toString(a);
-        }else{ azul = Integer.toString(a);}
+        if (r < 100) {
+            rojo = "0" + Integer.toString(r);
+        } else {
+            rojo = Integer.toString(r);
+        }
+        if (v < 100) {
+            verde = "0" + Integer.toString(v);
+        } else {
+            verde = Integer.toString(v);
+        }
+        if (a < 100) {
+            azul = "0" + Integer.toString(a);
+        } else {
+            azul = Integer.toString(a);
+        }
 
-        color = "R1"+rojo+verde+azul+".";
-        if(luzhab1.isChecked()) {
+        color = "R1" + rojo + verde + azul + ".";
+        if (luzhab1.isChecked()) {
             SendCommand(color);
         }
     }
 
-    public void SendCommand(String command){
-        connectedSocket = ((MainActivity)getActivity()).Socket();
+    public void SendCommand(String command) {
+        connectedSocket = ((MainActivity) getActivity()).Socket();
         try {
             if ((connectedSocket != null) && (connectedSocket.isConnected())) {
                 String toSend = command.trim();
@@ -207,7 +222,6 @@ public class Hab1Fragment extends Fragment {
                     bw.write("\r\n");
                     bw.flush();
 
-                    Toast.makeText(getContext(), "[Enviado] " + toSend, Toast.LENGTH_SHORT).show();
                 }
 
             } else {
@@ -219,7 +233,13 @@ public class Hab1Fragment extends Fragment {
         }
     }
 
-//    // TODO: Rename method, update argument and hook method into UI event
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        SendCommand("T1d.");
+    }
+
+    //    // TODO: Rename method, update argument and hook method into UI event
 //    public void onButtonPressed(Uri uri) {
 //        if (mListener != null) {
 //            mListener.onFragmentInteraction(uri);
