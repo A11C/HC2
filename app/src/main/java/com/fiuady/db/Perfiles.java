@@ -3,10 +3,10 @@ package com.fiuady.db;
 public class Perfiles {
 
     private int id;
-    private String usuario_id;
+    private int usuario_id;
     private String descripcion;
 
-    public Perfiles(int id, String usuario_id, String descripcion) {
+    public Perfiles(int id, int usuario_id, String descripcion) {
         this.id = id;
         this.usuario_id = usuario_id;
         this.descripcion = descripcion;
@@ -16,11 +16,11 @@ public class Perfiles {
         return id;
     }
 
-    public String getUsuario_id() {
+    public int getUsuario_id() {
         return usuario_id;
     }
 
-    public void setUsuario_id(String usuario_id) {
+    public void setUsuario_id(int usuario_id) {
         this.usuario_id = usuario_id;
     }
 

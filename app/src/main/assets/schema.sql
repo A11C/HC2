@@ -71,3 +71,13 @@ CREATE TABLE [area_sala](
     [puerta] TEXT NOT NULL,
     [ventana] TEXT NOT NULL,
     [sensormov] TEXT NOT NULL);
+
+CREATE TABLE [alarmas](
+    [id] INTEGER PRIMARY KEY,
+    [perfil_id] INTEGER NOT NULL REFERENCES perfiles([id]),
+    [puerta] TEXT NOT NULL,
+    [cochera] TEXT NOT NULL,
+    [sala] TEXT NOT NULL,
+    [habitacion1] TEXT NOT NULL,
+    [habitacion2] TEXT NOT NULL,
+    [sensor] TEXT NOT NULL);

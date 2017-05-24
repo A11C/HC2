@@ -121,4 +121,19 @@ public final class HomeDbSchema {
             public static final String SENSORMOV = "sensormov";
         }
     }
+
+    public static final class AlarmaTable {
+        public static final String NAME = "alarmas";
+
+        public static final class Columns {
+            public static final String ID = "id";
+            public static final String PERFIL_ID = "perfil_id";
+            public static final String PUERTA = "puerta";
+            public static final String COCHERA = "cochera";
+            public static final String SALA = "sala";
+            public static final String HABITACION1 = "habitacion1";
+            public static final String HABITACION2 = "habitacion2";
+            public static final String SENSOR = "sensor";
+        }
+    }
 }

@@ -2,7 +2,7 @@ package com.fiuady.db;
 
 public class Area_patio {
     private int id;
-    private String perfil_id;
+    private int perfil_id;
     private String luzext;
     private String sensorext;
     private String intenext;
@@ -11,7 +11,7 @@ public class Area_patio {
     private String intenpisci;
     private String ventana;
 
-    public Area_patio(int id, String perfil_id, String luzext, String sensorext,
+    public Area_patio(int id, int perfil_id, String luzext, String sensorext,
                       String intenext, String luzpisci, String sensorpisci,
                       String intenpisci, String ventana) {
         this.id = id;
@@ -29,11 +29,11 @@ public class Area_patio {
         return id;
     }
 
-    public String getPerfil_id() {
+    public int getPerfil_id() {
         return perfil_id;
     }
 
-    public void setPerfil_id(String perfil_id) {
+    public void setPerfil_id(int perfil_id) {
         this.perfil_id = perfil_id;
     }
 

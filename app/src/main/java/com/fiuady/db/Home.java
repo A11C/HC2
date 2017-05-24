@@ -25,7 +25,7 @@ class ClassCursor extends CursorWrapper{
     public Perfiles getPerfil(){
         Cursor cursor  = getWrappedCursor();
         return new Perfiles(cursor.getInt(cursor.getColumnIndex(PerfilesTable.Columns.ID)),
-                cursor.getString(cursor.getColumnIndex(PerfilesTable.Columns.USUARIO_ID)),
+                cursor.getInt(cursor.getColumnIndex(PerfilesTable.Columns.USUARIO_ID)),
                 cursor.getString(cursor.getColumnIndex(PerfilesTable.Columns.DESCRIPCION)));
     }
 
@@ -39,14 +39,14 @@ class ClassCursor extends CursorWrapper{
     public Area_cochera getCochera(){
         Cursor cursor  = getWrappedCursor();
         return new Area_cochera(cursor.getInt(cursor.getColumnIndex(Area_CocheraTable.Columns.ID)),
-                cursor.getString(cursor.getColumnIndex(Area_CocheraTable.Columns.PERFIL_ID)),
+                cursor.getInt(cursor.getColumnIndex(Area_CocheraTable.Columns.PERFIL_ID)),
                 cursor.getString(cursor.getColumnIndex(Area_CocheraTable.Columns.PUERTA)));
     }
 
     public Area_frente getFrente(){
         Cursor cursor  = getWrappedCursor();
         return new Area_frente(cursor.getInt(cursor.getColumnIndex(Area_FrenteTable.Columns.ID)),
-                cursor.getString(cursor.getColumnIndex(Area_FrenteTable.Columns.PERFIL_ID)),
+                cursor.getInt(cursor.getColumnIndex(Area_FrenteTable.Columns.PERFIL_ID)),
                 cursor.getString(cursor.getColumnIndex(Area_FrenteTable.Columns.PUERTA)),
                 cursor.getString(cursor.getColumnIndex(Area_FrenteTable.Columns.LUZ)),
                 cursor.getString(cursor.getColumnIndex(Area_FrenteTable.Columns.SENSOR)),
@@ -56,7 +56,7 @@ class ClassCursor extends CursorWrapper{
     public Area_hab1 getHabitacion1(){
         Cursor cursor  = getWrappedCursor();
         return new Area_hab1(cursor.getInt(cursor.getColumnIndex(Area_Hab1Table.Columns.ID)),
-                cursor.getString(cursor.getColumnIndex(Area_Hab1Table.Columns.PERFIL_ID)),
+                cursor.getInt(cursor.getColumnIndex(Area_Hab1Table.Columns.PERFIL_ID)),
                 cursor.getString(cursor.getColumnIndex(Area_Hab1Table.Columns.LUZ)),
                 cursor.getString(cursor.getColumnIndex(Area_Hab1Table.Columns.LUZR)),
                 cursor.getString(cursor.getColumnIndex(Area_Hab1Table.Columns.LUZG)),
@@ -72,7 +72,7 @@ class ClassCursor extends CursorWrapper{
     public Area_hab2 getHabitacion2(){
         Cursor cursor  = getWrappedCursor();
         return new Area_hab2(cursor.getInt(cursor.getColumnIndex(Area_Hab2Table.Columns.ID)),
-                cursor.getString(cursor.getColumnIndex(Area_Hab2Table.Columns.PERFIL_ID)),
+                cursor.getInt(cursor.getColumnIndex(Area_Hab2Table.Columns.PERFIL_ID)),
                 cursor.getString(cursor.getColumnIndex(Area_Hab2Table.Columns.LUZ)),
                 cursor.getString(cursor.getColumnIndex(Area_Hab2Table.Columns.LUZR)),
                 cursor.getString(cursor.getColumnIndex(Area_Hab2Table.Columns.LUZG)),
@@ -88,7 +88,7 @@ class ClassCursor extends CursorWrapper{
     public Area_patio getPatio(){
         Cursor cursor  = getWrappedCursor();
         return new Area_patio(cursor.getInt(cursor.getColumnIndex(Area_PatioTable.Columns.ID)),
-                cursor.getString(cursor.getColumnIndex(Area_PatioTable.Columns.PERFIL_ID)),
+                cursor.getInt(cursor.getColumnIndex(Area_PatioTable.Columns.PERFIL_ID)),
                 cursor.getString(cursor.getColumnIndex(Area_PatioTable.Columns.LUZEXT)),
                 cursor.getString(cursor.getColumnIndex(Area_PatioTable.Columns.SENSOREXT)),
                 cursor.getString(cursor.getColumnIndex(Area_PatioTable.Columns.INTENEXT)),
@@ -101,10 +101,22 @@ class ClassCursor extends CursorWrapper{
     public Area_sala getSala(){
         Cursor cursor  = getWrappedCursor();
         return new Area_sala(cursor.getInt(cursor.getColumnIndex(Area_SalaTable.Columns.ID)),
-                cursor.getString(cursor.getColumnIndex(Area_SalaTable.Columns.PERFIL_ID)),
+                cursor.getInt(cursor.getColumnIndex(Area_SalaTable.Columns.PERFIL_ID)),
                 cursor.getString(cursor.getColumnIndex(Area_SalaTable.Columns.PUERTA)),
                 cursor.getString(cursor.getColumnIndex(Area_SalaTable.Columns.VENTANA)),
                 cursor.getString(cursor.getColumnIndex(Area_SalaTable.Columns.SENSORMOV)));
+    }
+
+    public Alarmas getAlarma(){
+        Cursor cursor  = getWrappedCursor();
+        return new Alarmas(cursor.getInt(cursor.getColumnIndex(AlarmaTable.Columns.ID)),
+                cursor.getInt(cursor.getColumnIndex(AlarmaTable.Columns.PERFIL_ID)),
+                cursor.getString(cursor.getColumnIndex(AlarmaTable.Columns.PUERTA)),
+                cursor.getString(cursor.getColumnIndex(AlarmaTable.Columns.COCHERA)),
+                cursor.getString(cursor.getColumnIndex(AlarmaTable.Columns.SALA)),
+                cursor.getString(cursor.getColumnIndex(AlarmaTable.Columns.HABITACION1)),
+                cursor.getString(cursor.getColumnIndex(AlarmaTable.Columns.HABITACION2)),
+                cursor.getString(cursor.getColumnIndex(AlarmaTable.Columns.SENSOR)));
     }
 }
 
@@ -231,6 +243,18 @@ public final class Home {
         ClassCursor cursor = new ClassCursor(db.rawQuery("SELECT * FROM area_sala ORDER BY id ASC;", null));
         while (cursor.moveToNext()) {
             list.add(cursor.getSala());
+        }
+        cursor.close();
+
+        return list;
+    }
+
+    public List<Alarmas> getAlmarmas() {
+        ArrayList<Alarmas> list = new ArrayList<Alarmas>();
+
+        ClassCursor cursor = new ClassCursor(db.rawQuery("SELECT * FROM alarmas ORDER BY id ASC;", null));
+        while (cursor.moveToNext()) {
+            list.add(cursor.getAlarma());
         }
         cursor.close();
 

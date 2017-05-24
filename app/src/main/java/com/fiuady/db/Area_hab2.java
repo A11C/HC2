@@ -2,7 +2,7 @@ package com.fiuady.db;
 
 public class Area_hab2 {
     private int id;
-    private String perfil_id;
+    private int perfil_id;
     private String luz;
     private String luzr;
     private String luzg;
@@ -14,7 +14,7 @@ public class Area_hab2 {
     private String tempmax;
     private String tempact;
 
-    public Area_hab2(int id, String perfil_id, String luz, String luzr, String luzg,
+    public Area_hab2(int id, int perfil_id, String luz, String luzr, String luzg,
                      String luzb, String ventana, String ventilador, String autoventi,
                      String tempmin, String tempmax, String tempact) {
         this.id = id;
@@ -35,11 +35,11 @@ public class Area_hab2 {
         return id;
     }
 
-    public String getPerfil_id() {
+    public int getPerfil_id() {
         return perfil_id;
     }
 
-    public void setPerfil_id(String perfil_id) {
+    public void setPerfil_id(int perfil_id) {
         this.perfil_id = perfil_id;
     }
 
