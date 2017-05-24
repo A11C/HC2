@@ -202,7 +202,11 @@ public class MainActivity extends AppCompatActivity {
                         drawerLayout.closeDrawer(drawerList);
                         break;
                     case(7):
-                        BluetoothAdapter btadapter = BluetoothAdapter.getDefaultAdapter();
+                        try{
+                            connectedSocket.close();
+                        }catch(IOException e){
+                            e.printStackTrace();
+                        }
                         finish();
                 }
             }

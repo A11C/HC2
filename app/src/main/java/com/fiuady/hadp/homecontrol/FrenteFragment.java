@@ -51,6 +51,12 @@ public class FrenteFragment extends Fragment implements mDialogFragment.mDialogF
     private int valor = 255;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        connectedSocket = ((MainActivity)getActivity()).Socket();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -127,7 +133,6 @@ public class FrenteFragment extends Fragment implements mDialogFragment.mDialogF
     }
 
     public void SendCommand(String command){
-        connectedSocket = ((MainActivity)getActivity()).Socket();
         try {
             if ((connectedSocket != null) && (connectedSocket.isConnected())) {
                 String toSend = command.trim();

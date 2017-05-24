@@ -52,6 +52,7 @@ public class Hab2Fragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        connectedSocket = ((MainActivity) getActivity()).Socket();
         SendCommand("T2.");
     }
 
@@ -77,6 +78,7 @@ public class Hab2Fragment extends Fragment {
         tempmax.setMaxValue(50);
         tempmax.setValue(35);
         tempmax.setWrapSelectorWheel(true);
+        temp = (TextView) rootView.findViewById(R.id.temp_hab2);
 
         luzhab2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -162,14 +164,14 @@ public class Hab2Fragment extends Fragment {
 
     public void temp_change(String valor) {
         temp.setText(valor + " °C");
-        valtemp = Integer.valueOf(valor);
+      /*  valtemp = Integer.valueOf(valor);
         if(venticonts.isChecked()){
             if(valtemp == tempmax.getValue()){
                 SendCommand("V2a.");
             }else if (valtemp == tempmin.getValue()){
                 SendCommand("V");
             }
-        }
+        }*/
     }
 
     public void change_color(int colorSelected) {
@@ -205,7 +207,6 @@ public class Hab2Fragment extends Fragment {
     }
 
     public void SendCommand(String command) {
-        connectedSocket = ((MainActivity) getActivity()).Socket();
         try {
             if ((connectedSocket != null) && (connectedSocket.isConnected())) {
                 String toSend = command.trim();

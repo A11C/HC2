@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
@@ -45,6 +46,12 @@ public class SalaFragment extends Fragment implements mDialogFragment.mDialogFra
     private TextView pir, temp;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        connectedSocket = ((MainActivity)getActivity()).Socket();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_sala, container, false);
@@ -76,7 +83,6 @@ public class SalaFragment extends Fragment implements mDialogFragment.mDialogFra
     }
 
     public void SendCommand(String command){
-        connectedSocket = ((MainActivity)getActivity()).Socket();
         try {
             if ((connectedSocket != null) && (connectedSocket.isConnected())) {
                 String toSend = command.trim();

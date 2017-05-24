@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,12 @@ public class AlarmsFragment extends Fragment {
 
     private Switch all, prtaf, cochera, vents, vent1, vent2, pir;
     private BluetoothSocket connectedSocket;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        connectedSocket = ((MainActivity)getActivity()).Socket();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -140,7 +147,7 @@ public class AlarmsFragment extends Fragment {
     }
 
     public void SendCommand(String command){
-        connectedSocket = ((MainActivity)getActivity()).Socket();
+
         try {
             if ((connectedSocket != null) && (connectedSocket.isConnected())) {
                 String toSend = command.trim();
