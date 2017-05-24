@@ -2,12 +2,12 @@ package com.fiuady.db;
 
 public class Area_sala {
     private int id;
-    private String perfil_id;
+    private int perfil_id;
     private String puerta;
     private String ventana;
     private String sensormov;
 
-    public Area_sala(int id, String perfil_id, String puerta, String ventana, String sensormov) {
+    public Area_sala(int id, int perfil_id, String puerta, String ventana, String sensormov) {
         this.id = id;
         this.perfil_id = perfil_id;
         this.puerta = puerta;
@@ -19,11 +19,11 @@ public class Area_sala {
         return id;
     }
 
-    public String getPerfil_id() {
+    public int getPerfil_id() {
         return perfil_id;
     }
 
-    public void setPerfil_id(String perfil_id) {
+    public void setPerfil_id(int perfil_id) {
         this.perfil_id = perfil_id;
     }
 

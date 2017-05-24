@@ -2,13 +2,13 @@ package com.fiuady.db;
 
 public class Area_frente {
     private int id;
-    private String perfil_id;
+    private int perfil_id;
     private String puerta;
     private String luz;
     private String sensor;
     private String intensidad;
 
-    public Area_frente(int id, String perfil_id, String puerta, String luz, String sensor, String intensidad) {
+    public Area_frente(int id, int perfil_id, String puerta, String luz, String sensor, String intensidad) {
         this.id = id;
         this.perfil_id = perfil_id;
         this.puerta = puerta;
@@ -21,11 +21,11 @@ public class Area_frente {
         return id;
     }
 
-    public String getPerfil_id() {
+    public int getPerfil_id() {
         return perfil_id;
     }
 
-    public void setPerfil_id(String perfil_id) {
+    public void setPerfil_id(int perfil_id) {
         this.perfil_id = perfil_id;
     }
 
