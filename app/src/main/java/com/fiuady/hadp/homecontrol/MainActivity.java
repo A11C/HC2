@@ -396,14 +396,14 @@ public class MainActivity extends AppCompatActivity {
             Hab1Fragment hab1fragment = (Hab1Fragment) getSupportFragmentManager().findFragmentById(R.id.content_frame);
             if (text.startsWith("RS")) {
                 hab1fragment.state_change(text);
-            } else {
+            } else if(!text.startsWith("PIR")){
                 hab1fragment.temp_change(text);
             }
         } else if (f instanceof Hab2Fragment) {
             Hab2Fragment hab2fragment = (Hab2Fragment) getSupportFragmentManager().findFragmentById(R.id.content_frame);
             if (text.startsWith("RS")) {
                 hab2fragment.state_change(text);
-            } else {
+            } else if(!text.startsWith("PIR")){
                 hab2fragment.temp_change(text);
             }
         } else if (f instanceof FrenteFragment) {
@@ -431,7 +431,7 @@ public class MainActivity extends AppCompatActivity {
             AlarmsFragment alarmsFragment = (AlarmsFragment) getSupportFragmentManager().findFragmentById(R.id.content_frame);
         }
 
-        Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
     }
 
     @Override

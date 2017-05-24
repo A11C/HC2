@@ -49,6 +49,7 @@ public class SalaFragment extends Fragment implements mDialogFragment.mDialogFra
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         connectedSocket = ((MainActivity)getActivity()).Socket();
+        SendCommand("T4a.");
     }
 
     @Override
@@ -129,6 +130,12 @@ public class SalaFragment extends Fragment implements mDialogFragment.mDialogFra
         }else{
             puertas.setChecked(false);
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        SendCommand("T4d.");
     }
 
     // // TODO: Rename method, update argument and hook method into UI event

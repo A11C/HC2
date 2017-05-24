@@ -47,6 +47,7 @@ public class PatioFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         connectedSocket = ((MainActivity) getActivity()).Socket();
+        SendCommand("T3a.");
     }
 
     @Override
@@ -179,6 +180,11 @@ public class PatioFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        SendCommand("T3d.");
+    }
     //  // TODO: Rename method, update argument and hook method into UI event
     //  public void onButtonPressed(Uri uri) {
     //      if (mListener != null) {

@@ -56,7 +56,7 @@ public class Hab1Fragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         connectedSocket = ((MainActivity) getActivity()).Socket();
-        SendCommand("T1.");
+        SendCommand("T1a.");
     }
 
     @Override
@@ -139,6 +139,8 @@ public class Hab1Fragment extends Fragment {
                 }
             }
         });
+
+
 
         tempmin.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override

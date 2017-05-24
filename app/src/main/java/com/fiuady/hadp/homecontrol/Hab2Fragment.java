@@ -53,7 +53,7 @@ public class Hab2Fragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         connectedSocket = ((MainActivity) getActivity()).Socket();
-        SendCommand("T2.");
+        SendCommand("T2a.");
     }
 
     @Override
