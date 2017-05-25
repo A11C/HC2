@@ -78,9 +78,9 @@ public class CocheraFragment extends Fragment implements mDialogFragment.mDialog
     }
 
     public void state_change(String text) {
-        if (text.equals("")) {
+        if (text.equals("RS5A")) {
             estado.setText("Cerrada");
-        } else if (text.equals("")) {
+        } else if (text.equals("RS5C")) {
             estado.setText("Abierta");
         }
     }

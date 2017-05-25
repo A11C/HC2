@@ -196,10 +196,10 @@ public class Hab1Fragment extends Fragment {
     }
 
     public void state_change(String text) {
-        if (text.equals("RS1A")) {
+        if (text.equals("RS2A")) {
             vent1.setText("Abierta");
             vent1.setChecked(true);
-        } else if (text.equals("RS1C")) {
+        } else if (text.equals("RS2C")) {
             vent1.setText("Cerrada");
             vent1.setChecked(false);
         }

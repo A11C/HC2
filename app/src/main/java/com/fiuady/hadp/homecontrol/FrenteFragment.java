@@ -145,6 +145,7 @@ public class FrenteFragment extends Fragment implements mDialogFragment.mDialogF
         }
     }
 
+
     public void SendCommand(String command){
         try {
             if ((connectedSocket != null) && (connectedSocket.isConnected())) {
