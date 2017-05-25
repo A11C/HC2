@@ -301,50 +301,50 @@ public final class Home {
     }
 
     public void updateCochera(int perfil_id, String puerta) {
-        db.execSQL("UPDATE area_cochera SET puerta =" + puerta + " WHERE perfil_id = " + String.valueOf(perfil_id));
+        db.execSQL("UPDATE area_cochera SET puerta = '" + puerta + "' WHERE perfil_id = " + String.valueOf(perfil_id));
     }
 
     public void updateFrentePuerta(int perfil_id, String puerta) {
-        db.execSQL("UPDATE area_frente SET puerta =" + puerta + " WHERE perfil_id = " + String.valueOf(perfil_id));
+        db.execSQL("UPDATE area_frente SET puerta = '" + puerta + "' WHERE perfil_id = " + String.valueOf(perfil_id));
     }
     public void updateFrenteLuz(int perfil_id, String luz) {
-        db.execSQL("UPDATE area_frente SET luz =" + luz + " WHERE perfil_id = " + String.valueOf(perfil_id));
+        db.execSQL("UPDATE area_frente SET luz = '" + luz + "' WHERE perfil_id = " + String.valueOf(perfil_id));
     }
     public void updateFrenteSensor(int perfil_id, String sensor) {
-        db.execSQL("UPDATE area_frente SET sensor =" + sensor + " WHERE perfil_id = " + String.valueOf(perfil_id));
+        db.execSQL("UPDATE area_frente SET sensor = '" + sensor + "' WHERE perfil_id = " + String.valueOf(perfil_id));
 
     }
     public void updateFrenteIntensidad(int perfil_id, String intensidad) {
-        db.execSQL("UPDATE area_frente SET intensidad =" + intensidad + " WHERE perfil_id = " + String.valueOf(perfil_id));
+        db.execSQL("UPDATE area_frente SET intensidad = '" + intensidad + "' WHERE perfil_id = " + String.valueOf(perfil_id));
     }
 
     public void updateHab1Luz(int perfil_id, String luz) {
-        db.execSQL("UPDATE area_hab1 SET luz =" + luz + " WHERE perfil_id = " + String.valueOf(perfil_id));
+        db.execSQL("UPDATE area_hab1 SET luz = '" + luz + "' WHERE perfil_id = " + String.valueOf(perfil_id));
     }
     public void updateHab1Rgb(int perfil_id, String rgb) {
-        db.execSQL("UPDATE area_hab1 SET rgb =" + rgb + " WHERE perfil_id = " + String.valueOf(perfil_id));
+        db.execSQL("UPDATE area_hab1 SET rgb = '" + rgb + "' WHERE perfil_id = " + String.valueOf(perfil_id));
     }
     public void updateHab1Ventana(int perfil_id, String ventana) {
-        db.execSQL("UPDATE area_hab1 SET ventana =" + ventana + " WHERE perfil_id = " + String.valueOf(perfil_id));
+        db.execSQL("UPDATE area_hab1 SET ventana = '" + ventana + "' WHERE perfil_id = " + String.valueOf(perfil_id));
     }
     public void updateHab1Ventilador(int perfil_id, String ventilador) {
-        db.execSQL("UPDATE area_hab1 SET ventilador =" + ventilador + " WHERE perfil_id = " + String.valueOf(perfil_id));
+        db.execSQL("UPDATE area_hab1 SET ventilador = '" + ventilador + "' WHERE perfil_id = " + String.valueOf(perfil_id));
     }
     public void updateHab1Autoventi(int perfil_id, String autoventi) {
-        db.execSQL("UPDATE area_hab1 SET autoventi =" + autoventi + " WHERE perfil_id = " + String.valueOf(perfil_id));
+        db.execSQL("UPDATE area_hab1 SET autoventi = '" + autoventi + "' WHERE perfil_id = " + String.valueOf(perfil_id));
     }
     public void updateHab1TempMin(int perfil_id, String tempmin) {
-        db.execSQL("UPDATE area_hab1 SET tempmin =" + tempmin + " WHERE perfil_id = " + String.valueOf(perfil_id));
+        db.execSQL("UPDATE area_hab1 SET tempmin = '" + tempmin + "' WHERE perfil_id = " + String.valueOf(perfil_id));
     }
     public void updateHab1TempMax(int perfil_id, String tempsmax) {
-        db.execSQL("UPDATE area_hab1 SET tempsmax =" + tempsmax + " WHERE perfil_id = " + String.valueOf(perfil_id));
+        db.execSQL("UPDATE area_hab1 SET tempsmax = '" + tempsmax + "' WHERE perfil_id = " + String.valueOf(perfil_id));
     }
 
     public void updateHab2Luz(int perfil_id, String luz) {
-        db.execSQL("UPDATE area_hab2 SET luz =" + luz + " WHERE perfil_id = " + String.valueOf(perfil_id));
+        db.execSQL("UPDATE area_hab2 SET luz = '" + luz + "' WHERE perfil_id = " + String.valueOf(perfil_id));
     }
     public void updateHab2Rgb(int perfil_id, String rgb) {
-        db.execSQL("UPDATE area_hab2 SET rgb =" + rgb + " WHERE perfil_id = " + String.valueOf(perfil_id));
+        db.execSQL("UPDATE area_hab2 SET rgb = '" + rgb + "' WHERE perfil_id = " + String.valueOf(perfil_id));
     }
     public void updateHab2Ventana(int perfil_id, String ventana) {
         db.execSQL("UPDATE area_hab2 SET ventana =" + ventana + " WHERE perfil_id = " + String.valueOf(perfil_id));

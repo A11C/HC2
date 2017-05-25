@@ -3,6 +3,7 @@ package com.fiuady.hadp.homecontrol;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.fiuady.db.Area_cochera;
 import com.fiuady.db.Home;
 import com.fiuady.db.Perfiles;
 
@@ -35,7 +37,13 @@ public class PerfilFragment extends Fragment {
     }
 
     private ListView listView;
+    private int userid;
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        userid = getArguments().getInt("userid");
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,7 +65,10 @@ public class PerfilFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getContext(), Integer.toString(i), Toast.LENGTH_SHORT).show();
+                int perfid = home.getIdPerfil(listView.getItemAtPosition(i).toString(),userid);
+                //ArrayList<Area_cochera> ac = new ArrayList<Area_cochera>( home.getAllCochera(perfid));
+                ((MainActivity)getActivity()).setPerf_id(perfid);
+                //Area_cochera area_cochera = ac.get(0);
             }
         });
 

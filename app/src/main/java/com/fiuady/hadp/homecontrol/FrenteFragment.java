@@ -52,11 +52,14 @@ public class FrenteFragment extends Fragment implements mDialogFragment.mDialogF
     private CheckBox chksens;
     private int valor = 255;
     private Home home;
+    private int perfid;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         connectedSocket = ((MainActivity)getActivity()).Socket();
+        perfid = getArguments().getInt("perf");
+        home = new Home(getContext());
     }
 
     @Override
@@ -74,8 +77,10 @@ public class FrenteFragment extends Fragment implements mDialogFragment.mDialogF
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (luzfrente.isChecked()) {
                     SendCommand("L1"+valor+".");
+                    //home.updateFrenteLuz(perfid,"L1"+valor+".");
                 } else {
                     SendCommand("L1d.");
+                   // home.updateFrenteLuz(perfid,"L1d.");
                 }
             }
         });
@@ -85,6 +90,7 @@ public class FrenteFragment extends Fragment implements mDialogFragment.mDialogF
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 if (luzfrente.isChecked()) {
                     SendCommand("L1"+i+".");
+                   // home.updateFrenteIntensidad(perfid,"L1"+i+".");
                 }
                 valor = i;
             }
@@ -108,6 +114,7 @@ public class FrenteFragment extends Fragment implements mDialogFragment.mDialogF
                     fragment.show(getFragmentManager(), "PIN");
                 }else{
                     SendCommand("S1c.");
+                    //home.updateFrentePuerta(perfid,"S1c.");
                 }
             }
         });
@@ -117,8 +124,10 @@ public class FrenteFragment extends Fragment implements mDialogFragment.mDialogF
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(chksens.isChecked()){
                     SendCommand("D1a.");
+                    //home.updateFrenteSensor(perfid,"D1a.");
                 }else{
                     SendCommand("D1d.");
+                   // home.updateFrenteSensor(perfid,"D1d.");
                 }
             }
         });
@@ -130,6 +139,7 @@ public class FrenteFragment extends Fragment implements mDialogFragment.mDialogF
     public void pinswitch(String pin) {
         if(pin.equals("1234")){
             SendCommand("S1a.");
+          //  home.updateFrentePuerta(perfid,"S1a.");
         }else{
             puerta.setChecked(false);
         }

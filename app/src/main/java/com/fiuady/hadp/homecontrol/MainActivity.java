@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     private CharSequence activityTitle;
     private CharSequence itemTitle;
 
-    private int cuenta_id;
+    private int cuenta_id,perf_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +103,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         PerfilFragment perfilFragment = new PerfilFragment();
+        Bundle args = new Bundle();
+        args.putInt("userid",cuenta_id);
+        perfilFragment.setArguments(args);
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, perfilFragment).commit();
         drawerList.setItemChecked(7, true);
@@ -116,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                     case (0):
                         FrenteFragment fragment = new FrenteFragment();
                         Bundle args = new Bundle();
-                        args.putInt("acd", i);
+                        args.putInt("perf", perf_id);
                         fragment.setArguments(args);
 
                         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -130,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
                     case (1):
                         PatioFragment fragment1 = new PatioFragment();
                         Bundle args1 = new Bundle();
-                        args1.putInt("acd", i);
+                        args1.putInt("perf", perf_id);
                         fragment1.setArguments(args1);
 
                         FragmentManager fragmentManager1 = getSupportFragmentManager();
@@ -145,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
                     case (2):
                         CocheraFragment fragment2 = new CocheraFragment();
                         Bundle args2 = new Bundle();
-                        args2.putInt("acd", i);
+                        args2.putInt("perf", perf_id);
                         fragment2.setArguments(args2);
 
                         FragmentManager fragmentManager2 = getSupportFragmentManager();
@@ -160,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
                     case (3):
                         SalaFragment fragment3 = new SalaFragment();
                         Bundle args3 = new Bundle();
-                        args3.putInt("acd", i);
+                        args3.putInt("perf", perf_id);
                         fragment3.setArguments(args3);
 
                         FragmentManager fragmentManager3 = getSupportFragmentManager();
@@ -175,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
                     case (4):
                         Hab1Fragment fragment4 = new Hab1Fragment();
                         Bundle args4 = new Bundle();
-                        args4.putInt("acd", i);
+                        args4.putInt("perf", perf_id);
                         fragment4.setArguments(args4);
 
                         FragmentManager fragmentManager4 = getSupportFragmentManager();
@@ -190,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
                     case (5):
                         Hab2Fragment fragment5 = new Hab2Fragment();
                         Bundle args5 = new Bundle();
-                        args5.putInt("acd", i);
+                        args5.putInt("perf", perf_id);
                         fragment5.setArguments(args5);
 
                         FragmentManager fragmentManager5 = getSupportFragmentManager();
@@ -205,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
                     case (6):
                         AlarmsFragment fragment6 = new AlarmsFragment();
                         Bundle args6 = new Bundle();
-                        args6.putInt("acd", i);
+                        args6.putInt("perf", perf_id);
                         fragment6.setArguments(args6);
 
                         FragmentManager fragmentManager6 = getSupportFragmentManager();
@@ -220,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
                     case (7):
                         PerfilFragment fragment7 = new PerfilFragment();
                         Bundle args7 = new Bundle();
-                        args7.putInt("acd", i);
+                        args7.putInt("perf", perf_id);
                         fragment7.setArguments(args7);
 
                         FragmentManager fragmentManager7 = getSupportFragmentManager();
@@ -422,6 +425,10 @@ public class MainActivity extends AppCompatActivity {
 
     public int getuserid(){
         return cuenta_id;
+    }
+
+    public void setPerf_id(int id){
+        perf_id = id;
     }
 
     private void appendMessageText(String text) {
