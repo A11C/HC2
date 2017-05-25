@@ -146,6 +146,17 @@ public final class Home {
         return list;
     }
 
+    public int getIdCuenta(String usuario){
+        int id = 0;
+
+        ClassCursor cursor = new ClassCursor(db.rawQuery("SELECT id FROM cuentas WHERE usuario = '"+ usuario +"';", null));
+        while (cursor.moveToNext()) {
+            id = cursor.getInt(0);
+        }
+        cursor.close();
+        return id;
+    }
+
     public List<Perfiles> getAllPerfiles(int usuario_id) {
         ArrayList<Perfiles> list = new ArrayList<Perfiles>();
 
