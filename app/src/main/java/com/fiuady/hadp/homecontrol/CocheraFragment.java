@@ -14,9 +14,13 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fiuady.db.Home;
+import com.fiuady.db.Pin_puerta;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 
 
 /**
@@ -36,11 +40,15 @@ public class CocheraFragment extends Fragment implements mDialogFragment.mDialog
     private Switch puerta;
     private TextView estado;
     private BluetoothSocket connectedSocket;
+    private int perfid;
+    private Home home;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         connectedSocket = ((MainActivity) getActivity()).Socket();
+        home = new Home(getContext());
+        perfid = getArguments().getInt("perfid");
     }
 
     @Override
@@ -70,7 +78,9 @@ public class CocheraFragment extends Fragment implements mDialogFragment.mDialog
 
     @Override
     public void pinswitch(String pin) {
-        if (pin.equals("1234")) {
+        ArrayList<Pin_puerta> pin_puertas = new ArrayList<>(home.getAllPines(((MainActivity)getActivity()).getuserid()));
+        Pin_puerta pin_puerta = pin_puertas.get(0);
+        if(pin.equals(pin_puerta.getPin())){
             SendCommand("S2a.");
         } else {
             puerta.setChecked(false);
@@ -79,9 +89,9 @@ public class CocheraFragment extends Fragment implements mDialogFragment.mDialog
 
     public void state_change(String text) {
         if (text.equals("RS5A")) {
-            estado.setText("Cerrada");
-        } else if (text.equals("RS5C")) {
             estado.setText("Abierta");
+        } else if (text.equals("RS5C")) {
+            estado.setText("Cerrada");
         }
     }
 

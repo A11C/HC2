@@ -17,7 +17,7 @@ INSERT INTO pin_puerta (id, usuario_id, pin) VALUES (1, 1, 5678);
 INSERT INTO pin_puerta (id, usuario_id, pin) VALUES (2, 2, 9876);
 INSERT INTO pin_puerta (id, usuario_id, pin) VALUES (3, 3, 1111);
 
-INSERT INTO area_cochera (id, perfil_id, puerta) VALUES (0, 0, 'S2c.');
+INSERT INTO area_cochera (id, perfil_id, puerta) VALUES (0, 0, 'S2a.');
 INSERT INTO area_cochera (id, perfil_id, puerta) VALUES (1, 1, 'S2c.');
 INSERT INTO area_cochera (id, perfil_id, puerta) VALUES (2, 2, 'S2c.');
 INSERT INTO area_cochera (id, perfil_id, puerta) VALUES (3, 3, 'S2c.');
@@ -26,7 +26,7 @@ INSERT INTO area_cochera (id, perfil_id, puerta) VALUES (5, 5, 'S2c.');
 INSERT INTO area_cochera (id, perfil_id, puerta) VALUES (6, 6, 'S2c.');
 INSERT INTO area_cochera (id, perfil_id, puerta) VALUES (7, 7, 'S2c.');
 
-INSERT INTO area_frente (id, perfil_id, puerta, luz, sensor, intensidad) VALUES (0, 0, 'S1a.', 'L1d.','D1a.', '255.');
+INSERT INTO area_frente (id, perfil_id, puerta, luz, sensor, intensidad) VALUES (0, 0, 'S1a.', 'L1d.','D1a.', '255');
 INSERT INTO area_frente (id, perfil_id, puerta, luz, sensor, intensidad) VALUES (1, 1, 'S1c.', 'L1d.','D1a.', '150');
 INSERT INTO area_frente (id, perfil_id, puerta, luz, sensor, intensidad) VALUES (2, 2, 'S1c.', 'L1d.','D1a.', '135');
 INSERT INTO area_frente (id, perfil_id, puerta, luz, sensor, intensidad) VALUES (3, 3, 'S1c.', 'L1d.','D1a.', '200');

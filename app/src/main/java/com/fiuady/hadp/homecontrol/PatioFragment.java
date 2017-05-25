@@ -16,9 +16,13 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fiuady.db.Area_patio;
+import com.fiuady.db.Home;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 
 
 /**
@@ -40,6 +44,8 @@ public class PatioFragment extends Fragment {
     private CheckBox extchk;
     private TextView temptext;
     private int intext = 255, intpisc = 255;
+    private int perfid;
+    private Home home;
 
     private BluetoothSocket connectedSocket;
 
@@ -47,6 +53,8 @@ public class PatioFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         connectedSocket = ((MainActivity) getActivity()).Socket();
+        perfid = getArguments().getInt("perfid");
+        home = new Home(getContext());
         SendCommand("T3a.");
     }
 
@@ -67,16 +75,40 @@ public class PatioFragment extends Fragment {
 
         temptext = (TextView) rootView.findViewById(R.id.act_temp_patio_text);
 
+        ArrayList<Area_patio> area_patios = new ArrayList<>(home.getAllPatio(perfid));
+        Area_patio area_patio = area_patios.get(0);
+
+        intext = Integer.valueOf(area_patio.getIntenext());
+        extsb.setProgress(intext);
+
+        if(area_patio.getLuzext().equals("L2d.")){
+            exts.setChecked(false);
+        }else{
+            exts.setChecked(true);
+        }
+
         exts.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (exts.isChecked()) {
                     SendCommand("L2" + intext + ".");
+                    home.updatePatioLuzExt(perfid,"L2a");
                 } else {
                     SendCommand("L2d.");
+                    home.updatePatioLuzExt(perfid,"L2d.");
                 }
             }
         });
+
+        intpisc = Integer.valueOf(area_patio.getIntenpisci());
+        piscsb.setProgress(intpisc);
+
+        if(area_patio.getLuzpisci().equals("L3d.")){
+            piscs.setChecked(false);
+        }else{
+            piscs.setChecked(true);
+        }
+
 
         piscs.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -128,6 +160,12 @@ public class PatioFragment extends Fragment {
 
             }
         });
+
+        if(area_patio.getSensorext().equals("D2a.")){
+            extchk.setChecked(true);
+        }else{
+            extchk.setChecked(false);
+        }
 
         extchk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

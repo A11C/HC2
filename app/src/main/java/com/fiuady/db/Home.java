@@ -187,7 +187,7 @@ public final class Home {
     public List<Pin_puerta> getAllPines(int perfil_id) {
         ArrayList<Pin_puerta> list = new ArrayList<Pin_puerta>();
 
-        ClassCursor cursor = new ClassCursor(db.rawQuery("SELECT * FROM pin_puerta WHERE perfil_id = " + perfil_id + " ORDER BY id ASC;", null));
+        ClassCursor cursor = new ClassCursor(db.rawQuery("SELECT * FROM pin_puerta WHERE usuario_id = " + perfil_id + " ORDER BY id ASC;", null));
         while (cursor.moveToNext()) {
             list.add(cursor.getPin_puerta());
         }
@@ -244,10 +244,10 @@ public final class Home {
         return list;
     }
 
-    public List<Area_patio> getAllPatio() {
+    public List<Area_patio> getAllPatio(int perfil_id) {
         ArrayList<Area_patio> list = new ArrayList<Area_patio>();
 
-        ClassCursor cursor = new ClassCursor(db.rawQuery("SELECT * FROM area_patio ORDER BY id ASC;", null));
+        ClassCursor cursor = new ClassCursor(db.rawQuery("SELECT * FROM area_patio WHERE perfil_id = " + perfil_id + " ORDER BY id ASC;", null));
         while (cursor.moveToNext()) {
             list.add(cursor.getPatio());
         }
@@ -336,8 +336,8 @@ public final class Home {
     public void updateHab1TempMin(int perfil_id, String tempmin) {
         db.execSQL("UPDATE area_hab1 SET tempmin = '" + tempmin + "' WHERE perfil_id = " + String.valueOf(perfil_id));
     }
-    public void updateHab1TempMax(int perfil_id, String tempsmax) {
-        db.execSQL("UPDATE area_hab1 SET tempsmax = '" + tempsmax + "' WHERE perfil_id = " + String.valueOf(perfil_id));
+    public void updateHab1TempMax(int perfil_id, String tempmax) {
+        db.execSQL("UPDATE area_hab1 SET tempmax = '" + tempmax + "' WHERE perfil_id = " + String.valueOf(perfil_id));
     }
 
     public void updateHab2Luz(int perfil_id, String luz) {
@@ -358,8 +358,8 @@ public final class Home {
     public void updateHab2TempMin(int perfil_id, String tempmin) {
         db.execSQL("UPDATE area_hab2 SET tempmin = '" + tempmin + "' WHERE perfil_id = " + String.valueOf(perfil_id));
     }
-    public void updateHab2TempMax(int perfil_id, String tempsmax) {
-        db.execSQL("UPDATE area_hab2 SET tempsmax = '" + tempsmax + "' WHERE perfil_id = " + String.valueOf(perfil_id));
+    public void updateHab2TempMax(int perfil_id, String tempmax) {
+        db.execSQL("UPDATE area_hab2 SET tempmax = '" + tempmax + "' WHERE perfil_id = " + String.valueOf(perfil_id));
     }
 
     public void updatePatioLuzExt(int perfil_id, String luzext) {

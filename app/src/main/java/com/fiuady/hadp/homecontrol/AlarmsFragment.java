@@ -14,9 +14,13 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.fiuady.db.Alarmas;
+import com.fiuady.db.Home;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 
 
 /**
@@ -38,10 +42,15 @@ public class AlarmsFragment extends Fragment {
     private String ini = "Aa000000.";
     private Button off;
 
+    private int perfid;
+    private Home home;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         connectedSocket = ((MainActivity) getActivity()).Socket();
+        perfid = getArguments().getInt("perfid");
+        home = new Home(getContext());
     }
 
     @Override
@@ -58,6 +67,43 @@ public class AlarmsFragment extends Fragment {
         vent2 = (Switch) rootView.findViewById(R.id.vent_hab2_sw);
         pir = (Switch) rootView.findViewById(R.id.sens_mov_sw);
         off = (Button) rootView.findViewById(R.id.btn_desact);
+
+        ArrayList<Alarmas> alarmases = new ArrayList<>(home.getAlmarmas(perfid));
+        Alarmas alarmas = alarmases.get(0);
+
+        ini = "Aa"+alarmas.getSensor()+alarmas.getHabitacion2()+alarmas.getHabitacion1()+alarmas.getSala()+alarmas.getCochera()+alarmas.getPuerta()+".";
+
+        if(alarmas.getPuerta().equals("1")){
+            prtaf.setChecked(true);
+        }else{
+            prtaf.setChecked(false);
+        }
+        if(alarmas.getCochera().equals("1")){
+            cochera.setChecked(true);
+        }else{
+            cochera.setChecked(false);
+        }
+        if(alarmas.getSala().equals("1")){
+            vents.setChecked(true);
+        }else{
+            vents.setChecked(false);
+        }
+        if(alarmas.getHabitacion1().equals("1")){
+            vent1.setChecked(true);
+        }else{
+            vent1.setChecked(false);
+        }
+        if(alarmas.getHabitacion2().equals("1")){
+            vent2.setChecked(true);
+        }else{
+            vent2.setChecked(false);
+        }
+        if(alarmas.getSensor().equals("1")){
+            pir.setChecked(true);
+        }else{
+            pir.setChecked(false);
+        }
+
 
         all.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

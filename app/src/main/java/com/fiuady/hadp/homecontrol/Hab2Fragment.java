@@ -16,6 +16,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fiuady.db.Area_hab2;
+import com.fiuady.db.Home;
 import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.OnColorSelectedListener;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
@@ -24,6 +26,7 @@ import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 
 
 /**
@@ -48,11 +51,14 @@ public class Hab2Fragment extends Fragment {
     private BluetoothSocket connectedSocket;
 
     private float valtemp;
+    private int perfid;
+    private Home home;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         connectedSocket = ((MainActivity) getActivity()).Socket();
+        perfid = getArguments().getInt("perfid");
         SendCommand("T2a.");
     }
 
@@ -62,8 +68,9 @@ public class Hab2Fragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_hab2, container, false);
 
-        view = rootView.findViewById(R.id.color_picker2);
+        home = new Home(getContext());
 
+        view = rootView.findViewById(R.id.color_picker2);
         vent2 = (Switch) rootView.findViewById(R.id.ventana2_switch);
         luzhab2 = (Switch) rootView.findViewById(R.id.luz_hab2_switch);
         venti2s = (Switch) rootView.findViewById(R.id.ventilador_hab2_switch);
@@ -80,13 +87,25 @@ public class Hab2Fragment extends Fragment {
         tempmax.setWrapSelectorWheel(true);
         temp = (TextView) rootView.findViewById(R.id.temp_hab2);
 
+        ArrayList<Area_hab2> area_hab2s = new ArrayList<>(home.getAllHabitacion2(perfid));
+        Area_hab2 area_hab2 = area_hab2s.get(0);
+
+        color = "R2"+area_hab2.getRgb()+".";
+        if(area_hab2.getLuz().equals("R2d.")){
+            luzhab2.setChecked(false);
+        }else{
+            luzhab2.setChecked(true);
+        }
+
         luzhab2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (luzhab2.isChecked()) {
                     SendCommand(color);
+                    home.updateHab2Luz(perfid,"R1a");
                 } else {
                     SendCommand("R2d.");
+                    home.updateHab2Luz(perfid,"R2d.");
                 }
             }
         });
@@ -127,17 +146,32 @@ public class Hab2Fragment extends Fragment {
             }
         });
 
+        if(area_hab2.getVentilador().equals("V1a.")){
+            venti2s.setChecked(true);
+        }else{
+            venti2s.setChecked(false);
+        }
+
         venti2s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (venti2s.isChecked()) {
                     SendCommand("V2a.");
-
+                    home.updateHab2Ventilador(perfid,"V1a.");
                 } else {
                     SendCommand("V2d.");
+                    home.updateHab2Ventilador(perfid,"V1d.");
                 }
             }
         });
+
+        tempmin.setValue(Integer.valueOf(area_hab2.getTempmin()));
+        tempmax.setValue(Integer.valueOf(area_hab2.getTempmax()));
+        if(area_hab2.getAutoventi().equals("C2d.")){
+            venticonts.setChecked(false);
+        }else{
+            venticonts.setChecked(true);
+        }
 
         venticonts.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -150,8 +184,10 @@ public class Hab2Fragment extends Fragment {
                         min = String.valueOf(tempmin.getValue());
                     }
                     SendCommand("C2a"+min+tempmax.getValue()+".");
+                    home.updateHab2Autoventi(perfid,"C1a");
                 }else{
                     SendCommand("C2d.");
+                    home.updateHab2Autoventi(perfid,"C1d.");
                     SendCommand("V2d.");
                 }
             }
@@ -169,6 +205,7 @@ public class Hab2Fragment extends Fragment {
                     }
                     SendCommand("C2a"+min+tempmax+".");
                 }
+                home.updateHab2TempMin(perfid, String.valueOf(tempmin.getValue()));
             }
         });
 
@@ -184,6 +221,7 @@ public class Hab2Fragment extends Fragment {
                     }
                     SendCommand("C2a"+min+tempmax+".");
                 }
+                home.updateHab2TempMax(perfid,String.valueOf(tempmax.getValue()));
             }
         });
 
@@ -232,6 +270,7 @@ public class Hab2Fragment extends Fragment {
             azul = Integer.toString(a);
         }
 
+        home.updateHab2Rgb(perfid,rojo+verde+azul);
         color = "R2" + rojo + verde + azul + ".";
         if (luzhab2.isChecked()) {
             SendCommand(color);

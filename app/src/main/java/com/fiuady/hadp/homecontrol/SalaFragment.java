@@ -21,11 +21,16 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fiuady.db.Area_sala;
+import com.fiuady.db.Home;
+import com.fiuady.db.Pin_puerta;
+
 import org.w3c.dom.Text;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 
 
 /**
@@ -44,11 +49,15 @@ public class SalaFragment extends Fragment implements mDialogFragment.mDialogFra
 
     private Switch puertas, vents;
     private TextView pir, temp;
+    private int perfid;
+    private Home home;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         connectedSocket = ((MainActivity)getActivity()).Socket();
+        perfid = getArguments().getInt("perfid");
+        home = new Home(getContext());
         SendCommand("T4a.");
     }
 
@@ -62,6 +71,15 @@ public class SalaFragment extends Fragment implements mDialogFragment.mDialogFra
 
         pir = (TextView) rootView.findViewById(R.id.sensor_mov_text);
         temp = (TextView) rootView.findViewById(R.id.act_temp_sala_text);
+
+        ArrayList<Area_sala> area_salas = new ArrayList<>(home.getAllSala(perfid));
+        Area_sala area_sala = area_salas.get(0);
+
+        if(area_sala.getPuerta().equals("S1c.")){
+            puertas.setChecked(false);
+        }else{
+            puertas.setChecked(true);
+        }
 
         puertas.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -125,7 +143,9 @@ public class SalaFragment extends Fragment implements mDialogFragment.mDialogFra
 
     @Override
     public void pinswitch(String pin) {
-        if(pin.equals("1234")){
+        ArrayList<Pin_puerta> pin_puertas = new ArrayList<>(home.getAllPines(((MainActivity)getActivity()).getuserid()));
+        Pin_puerta pin_puerta = pin_puertas.get(0);
+        if(pin.equals(pin_puerta.getPin())){
             SendCommand("S1a.");
         }else{
             puertas.setChecked(false);

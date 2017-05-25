@@ -40,13 +40,12 @@ public class LoginActivity extends AppCompatActivity {
                 check = home.checkCuenta(user_name.getText().toString(), pass_name.getText().toString());
                 if (check == 1) {
                     id_cuenta = home.getIdCuenta(user_name.getText().toString());
-                    Toast.makeText(LoginActivity.this, "Cuenta Aceptada " + id_cuenta, Toast.LENGTH_LONG).show();
+                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                    i.putExtra(MainActivity.EXTRA_ID,id_cuenta);
+                    startActivity(i);
                 } else {
                     Toast.makeText(LoginActivity.this, "Cuenta Rechazada", Toast.LENGTH_LONG).show();
                 }
-                Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                i.putExtra(MainActivity.EXTRA_ID,id_cuenta);
-                startActivity(i);
             }
         });
     }
