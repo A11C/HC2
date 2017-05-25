@@ -395,21 +395,21 @@ public final class Home {
     }
 
     public void updateAlarmaPuerta(int perfil_id, String puerta) {
-        db.execSQL("UPDATE area_patio SET puerta = '" + puerta + "' WHERE perfil_id = " + String.valueOf(perfil_id));
+        db.execSQL("UPDATE alarmas SET puerta = '" + puerta + "' WHERE perfil_id = " + String.valueOf(perfil_id));
     }
     public void updateAlarmaCochera(int perfil_id, String cochera) {
-        db.execSQL("UPDATE area_patio SET cochera = '" + cochera + "' WHERE perfil_id = " + String.valueOf(perfil_id));
+        db.execSQL("UPDATE alarmas SET cochera = '" + cochera + "' WHERE perfil_id = " + String.valueOf(perfil_id));
     }
     public void updateAlarmaSala(int perfil_id, String sala) {
-        db.execSQL("UPDATE area_patio SET sala = '" + sala + "' WHERE perfil_id = " + String.valueOf(perfil_id));
+        db.execSQL("UPDATE alarmas SET sala = '" + sala + "' WHERE perfil_id = " + String.valueOf(perfil_id));
     }
     public void updateAlarmaHab1(int perfil_id, String habitacion1) {
-        db.execSQL("UPDATE area_patio SET habitacion1 = '" + habitacion1 + "' WHERE perfil_id = " + String.valueOf(perfil_id));
+        db.execSQL("UPDATE alarmas SET habitacion1 = '" + habitacion1 + "' WHERE perfil_id = " + String.valueOf(perfil_id));
     }
     public void updateAlarmaHab2(int perfil_id, String habitacion2) {
-        db.execSQL("UPDATE area_patio SET habitacion2 = '" + habitacion2 + "' WHERE perfil_id = " + String.valueOf(perfil_id));
+        db.execSQL("UPDATE alarmas SET habitacion2 = '" + habitacion2 + "' WHERE perfil_id = " + String.valueOf(perfil_id));
     }
     public void updateAlarmaSensor(int perfil_id, String sensor) {
-        db.execSQL("UPDATE area_patio SET sensor = '" + sensor + "' WHERE perfil_id = " + String.valueOf(perfil_id));
+        db.execSQL("UPDATE alarmas SET sensor = '" + sensor + "' WHERE perfil_id = " + String.valueOf(perfil_id));
     }
 }

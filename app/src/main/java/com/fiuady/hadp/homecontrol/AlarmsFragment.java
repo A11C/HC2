@@ -164,8 +164,10 @@ public class AlarmsFragment extends Fragment {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (prtaf.isChecked()) {
                     newcommand(7, true);
+                    home.updateAlarmaPuerta(perfid,"1");
                 } else {
                     newcommand(7, false);
+                    home.updateAlarmaPuerta(perfid,"0");
                 }
             }
         });
@@ -175,8 +177,10 @@ public class AlarmsFragment extends Fragment {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (cochera.isChecked()) {
                     newcommand(6, true);
+                    home.updateAlarmaCochera(perfid,"1");
                 } else {
                     newcommand(6, false);
+                    home.updateAlarmaCochera(perfid,"0");
                 }
             }
         });
@@ -186,8 +190,10 @@ public class AlarmsFragment extends Fragment {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (vents.isChecked()) {
                     newcommand(5, true);
+                    home.updateAlarmaSala(perfid,"1");
                 } else {
                     newcommand(5, false);
+                    home.updateAlarmaSala(perfid,"0");
                 }
             }
         });
@@ -197,8 +203,10 @@ public class AlarmsFragment extends Fragment {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (vent1.isChecked()) {
                     newcommand(4, true);
+                    home.updateAlarmaHab1(perfid,"1");
                 } else {
                     newcommand(4, false);
+                    home.updateAlarmaHab1(perfid,"0");
                 }
             }
         });
@@ -208,8 +216,10 @@ public class AlarmsFragment extends Fragment {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (vent2.isChecked()) {
                     newcommand(3, true);
+                    home.updateAlarmaHab2(perfid,"1");
                 } else {
                     newcommand(3, false);
+                    home.updateAlarmaHab2(perfid,"0");
                 }
             }
         });
@@ -219,8 +229,10 @@ public class AlarmsFragment extends Fragment {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (pir.isChecked()) {
                     newcommand(2, true);
+                    home.updateAlarmaSensor(perfid,"1");
                 } else {
                     newcommand(2, false);
+                    home.updateAlarmaSensor(perfid,"0");
                 }
             }
         });
