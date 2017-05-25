@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_ENABLE_BT = 1;
     private static final UUID SERIAL_PORT_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
+    public static final String EXTRA_ID = "com.fiuady.hadp.homecontrol.extraid";
 
     private BluetoothSocket connectedSocket;
     private BluetoothDevice device;
@@ -72,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
     private CharSequence activityTitle;
     private CharSequence itemTitle;
 
+    private int cuenta_id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,8 +94,21 @@ public class MainActivity extends AppCompatActivity {
         items.add(new DrawerItem(tagTitles[5], R.drawable.ic_hab2));
         items.add(new DrawerItem(tagTitles[6], R.drawable.ic_alarm));
         items.add(new DrawerItem(tagTitles[7], R.drawable.ic_action_name));
+        items.add(new DrawerItem(tagTitles[8], R.drawable.ic_action_name));
 
         drawerList.setAdapter(new DrawerListAdapter(this, items));
+
+        Intent i = getIntent();
+        cuenta_id = i.getIntExtra(EXTRA_ID, 0);
+
+
+        PerfilFragment perfilFragment = new PerfilFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, perfilFragment).commit();
+        drawerList.setItemChecked(7, true);
+        itemTitle = tagTitles[7];
+        getSupportActionBar().setTitle(itemTitle);
+
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -200,7 +216,23 @@ public class MainActivity extends AppCompatActivity {
                         getSupportActionBar().setTitle(itemTitle);
                         drawerLayout.closeDrawer(drawerList);
                         break;
+
                     case (7):
+                        PerfilFragment fragment7 = new PerfilFragment();
+                        Bundle args7 = new Bundle();
+                        args7.putInt("acd", i);
+                        fragment7.setArguments(args7);
+
+                        FragmentManager fragmentManager7 = getSupportFragmentManager();
+                        fragmentManager7.beginTransaction().replace(R.id.content_frame, fragment7).commit();
+
+                        drawerList.setItemChecked(i, true);
+                        itemTitle = tagTitles[i];
+                        getSupportActionBar().setTitle(itemTitle);
+                        drawerLayout.closeDrawer(drawerList);
+                        break;
+
+                    case (8):
                         finish();
                 }
             }
@@ -388,6 +420,10 @@ public class MainActivity extends AppCompatActivity {
         return connectedSocket;
     }
 
+    public int getuserid(){
+        return cuenta_id;
+    }
+
     private void appendMessageText(String text) {
 
         Fragment f = getSupportFragmentManager().findFragmentById(R.id.content_frame);
@@ -396,14 +432,14 @@ public class MainActivity extends AppCompatActivity {
             Hab1Fragment hab1fragment = (Hab1Fragment) getSupportFragmentManager().findFragmentById(R.id.content_frame);
             if (text.startsWith("RS")) {
                 hab1fragment.state_change(text);
-            } else if(!text.startsWith("PIR")){
+            } else if (!text.startsWith("PIR")) {
                 hab1fragment.temp_change(text);
             }
         } else if (f instanceof Hab2Fragment) {
             Hab2Fragment hab2fragment = (Hab2Fragment) getSupportFragmentManager().findFragmentById(R.id.content_frame);
             if (text.startsWith("RS")) {
                 hab2fragment.state_change(text);
-            } else if(!text.startsWith("PIR")){
+            } else if (!text.startsWith("PIR")) {
                 hab2fragment.temp_change(text);
             }
         } else if (f instanceof FrenteFragment) {

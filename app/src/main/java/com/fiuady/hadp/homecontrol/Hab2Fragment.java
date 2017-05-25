@@ -132,8 +132,9 @@ public class Hab2Fragment extends Fragment {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (venti2s.isChecked()) {
                     SendCommand("V2a.");
+
                 } else {
-                    SendCommand("V1d.");
+                    SendCommand("V2d.");
                 }
             }
         });
@@ -148,9 +149,10 @@ public class Hab2Fragment extends Fragment {
                     } else {
                         min = String.valueOf(tempmin.getValue());
                     }
-                    SendCommand("C2a"+min+tempmax+".");
+                    SendCommand("C2a"+min+tempmax.getValue()+".");
                 }else{
                     SendCommand("C2d.");
+                    SendCommand("V2d.");
                 }
             }
         });

@@ -26,6 +26,8 @@ import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.fiuady.db.Home;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -49,6 +51,7 @@ public class FrenteFragment extends Fragment implements mDialogFragment.mDialogF
     private BluetoothSocket connectedSocket;
     private CheckBox chksens;
     private int valor = 255;
+    private Home home;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -153,6 +156,11 @@ public class FrenteFragment extends Fragment implements mDialogFragment.mDialogF
             Toast.makeText(getContext(), "[Error] Ocurrió un problema durante el envío de datos!", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 
     // // TODO: Rename method, update argument and hook method into UI event

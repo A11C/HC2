@@ -160,7 +160,7 @@ public final class Home {
     public List<Perfiles> getAllPerfiles(int usuario_id) {
         ArrayList<Perfiles> list = new ArrayList<Perfiles>();
 
-        ClassCursor cursor = new ClassCursor(db.rawQuery("SELECT * FROM perfiles WHERE usuario_id = "+ usuario_id +"ORDER BY id ASC;", null));
+        ClassCursor cursor = new ClassCursor(db.rawQuery("SELECT * FROM perfiles WHERE usuario_id = "+ usuario_id +" ORDER BY id ASC;", null));
         while (cursor.moveToNext()) {
             list.add(cursor.getPerfil());
         }
@@ -169,10 +169,24 @@ public final class Home {
         return list;
     }
 
-    public List<Pin_puerta> getAllPines() {
+    public int getIdPerfil(String perfil,int id){
+        int idp = 0;
+
+        List<Perfiles> perfiles = getAllPerfiles(id);
+        for(Perfiles perfiles1 : perfiles){
+            if(perfiles1.getDescripcion().toUpperCase().equals(perfil.toUpperCase())){
+                idp = perfiles1.getId();
+                break;
+            }
+        }
+
+        return idp;
+    }
+
+    public List<Pin_puerta> getAllPines(int perfil_id) {
         ArrayList<Pin_puerta> list = new ArrayList<Pin_puerta>();
 
-        ClassCursor cursor = new ClassCursor(db.rawQuery("SELECT * FROM pin_puerta ORDER BY id ASC;", null));
+        ClassCursor cursor = new ClassCursor(db.rawQuery("SELECT * FROM pin_puerta WHERE perfil_id = "+ perfil_id +" ORDER BY id ASC;", null));
         while (cursor.moveToNext()) {
             list.add(cursor.getPin_puerta());
         }
@@ -181,10 +195,10 @@ public final class Home {
         return list;
     }
 
-    public List<Area_cochera> getAllCochera() {
+    public List<Area_cochera> getAllCochera(int perfil_id) {
         ArrayList<Area_cochera> list = new ArrayList<Area_cochera>();
 
-        ClassCursor cursor = new ClassCursor(db.rawQuery("SELECT * FROM area_cochera ORDER BY id ASC;", null));
+        ClassCursor cursor = new ClassCursor(db.rawQuery("SELECT * FROM area_cochera WHERE perfil_id = "+ perfil_id +" ORDER BY id ASC;", null));
         while (cursor.moveToNext()) {
             list.add(cursor.getCochera());
         }
@@ -193,10 +207,10 @@ public final class Home {
         return list;
     }
 
-    public List<Area_frente> getAllFrente() {
+    public List<Area_frente> getAllFrente(int perfil_id) {
         ArrayList<Area_frente> list = new ArrayList<Area_frente>();
 
-        ClassCursor cursor = new ClassCursor(db.rawQuery("SELECT * FROM area_frente ORDER BY id ASC;", null));
+        ClassCursor cursor = new ClassCursor(db.rawQuery("SELECT * FROM area_frente WHERE perfil_id = "+ perfil_id +" ORDER BY id ASC;", null));
         while (cursor.moveToNext()) {
             list.add(cursor.getFrente());
         }
@@ -205,10 +219,10 @@ public final class Home {
         return list;
     }
 
-    public List<Area_hab1> getAllHabitacion1() {
+    public List<Area_hab1> getAllHabitacion1(int perfil_id) {
         ArrayList<Area_hab1> list = new ArrayList<Area_hab1>();
 
-        ClassCursor cursor = new ClassCursor(db.rawQuery("SELECT * FROM area_hab1 ORDER BY id ASC;", null));
+        ClassCursor cursor = new ClassCursor(db.rawQuery("SELECT * FROM area_hab1 WHERE perfil_id = "+ perfil_id +" ORDER BY id ASC;", null));
         while (cursor.moveToNext()) {
             list.add(cursor.getHabitacion1());
         }
@@ -217,10 +231,10 @@ public final class Home {
         return list;
     }
 
-    public List<Area_hab2> getAllHabitacion2() {
+    public List<Area_hab2> getAllHabitacion2(int perfil_id) {
         ArrayList<Area_hab2> list = new ArrayList<Area_hab2>();
 
-        ClassCursor cursor = new ClassCursor(db.rawQuery("SELECT * FROM area_hab2 ORDER BY id ASC;", null));
+        ClassCursor cursor = new ClassCursor(db.rawQuery("SELECT * FROM area_hab2 WHERE perfil_id = "+ perfil_id +" ORDER BY id ASC;", null));
         while (cursor.moveToNext()) {
             list.add(cursor.getHabitacion2());
         }
@@ -241,10 +255,10 @@ public final class Home {
         return list;
     }
 
-    public List<Area_sala> getAllSala() {
+    public List<Area_sala> getAllSala(int perfil_id) {
         ArrayList<Area_sala> list = new ArrayList<Area_sala>();
 
-        ClassCursor cursor = new ClassCursor(db.rawQuery("SELECT * FROM area_sala ORDER BY id ASC;", null));
+        ClassCursor cursor = new ClassCursor(db.rawQuery("SELECT * FROM area_sala WHERE perfil_id = "+ perfil_id +" ORDER BY id ASC;", null));
         while (cursor.moveToNext()) {
             list.add(cursor.getSala());
         }
@@ -253,10 +267,10 @@ public final class Home {
         return list;
     }
 
-    public List<Alarmas> getAlmarmas() {
+    public List<Alarmas> getAlmarmas(int perfil_id) {
         ArrayList<Alarmas> list = new ArrayList<Alarmas>();
 
-        ClassCursor cursor = new ClassCursor(db.rawQuery("SELECT * FROM alarmas ORDER BY id ASC;", null));
+        ClassCursor cursor = new ClassCursor(db.rawQuery("SELECT * FROM alarmas WHERE perfil_id = "+ perfil_id +" ORDER BY id ASC;", null));
         while (cursor.moveToNext()) {
             list.add(cursor.getAlarma());
         }

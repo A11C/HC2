@@ -7,6 +7,15 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import com.fiuady.db.Home;
+import com.fiuady.db.Perfiles;
+
+import java.util.ArrayList;
 
 
 /**
@@ -19,16 +28,40 @@ public class PerfilFragment extends Fragment {
 
   //  private OnFragmentInteractionListener mListener;
 
+    private Home home;
+
     public PerfilFragment() {
         // Required empty public constructor
     }
+
+    private ListView listView;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_perfil, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_perfil, container, false);
+        home = new Home(getContext());
+
+        listView = (ListView) rootView.findViewById(R.id.perfil_list);
+
+        ArrayList<Perfiles> arrayList = new ArrayList<>(home.getAllPerfiles(((MainActivity)getActivity()).getuserid()));
+        ArrayList<String> arrayList1 = new ArrayList<>();
+        for(Perfiles perfiles : arrayList){
+            arrayList1.add(perfiles.getDescripcion());
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_checked,arrayList1);
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(getContext(), Integer.toString(i), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        return rootView;
     }
 
  /*   // TODO: Rename method, update argument and hook method into UI event

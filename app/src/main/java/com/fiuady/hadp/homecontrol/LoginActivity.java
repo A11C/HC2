@@ -45,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Cuenta Rechazada", Toast.LENGTH_LONG).show();
                 }
                 Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                i.putExtra(MainActivity.EXTRA_ID,id_cuenta);
                 startActivity(i);
             }
         });

@@ -154,6 +154,7 @@ public class Hab1Fragment extends Fragment {
                     SendCommand("C1a" + min + tempmax.getValue() + ".");
                 } else {
                     SendCommand("C1d.");
+                    SendCommand("V1d.");
                 }
             }
         });
