@@ -146,10 +146,10 @@ public final class Home {
         return list;
     }
 
-    public List<Perfiles> getAllPerfiles() {
+    public List<Perfiles> getAllPerfiles(int usuario_id) {
         ArrayList<Perfiles> list = new ArrayList<Perfiles>();
 
-        ClassCursor cursor = new ClassCursor(db.rawQuery("SELECT * FROM perfiles ORDER BY id ASC;", null));
+        ClassCursor cursor = new ClassCursor(db.rawQuery("SELECT * FROM perfiles WHERE usuario_id = "+ usuario_id +"ORDER BY id ASC;", null));
         while (cursor.moveToNext()) {
             list.add(cursor.getPerfil());
         }
