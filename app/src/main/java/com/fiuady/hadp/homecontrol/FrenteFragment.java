@@ -104,8 +104,8 @@ public class FrenteFragment extends Fragment implements mDialogFragment.mDialogF
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 if (luzfrente.isChecked()) {
                     SendCommand("L1"+i+".");
-                   home.updateFrenteIntensidad(perfid,"i");
                 }
+                home.updateFrenteIntensidad(perfid,String.valueOf(i));
                 valor = i;
             }
 

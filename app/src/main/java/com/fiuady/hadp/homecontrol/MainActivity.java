@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     private CharSequence activityTitle;
     private CharSequence itemTitle;
 
-    private int cuenta_id,perf_id;
+    private int cuenta_id, perf_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
         PerfilFragment perfilFragment = new PerfilFragment();
         Bundle args = new Bundle();
-        args.putInt("userid",cuenta_id);
+        args.putInt("userid", cuenta_id);
         perfilFragment.setArguments(args);
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, perfilFragment).commit();
@@ -423,11 +423,11 @@ public class MainActivity extends AppCompatActivity {
         return connectedSocket;
     }
 
-    public int getuserid(){
+    public int getuserid() {
         return cuenta_id;
     }
 
-    public void setPerf_id(int id){
+    public void setPerf_id(int id) {
         perf_id = id;
     }
 
@@ -455,7 +455,7 @@ public class MainActivity extends AppCompatActivity {
             PatioFragment patioFragment = (PatioFragment) getSupportFragmentManager().findFragmentById(R.id.content_frame);
             if (text.startsWith("RS")) {
                 patioFragment.state_change(text);
-            } else {
+            } else if (!text.startsWith("PIR")) {
                 patioFragment.temp_change(text);
             }
         } else if (f instanceof SalaFragment) {
@@ -469,7 +469,9 @@ public class MainActivity extends AppCompatActivity {
             }
         } else if (f instanceof CocheraFragment) {
             CocheraFragment cocheraFragment = (CocheraFragment) getSupportFragmentManager().findFragmentById(R.id.content_frame);
-            cocheraFragment.state_change(text);
+            if (!text.startsWith("PIR")) {
+                cocheraFragment.state_change(text);
+            }
         } else if (f instanceof AlarmsFragment) {
             AlarmsFragment alarmsFragment = (AlarmsFragment) getSupportFragmentManager().findFragmentById(R.id.content_frame);
         }

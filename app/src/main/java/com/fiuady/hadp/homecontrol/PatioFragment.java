@@ -115,8 +115,10 @@ public class PatioFragment extends Fragment {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (piscs.isChecked()) {
                     SendCommand("L3"+intpisc+".");
+                    home.updatePatioLuzPisci(perfid,"L3a");
                 } else {
                     SendCommand("L3d.");
+                    home.updatePatioLuzPisci(perfid,"L3a");
                 }
             }
         });
@@ -128,6 +130,7 @@ public class PatioFragment extends Fragment {
                     SendCommand("L2"+i+".");
                 }
                 intext = i;
+                home.updatePatioIntenExt(perfid,String.valueOf(i));
             }
 
             @Override
@@ -148,6 +151,7 @@ public class PatioFragment extends Fragment {
                     SendCommand("L3"+i+".");
                 }
                 intpisc = i;
+                home.updatePatioIntenPisci(perfid,String.valueOf(i));
             }
 
             @Override
@@ -172,8 +176,10 @@ public class PatioFragment extends Fragment {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (extchk.isChecked()) {
                     SendCommand("D2a.");
+                    home.updatePatioSensorExt(perfid,"D2a.");
                 } else {
                     SendCommand("D2d.");
+                    home.updatePatioSensorExt(perfid,"D2d.");
                 }
             }
         });
