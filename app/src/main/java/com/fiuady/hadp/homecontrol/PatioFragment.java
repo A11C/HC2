@@ -83,8 +83,10 @@ public class PatioFragment extends Fragment {
 
         if(area_patio.getLuzext().equals("L2d.")){
             exts.setChecked(false);
+            SendCommand("L2d.");
         }else{
             exts.setChecked(true);
+            SendCommand("L2" + intext + ".");
         }
 
         exts.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -105,8 +107,10 @@ public class PatioFragment extends Fragment {
 
         if(area_patio.getLuzpisci().equals("L3d.")){
             piscs.setChecked(false);
+            SendCommand("L3d.");
         }else{
             piscs.setChecked(true);
+            SendCommand("L3"+intpisc+".");
         }
 
 
@@ -167,7 +171,9 @@ public class PatioFragment extends Fragment {
 
         if(area_patio.getSensorext().equals("D2a.")){
             extchk.setChecked(true);
+            SendCommand("D2a.");
         }else{
+            SendCommand("D2d.");
             extchk.setChecked(false);
         }
 

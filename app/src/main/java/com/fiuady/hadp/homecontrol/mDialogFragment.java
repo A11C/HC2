@@ -17,6 +17,8 @@ import android.widget.EditText;
 public class mDialogFragment extends DialogFragment {
 
     private mDialogFragmentListener callback;
+    private String pin = "";
+    private boolean okpress = false;
 
     public interface mDialogFragmentListener {
         public void pinswitch(String pin);
@@ -44,6 +46,7 @@ public class mDialogFragment extends DialogFragment {
         et.setInputType(InputType.TYPE_CLASS_NUMBER);
         et.setTransformationMethod(PasswordTransformationMethod.getInstance());
         et.setFilters(new InputFilter[]{new InputFilter.LengthFilter(4)});
+
         return new AlertDialog.Builder(getActivity())
                 .setTitle("Escriba su PIN")
                 .setView(et)
@@ -51,10 +54,19 @@ public class mDialogFragment extends DialogFragment {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        okpress = true;
                         callback.pinswitch(et.getText().toString());
                     }
                 })
                 .setCancelable(false)
                 .create();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if(!okpress) {
+            callback.pinswitch(pin);
+        }
     }
 }

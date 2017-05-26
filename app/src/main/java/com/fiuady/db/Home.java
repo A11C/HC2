@@ -412,4 +412,8 @@ public final class Home {
     public void updateAlarmaSensor(int perfil_id, String sensor) {
         db.execSQL("UPDATE alarmas SET sensor = '" + sensor + "' WHERE perfil_id = " + String.valueOf(perfil_id));
     }
+
+    public void updatePIN(int user_id,String pin){
+        db.execSQL("UPDATE pin_puerta SET pin = '" + pin + "' WHERE usuario_id = " + String.valueOf(user_id));
+    }
 }

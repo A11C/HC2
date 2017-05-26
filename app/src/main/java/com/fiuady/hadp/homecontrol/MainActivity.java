@@ -1,17 +1,26 @@
 package com.fiuady.hadp.homecontrol;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.InputType;
+import android.text.method.PasswordTransformationMethod;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,6 +29,9 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.fiuady.db.Home;
+import com.fiuady.db.Pin_puerta;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -63,15 +75,18 @@ public class MainActivity extends AppCompatActivity {
         protected void onProgressUpdate(String... values) {
             appendMessageText(values[0]);
         }
+
     }
 
 
     private String[] tagTitles;
+    private String pin = "";
     private DrawerLayout drawerLayout;
     private ListView drawerList;
     private ActionBarDrawerToggle drawerToggle;
     private CharSequence activityTitle;
     private CharSequence itemTitle;
+    private Home home;
 
     private int cuenta_id, perf_id;
 
@@ -79,6 +94,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        home = new Home(getApplication().getApplicationContext());
 
         itemTitle = activityTitle = getTitle();
         tagTitles = getResources().getStringArray(R.array.Tags);
@@ -93,8 +111,9 @@ public class MainActivity extends AppCompatActivity {
         items.add(new DrawerItem(tagTitles[4], R.drawable.ic_hab));
         items.add(new DrawerItem(tagTitles[5], R.drawable.ic_hab2));
         items.add(new DrawerItem(tagTitles[6], R.drawable.ic_alarm));
-        items.add(new DrawerItem(tagTitles[7], R.drawable.ic_action_name));
-        items.add(new DrawerItem(tagTitles[8], R.drawable.ic_action_name));
+        items.add(new DrawerItem(tagTitles[7], R.drawable.ic_perfiles));
+        items.add(new DrawerItem(tagTitles[8], R.drawable.ic_redkey));
+        items.add(new DrawerItem(tagTitles[9], R.drawable.ic_cerrar));
 
         drawerList.setAdapter(new DrawerListAdapter(this, items));
 
@@ -119,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
                     case (0):
                         FrenteFragment fragment = new FrenteFragment();
                         Bundle args = new Bundle();
-                        args.putInt("perf", perf_id);
+                        args.putInt("perfid", perf_id);
                         fragment.setArguments(args);
 
                         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -133,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
                     case (1):
                         PatioFragment fragment1 = new PatioFragment();
                         Bundle args1 = new Bundle();
-                        args1.putInt("perf", perf_id);
+                        args1.putInt("perfid", perf_id);
                         fragment1.setArguments(args1);
 
                         FragmentManager fragmentManager1 = getSupportFragmentManager();
@@ -148,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
                     case (2):
                         CocheraFragment fragment2 = new CocheraFragment();
                         Bundle args2 = new Bundle();
-                        args2.putInt("perf", perf_id);
+                        args2.putInt("perfid", perf_id);
                         fragment2.setArguments(args2);
 
                         FragmentManager fragmentManager2 = getSupportFragmentManager();
@@ -163,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
                     case (3):
                         SalaFragment fragment3 = new SalaFragment();
                         Bundle args3 = new Bundle();
-                        args3.putInt("perf", perf_id);
+                        args3.putInt("perfid", perf_id);
                         fragment3.setArguments(args3);
 
                         FragmentManager fragmentManager3 = getSupportFragmentManager();
@@ -178,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
                     case (4):
                         Hab1Fragment fragment4 = new Hab1Fragment();
                         Bundle args4 = new Bundle();
-                        args4.putInt("perf", perf_id);
+                        args4.putInt("perfid", perf_id);
                         fragment4.setArguments(args4);
 
                         FragmentManager fragmentManager4 = getSupportFragmentManager();
@@ -193,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
                     case (5):
                         Hab2Fragment fragment5 = new Hab2Fragment();
                         Bundle args5 = new Bundle();
-                        args5.putInt("perf", perf_id);
+                        args5.putInt("perfid", perf_id);
                         fragment5.setArguments(args5);
 
                         FragmentManager fragmentManager5 = getSupportFragmentManager();
@@ -208,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
                     case (6):
                         AlarmsFragment fragment6 = new AlarmsFragment();
                         Bundle args6 = new Bundle();
-                        args6.putInt("perf", perf_id);
+                        args6.putInt("perfid", perf_id);
                         fragment6.setArguments(args6);
 
                         FragmentManager fragmentManager6 = getSupportFragmentManager();
@@ -223,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
                     case (7):
                         PerfilFragment fragment7 = new PerfilFragment();
                         Bundle args7 = new Bundle();
-                        args7.putInt("perf", perf_id);
+                        args7.putInt("userid", cuenta_id);
                         fragment7.setArguments(args7);
 
                         FragmentManager fragmentManager7 = getSupportFragmentManager();
@@ -236,6 +255,75 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case (8):
+
+                        drawerList.setItemChecked(i, true);
+                        drawerLayout.closeDrawer(drawerList);
+                        final EditText et = new EditText(MainActivity.this);
+                        et.setInputType(InputType.TYPE_CLASS_NUMBER);
+                        et.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                        et.setFilters(new InputFilter[]{new InputFilter.LengthFilter(4)});
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                        builder.setTitle("Escriba su PIN")
+                                .setView(et)
+                                .setIcon(R.drawable.ic_key)
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        ArrayList<Pin_puerta> pin_puertas = new ArrayList<>(home.getAllPines(cuenta_id));
+                                        Pin_puerta pin_puerta = pin_puertas.get(0);
+                                        if (et.getText().toString().equals(pin_puerta.getPin())) {
+                                            final EditText et2 = new EditText(MainActivity.this);
+                                            et2.setInputType(InputType.TYPE_CLASS_NUMBER);
+                                            et2.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                                            et2.setFilters(new InputFilter[]{new InputFilter.LengthFilter(4)});
+                                            AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
+                                            builder1.setTitle("Escriba su nuevo PIN")
+                                                    .setView(et2)
+                                                    .setIcon(R.drawable.ic_key)
+                                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                                            newpin(et2.getText().toString());
+                                                            if(et2.getText().toString().isEmpty() || et2.getText().toString().length()<4)
+                                                            {
+                                                                Toast.makeText(MainActivity.this, "Campo inválido", Toast.LENGTH_SHORT).show();
+                                                            }else{
+                                                                final EditText et3 = new EditText(MainActivity.this);
+                                                                et3.setInputType(InputType.TYPE_CLASS_NUMBER);
+                                                                et3.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                                                                et3.setFilters(new InputFilter[]{new InputFilter.LengthFilter(4)});
+                                                                AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
+                                                                builder1.setTitle("Confime su nuevo PIN")
+                                                                        .setView(et3)
+                                                                        .setIcon(R.drawable.ic_key)
+                                                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                                            @Override
+                                                                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                                                                if (et3.getText().toString().equals(pin)) {
+                                                                                    home.updatePIN(cuenta_id, et3.getText().toString());
+                                                                                } else {
+                                                                                    Toast.makeText(MainActivity.this, "El PIN no coincide", Toast.LENGTH_SHORT).show();
+                                                                                }
+                                                                            }
+                                                                        })
+                                                                        .setCancelable(false)
+                                                                        .create().show();
+                                                            }
+                                                        }
+                                                    })
+                                                    .setCancelable(false);
+                                            builder1.create().show();
+                                        } else {
+                                            Toast.makeText(MainActivity.this, "PIN invalido", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                })
+                                .setCancelable(false);
+                        builder.create().show();
+                        break;
+
+                    case (9):
                         finish();
                 }
             }
@@ -273,6 +361,10 @@ public class MainActivity extends AppCompatActivity {
         //Seteamos la escucha
         drawerLayout.setDrawerListener(drawerToggle);
 
+    }
+
+    public void newpin(String pinx) {
+        pin = pinx;
     }
 
     private BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException {
@@ -429,6 +521,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void setPerf_id(int id) {
         perf_id = id;
+        //Toast.makeText(MainActivity.this, String.valueOf(id), Toast.LENGTH_SHORT).show();
     }
 
     private void appendMessageText(String text) {

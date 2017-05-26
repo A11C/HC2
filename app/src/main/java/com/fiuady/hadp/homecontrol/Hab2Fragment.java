@@ -92,8 +92,10 @@ public class Hab2Fragment extends Fragment {
 
         color = "R2"+area_hab2.getRgb()+".";
         if(area_hab2.getLuz().equals("R2d.")){
+            SendCommand("R2d.");
             luzhab2.setChecked(false);
         }else{
+            SendCommand(color);
             luzhab2.setChecked(true);
         }
 
@@ -102,7 +104,7 @@ public class Hab2Fragment extends Fragment {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (luzhab2.isChecked()) {
                     SendCommand(color);
-                    home.updateHab2Luz(perfid,"R1a");
+                    home.updateHab2Luz(perfid,"R2a");
                 } else {
                     SendCommand("R2d.");
                     home.updateHab2Luz(perfid,"R2d.");
@@ -146,9 +148,11 @@ public class Hab2Fragment extends Fragment {
             }
         });
 
-        if(area_hab2.getVentilador().equals("V1a.")){
+        if(area_hab2.getVentilador().equals("V2a.")){
             venti2s.setChecked(true);
+            SendCommand("V2a.");
         }else{
+            SendCommand("V2d.");
             venti2s.setChecked(false);
         }
 
@@ -157,10 +161,10 @@ public class Hab2Fragment extends Fragment {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (venti2s.isChecked()) {
                     SendCommand("V2a.");
-                    home.updateHab2Ventilador(perfid,"V1a.");
+                    home.updateHab2Ventilador(perfid,"V2a.");
                 } else {
                     SendCommand("V2d.");
-                    home.updateHab2Ventilador(perfid,"V1d.");
+                    home.updateHab2Ventilador(perfid,"V2d.");
                 }
             }
         });
@@ -169,8 +173,17 @@ public class Hab2Fragment extends Fragment {
         tempmax.setValue(Integer.valueOf(area_hab2.getTempmax()));
         if(area_hab2.getAutoventi().equals("C2d.")){
             venticonts.setChecked(false);
+            SendCommand("C2d.");
+            SendCommand("V2d.");
         }else{
             venticonts.setChecked(true);
+            String min ="";
+            if (tempmin.getValue() < 10) {
+                min="0" + String.valueOf(tempmin.getValue());
+            } else {
+                min = String.valueOf(tempmin.getValue());
+            }
+            SendCommand("C2a"+min+tempmax.getValue()+".");
         }
 
         venticonts.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -184,10 +197,10 @@ public class Hab2Fragment extends Fragment {
                         min = String.valueOf(tempmin.getValue());
                     }
                     SendCommand("C2a"+min+tempmax.getValue()+".");
-                    home.updateHab2Autoventi(perfid,"C1a");
+                    home.updateHab2Autoventi(perfid,"C2<a");
                 }else{
                     SendCommand("C2d.");
-                    home.updateHab2Autoventi(perfid,"C1d.");
+                    home.updateHab2Autoventi(perfid,"C2d.");
                     SendCommand("V2d.");
                 }
             }

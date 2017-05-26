@@ -14,6 +14,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fiuady.db.Area_cochera;
 import com.fiuady.db.Home;
 import com.fiuady.db.Pin_puerta;
 
@@ -59,6 +60,19 @@ public class CocheraFragment extends Fragment implements mDialogFragment.mDialog
         puerta = (Switch) rootView.findViewById(R.id.cochera_switch);
         estado = (TextView) rootView.findViewById(R.id.cochera_estadotext);
 
+        ArrayList<Area_cochera> area_cocheras = new ArrayList<>(home.getAllCochera(perfid));
+        Area_cochera area_cochera = area_cocheras.get(0);
+
+        if(area_cochera.getPuerta().equals("S2a.")){
+            puerta.setChecked(true);
+            mDialogFragment fragment = mDialogFragment.newInstance();
+            fragment.setTargetFragment(CocheraFragment.this, 0);
+            fragment.show(getFragmentManager(), "PIN");
+        }else{
+            SendCommand("S2c.");
+            puerta.setChecked(false);
+        }
+
         puerta.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -68,6 +82,7 @@ public class CocheraFragment extends Fragment implements mDialogFragment.mDialog
                     fragment.show(getFragmentManager(), "PIN");
                 } else {
                     SendCommand("S2c.");
+                    home.updateCochera(perfid,"S2c.");
                 }
             }
         });
@@ -82,6 +97,7 @@ public class CocheraFragment extends Fragment implements mDialogFragment.mDialog
         Pin_puerta pin_puerta = pin_puertas.get(0);
         if(pin.equals(pin_puerta.getPin())){
             SendCommand("S2a.");
+            home.updateCochera(perfid,"S2c.");
         } else {
             puerta.setChecked(false);
         }

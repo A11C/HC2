@@ -75,33 +75,45 @@ public class AlarmsFragment extends Fragment {
 
         if(alarmas.getPuerta().equals("1")){
             prtaf.setChecked(true);
+            newcommand(3, true);
         }else{
             prtaf.setChecked(false);
+            newcommand(3, false);
         }
         if(alarmas.getCochera().equals("1")){
             cochera.setChecked(true);
+            newcommand(7, true);
         }else{
             cochera.setChecked(false);
+            newcommand(7, false);
         }
         if(alarmas.getSala().equals("1")){
             vents.setChecked(true);
+            newcommand(5, true);
         }else{
             vents.setChecked(false);
+            newcommand(5, false);
         }
         if(alarmas.getHabitacion1().equals("1")){
             vent1.setChecked(true);
+            newcommand(4, true);
         }else{
             vent1.setChecked(false);
+            newcommand(4, false);
         }
         if(alarmas.getHabitacion2().equals("1")){
             vent2.setChecked(true);
+            newcommand(5, true);
         }else{
             vent2.setChecked(false);
+            newcommand(5, false);
         }
         if(alarmas.getSensor().equals("1")){
             pir.setChecked(true);
+            newcommand(2, true);
         }else{
             pir.setChecked(false);
+            newcommand(2, false);
         }
 
 

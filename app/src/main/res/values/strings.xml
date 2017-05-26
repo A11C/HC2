@@ -14,6 +14,7 @@
         <item>Habitación 2</item>
         <item>Alarmas</item>
         <item>Perfiles</item>
+        <item>Cambiar PIN</item>
         <item>Cerrar Sesión</item>
     </string-array>
     <string name="drawer_open">Abrir navigation drawer</string>

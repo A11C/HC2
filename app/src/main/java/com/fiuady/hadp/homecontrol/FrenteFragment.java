@@ -81,8 +81,10 @@ public class FrenteFragment extends Fragment implements mDialogFragment.mDialogF
         valor = Integer.valueOf(area_frente.getIntensidad());
         intensidad.setProgress(valor);
         if(area_frente.getLuz().equals("L1d.")){
+            SendCommand("L1d.");
             luzfrente.setChecked(false);
         }else{
+            SendCommand("L1"+valor+".");
             luzfrente.setChecked(true);
         }
 
@@ -122,8 +124,12 @@ public class FrenteFragment extends Fragment implements mDialogFragment.mDialogF
 
         if(area_frente.getPuerta().equals("S1c.")){
             puerta.setChecked(false);
+            SendCommand("S1c.");
         }else{
             puerta.setChecked(true);
+            mDialogFragment fragment = mDialogFragment.newInstance();
+            fragment.setTargetFragment(FrenteFragment.this,0);
+            fragment.show(getFragmentManager(), "PIN");
         }
         puerta.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -141,8 +147,10 @@ public class FrenteFragment extends Fragment implements mDialogFragment.mDialogF
 
         if(area_frente.getSensor().equals("Dia.")){
             chksens.setChecked(true);
+            SendCommand("D1a.");
         }else{
             chksens.setChecked(false);
+            SendCommand("D1d.");
         }
         chksens.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

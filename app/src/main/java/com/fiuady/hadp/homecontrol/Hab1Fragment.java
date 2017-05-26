@@ -96,8 +96,10 @@ public class Hab1Fragment extends Fragment {
         color = "R1"+area_hab1.getRgb()+".";
         if(area_hab1.getLuz().equals("R1d.")){
             luzhab1.setChecked(false);
+            SendCommand("R1d.");
         }else{
             luzhab1.setChecked(true);
+            SendCommand(color);
         }
 
         luzhab1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -150,9 +152,10 @@ public class Hab1Fragment extends Fragment {
         });
 
         if(area_hab1.getVentilador().equals("V1a.")){
-            venti1s.setChecked(true);
+            venti1s.setChecked(true);SendCommand("V1a.");
         }else{
             venti1s.setChecked(false);
+            SendCommand("V1d.");
         }
 
         venti1s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -172,8 +175,18 @@ public class Hab1Fragment extends Fragment {
 
         if(area_hab1.getAutoventi().equals("C1d.")){
             venticonts.setChecked(false);
+            SendCommand("C1d.");
+            SendCommand("V1d.");
         }else{
             venticonts.setChecked(true);
+            String min = "";
+            if (tempmin.getValue() < 10) {
+                min = "0" + String.valueOf(tempmin.getValue());
+            } else {
+                min = String.valueOf(tempmin.getValue());
+            }
+
+            SendCommand("C1a" + min + tempmax.getValue() + ".");
         }
 
         venticonts.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

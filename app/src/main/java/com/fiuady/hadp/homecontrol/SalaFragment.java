@@ -77,8 +77,12 @@ public class SalaFragment extends Fragment implements mDialogFragment.mDialogFra
 
         if(area_sala.getPuerta().equals("S1c.")){
             puertas.setChecked(false);
+            SendCommand("S1c.");
         }else{
             puertas.setChecked(true);
+            mDialogFragment fragment = mDialogFragment.newInstance();
+            fragment.setTargetFragment(SalaFragment.this,0);
+            fragment.show(getFragmentManager(), "PIN");
         }
 
         puertas.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -90,6 +94,7 @@ public class SalaFragment extends Fragment implements mDialogFragment.mDialogFra
                     fragment.show(getFragmentManager(), "PIN");
                 }else{
                     SendCommand("S1c.");
+                    home.updateSalaPuerta(perfid,"S1c.");
                 }
             }
         });
@@ -147,6 +152,7 @@ public class SalaFragment extends Fragment implements mDialogFragment.mDialogFra
         Pin_puerta pin_puerta = pin_puertas.get(0);
         if(pin.equals(pin_puerta.getPin())){
             SendCommand("S1a.");
+            home.updateSalaPuerta(perfid,"S1a.");
         }else{
             puertas.setChecked(false);
         }
