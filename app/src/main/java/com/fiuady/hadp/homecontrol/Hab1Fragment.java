@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -16,6 +17,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fiuady.db.Area_hab1;
+import com.fiuady.db.Home;
 import com.flask.colorpicker.ColorPickerPreference;
 import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.OnColorSelectedListener;
@@ -26,6 +29,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 
 
 /**
@@ -36,7 +40,7 @@ import java.net.Socket;
  */
 public class Hab1Fragment extends Fragment {
 
-   // private OnFragmentInteractionListener mListener;
+    // private OnFragmentInteractionListener mListener;
 
     public Hab1Fragment() {
         // Required empty public constructor
@@ -49,11 +53,25 @@ public class Hab1Fragment extends Fragment {
     private TextView temp;
     private BluetoothSocket connectedSocket;
 
+    private int valtemp;
+    private int perfid;
+    private Home home;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        connectedSocket = ((MainActivity) getActivity()).Socket();
+        perfid = getArguments().getInt("perfid");
+        SendCommand("T1a.");
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_hab1, container, false);
+
+        home = new Home(getContext());
 
         view = rootView.findViewById(R.id.color_picker1);
         vent1 = (Switch) rootView.findViewById(R.id.ventana1_switch);
@@ -72,22 +90,28 @@ public class Hab1Fragment extends Fragment {
         tempmax.setWrapSelectorWheel(true);
         temp = (TextView) rootView.findViewById(R.id.temp_hab1);
 
+        ArrayList<Area_hab1> area_hab1s = new ArrayList<>(home.getAllHabitacion1(perfid));
+        Area_hab1 area_hab1 = area_hab1s.get(0);
+
+        color = "R1"+area_hab1.getRgb()+".";
+        if(area_hab1.getLuz().equals("R1d.")){
+            luzhab1.setChecked(false);
+        }else{
+            luzhab1.setChecked(true);
+        }
+
         luzhab1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(luzhab1.isChecked()){
-                    vent1.setText("Abierta");
+                if (luzhab1.isChecked()) {
                     SendCommand(color);
-                    vent1.setChecked(true);
-                }
-                else{
-                    vent1.setText("Cerrada");
+                    home.updateHab1Luz(perfid,"R1a");
+                } else {
                     SendCommand("R1d.");
-                    vent1.setChecked(false);
+                    home.updateHab1Luz(perfid,"R1d.");
                 }
             }
         });
-
 
 
         view.setOnClickListener(new View.OnClickListener() {
@@ -109,7 +133,7 @@ public class Hab1Fragment extends Fragment {
                         .setPositiveButton("ok", new ColorPickerClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
-                               change_color(selectedColor);
+                                change_color(selectedColor);
                                 colorString(selectedColor);
                             }
                         })
@@ -125,24 +149,50 @@ public class Hab1Fragment extends Fragment {
             }
         });
 
+        if(area_hab1.getVentilador().equals("V1a.")){
+            venti1s.setChecked(true);
+        }else{
+            venti1s.setChecked(false);
+        }
+
         venti1s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (venti1s.isChecked()){
-
-                }else{
-
+                if (venti1s.isChecked()) {
+                    SendCommand("V1a.");
+                    home.updateHab1Ventilador(perfid,"V1a.");
+                } else {
+                    SendCommand("V1d.");
+                    home.updateHab1Ventilador(perfid,"V1d.");
                 }
             }
         });
+        tempmin.setValue(Integer.valueOf(area_hab1.getTempmin()));
+        tempmax.setValue(Integer.valueOf(area_hab1.getTempmax()));
+
+        if(area_hab1.getAutoventi().equals("C1d.")){
+            venticonts.setChecked(false);
+        }else{
+            venticonts.setChecked(true);
+        }
 
         venticonts.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (venticonts.isChecked()){
+                if (venticonts.isChecked()) {
+                    String min = "";
+                    if (tempmin.getValue() < 10) {
+                        min = "0" + String.valueOf(tempmin.getValue());
+                    } else {
+                        min = String.valueOf(tempmin.getValue());
+                    }
 
-                }else{
-
+                    SendCommand("C1a" + min + tempmax.getValue() + ".");
+                    home.updateHab1Autoventi(perfid,"C1a");
+                } else {
+                    SendCommand("C1d.");
+                    home.updateHab1Autoventi(perfid,"C1d.");
+                    SendCommand("V1d.");
                 }
             }
         });
@@ -150,52 +200,99 @@ public class Hab1Fragment extends Fragment {
         tempmin.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                if (venticonts.isChecked()) {
+                    String min = "";
+                    if (tempmin.getValue() < 10) {
+                        min = "0" + String.valueOf(tempmin.getValue());
+                    } else {
+                        min = String.valueOf(tempmin.getValue());
+                    }
 
+                    SendCommand("C1a" + min + tempmax.getValue() + ".");
+                }
+                home.updateHab1TempMin(perfid,String.valueOf(tempmin.getValue()));
             }
         });
 
         tempmax.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                if (venticonts.isChecked()) {
+                    String min = "";
+                    if (tempmin.getValue() < 10) {
+                        min = "0" + String.valueOf(tempmin.getValue());
+                    } else {
+                        min = String.valueOf(tempmin.getValue());
+                    }
 
+                    SendCommand("C1a" + min + tempmax.getValue() + ".");
+                }
+                home.updateHab1TempMax(perfid,String.valueOf(tempmax.getValue()));
             }
         });
 
         return rootView;
 
     }
-    public void temp_change(String valor){
-        temp.setText(valor + " °C");
+
+    public void state_change(String text) {
+        if (text.equals("RS2A")) {
+            vent1.setText("Abierta");
+            vent1.setChecked(true);
+        } else if (text.equals("RS2C")) {
+            vent1.setText("Cerrada");
+            vent1.setChecked(false);
+        }
     }
 
-    public void change_color(int colorSelected){
+    public void temp_change(String valor) {
+        temp.setText(valor + " °C");
+/*        valtemp = Integer.valueOf(valor);
+        if (venticonts.isChecked()) {
+            if (valtemp == tempmax.getValue()) {
+                SendCommand("V1a.");
+            } else if (valtemp == tempmin.getValue()) {
+                SendCommand("V1d.");
+            }
+        }*/
+    }
+
+    public void change_color(int colorSelected) {
         view.setBackgroundColor(colorSelected);
     }
 
-    public void colorString(int selectedColor){
-        int r = Integer.valueOf(((Integer.toHexString(selectedColor)).substring(2,4)),16);
-        int v = Integer.valueOf(((Integer.toHexString(selectedColor)).substring(4,6)),16);
-        int a = Integer.valueOf(((Integer.toHexString(selectedColor)).substring(6)),16);
+    public void colorString(int selectedColor) {
+        int r = Integer.valueOf(((Integer.toHexString(selectedColor)).substring(2, 4)), 16);
+        int v = Integer.valueOf(((Integer.toHexString(selectedColor)).substring(4, 6)), 16);
+        int a = Integer.valueOf(((Integer.toHexString(selectedColor)).substring(6)), 16);
         String rojo, verde, azul;
 
-        if (r<100){
-            rojo = "0"+Integer.toString(r);
-        }else{rojo = Integer.toString(r);}
-        if(v<100){
-            verde = "0"+Integer.toString(v);
-        }else{ verde = Integer.toString(v);}
-        if (a<100){
-            azul = "0"+Integer.toString(a);
-        }else{ azul = Integer.toString(a);}
+        if (r < 100) {
+            rojo = "0" + Integer.toString(r);
+        } else {
+            rojo = Integer.toString(r);
+        }
+        if (v < 100) {
+            verde = "0" + Integer.toString(v);
+        } else {
+            verde = Integer.toString(v);
+        }
+        if (a < 100) {
+            azul = "0" + Integer.toString(a);
+        } else {
+            azul = Integer.toString(a);
+        }
 
-        color = "R1"+rojo+verde+azul+".";
-        if(luzhab1.isChecked()) {
+        home.updateHab1Rgb(perfid,rojo + verde + azul);
+
+        color = "R1" + rojo + verde + azul + ".";
+        if (luzhab1.isChecked()) {
             SendCommand(color);
         }
     }
 
-    public void SendCommand(String command){
-        connectedSocket = ((MainActivity)getActivity()).Socket();
+    public void SendCommand(String command) {
+
         try {
             if ((connectedSocket != null) && (connectedSocket.isConnected())) {
                 String toSend = command.trim();
@@ -207,7 +304,6 @@ public class Hab1Fragment extends Fragment {
                     bw.write("\r\n");
                     bw.flush();
 
-                    Toast.makeText(getContext(), "[Enviado] " + toSend, Toast.LENGTH_SHORT).show();
                 }
 
             } else {
@@ -219,7 +315,13 @@ public class Hab1Fragment extends Fragment {
         }
     }
 
-//    // TODO: Rename method, update argument and hook method into UI event
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        SendCommand("T1d.");
+    }
+
+    //    // TODO: Rename method, update argument and hook method into UI event
 //    public void onButtonPressed(Uri uri) {
 //        if (mListener != null) {
 //            mListener.onFragmentInteraction(uri);
@@ -258,3 +360,4 @@ public class Hab1Fragment extends Fragment {
 //        void onFragmentInteraction(Uri uri);
 //    }
 }
+

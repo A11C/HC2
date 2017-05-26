@@ -18,6 +18,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText pass_name;
 
     private int check;
+    private int id_cuenta;
 
     private Home home;
 
@@ -38,12 +39,13 @@ public class LoginActivity extends AppCompatActivity {
 
                 check = home.checkCuenta(user_name.getText().toString(), pass_name.getText().toString());
                 if (check == 1) {
-                    Toast.makeText(LoginActivity.this, "Cuenta Aceptada", Toast.LENGTH_LONG).show();
+                    id_cuenta = home.getIdCuenta(user_name.getText().toString());
+                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                    i.putExtra(MainActivity.EXTRA_ID,id_cuenta);
+                    startActivity(i);
                 } else {
                     Toast.makeText(LoginActivity.this, "Cuenta Rechazada", Toast.LENGTH_LONG).show();
                 }
-                Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(i);
             }
         });
     }

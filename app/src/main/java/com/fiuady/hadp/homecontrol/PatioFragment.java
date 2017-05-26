@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +16,13 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fiuady.db.Area_patio;
+import com.fiuady.db.Home;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 
 
 /**
@@ -28,7 +33,7 @@ import java.io.OutputStreamWriter;
  */
 public class PatioFragment extends Fragment {
 
-  //  private OnFragmentInteractionListener mListener;
+    //  private OnFragmentInteractionListener mListener;
 
     public PatioFragment() {
         // Required empty public constructor
@@ -36,11 +41,22 @@ public class PatioFragment extends Fragment {
 
     private Switch exts, piscs, vents;
     private SeekBar extsb, piscsb;
-    private CheckBox extchk, piscchk;
+    private CheckBox extchk;
     private TextView temptext;
     private int intext = 255, intpisc = 255;
+    private int perfid;
+    private Home home;
 
     private BluetoothSocket connectedSocket;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        connectedSocket = ((MainActivity) getActivity()).Socket();
+        perfid = getArguments().getInt("perfid");
+        home = new Home(getContext());
+        SendCommand("T3a.");
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,39 +72,53 @@ public class PatioFragment extends Fragment {
         piscsb.setMax(255);
 
         extchk = (CheckBox) rootView.findViewById(R.id.luz_amb_ext_chk);
-        piscchk = (CheckBox) rootView.findViewById(R.id.luz_amb_pisc_chk);
 
-        temptext =(TextView) rootView.findViewById(R.id.act_temp_patio_text);
+        temptext = (TextView) rootView.findViewById(R.id.act_temp_patio_text);
+
+        ArrayList<Area_patio> area_patios = new ArrayList<>(home.getAllPatio(perfid));
+        Area_patio area_patio = area_patios.get(0);
+
+        intext = Integer.valueOf(area_patio.getIntenext());
+        extsb.setProgress(intext);
+
+        if(area_patio.getLuzext().equals("L2d.")){
+            exts.setChecked(false);
+        }else{
+            exts.setChecked(true);
+        }
 
         exts.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (exts.isChecked()){
-
-                }else{
-
+                if (exts.isChecked()) {
+                    SendCommand("L2" + intext + ".");
+                    home.updatePatioLuzExt(perfid,"L2a");
+                } else {
+                    SendCommand("L2d.");
+                    home.updatePatioLuzExt(perfid,"L2d.");
                 }
             }
         });
+
+        intpisc = Integer.valueOf(area_patio.getIntenpisci());
+        piscsb.setProgress(intpisc);
+
+        if(area_patio.getLuzpisci().equals("L3d.")){
+            piscs.setChecked(false);
+        }else{
+            piscs.setChecked(true);
+        }
+
 
         piscs.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (piscs.isChecked()){
-
-                }else{
-
-                }
-            }
-        });
-
-        vents.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(vents.isChecked()){
-
-                }else{
-
+                if (piscs.isChecked()) {
+                    SendCommand("L3"+intpisc+".");
+                    home.updatePatioLuzPisci(perfid,"L3a");
+                } else {
+                    SendCommand("L3d.");
+                    home.updatePatioLuzPisci(perfid,"L3a");
                 }
             }
         });
@@ -96,10 +126,11 @@ public class PatioFragment extends Fragment {
         extsb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                if (exts.isChecked()){
-
+                if (exts.isChecked()) {
+                    SendCommand("L2"+i+".");
                 }
                 intext = i;
+                home.updatePatioIntenExt(perfid,String.valueOf(i));
             }
 
             @Override
@@ -116,10 +147,11 @@ public class PatioFragment extends Fragment {
         piscsb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                if(piscs.isChecked()){
-
+                if (piscs.isChecked()) {
+                    SendCommand("L3"+i+".");
                 }
                 intpisc = i;
+                home.updatePatioIntenPisci(perfid,String.valueOf(i));
             }
 
             @Override
@@ -133,24 +165,21 @@ public class PatioFragment extends Fragment {
             }
         });
 
+        if(area_patio.getSensorext().equals("D2a.")){
+            extchk.setChecked(true);
+        }else{
+            extchk.setChecked(false);
+        }
+
         extchk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(extchk.isChecked()){
-
-                }else{
-
-                }
-            }
-        });
-
-        piscchk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (piscchk.isChecked()){
-
-                }else{
-
+                if (extchk.isChecked()) {
+                    SendCommand("D2a.");
+                    home.updatePatioSensorExt(perfid,"D2a.");
+                } else {
+                    SendCommand("D2d.");
+                    home.updatePatioSensorExt(perfid,"D2d.");
                 }
             }
         });
@@ -158,8 +187,21 @@ public class PatioFragment extends Fragment {
         return rootView;
     }
 
-    public void SendCommand(String command){
-        connectedSocket = ((MainActivity)getActivity()).Socket();
+    public void temp_change(String text){
+        temptext.setText(text + " °C");
+    }
+
+    public void state_change(String text){
+        if(text.equals("RS2A")) {
+            vents.setText("Abierta");
+            vents.setChecked(true);
+        }else if(text.equals("RS2C")){
+            vents.setText("Cerrada");
+            vents.setChecked(false);
+        }
+    }
+
+    public void SendCommand(String command) {
         try {
             if ((connectedSocket != null) && (connectedSocket.isConnected())) {
                 String toSend = command.trim();
@@ -171,7 +213,6 @@ public class PatioFragment extends Fragment {
                     bw.write("\r\n");
                     bw.flush();
 
-                    Toast.makeText(getContext(), "[Enviado] " + toSend, Toast.LENGTH_SHORT).show();
                 }
 
             } else {
@@ -183,42 +224,47 @@ public class PatioFragment extends Fragment {
         }
     }
 
-  //  // TODO: Rename method, update argument and hook method into UI event
-  //  public void onButtonPressed(Uri uri) {
-  //      if (mListener != null) {
-  //          mListener.onFragmentInteraction(uri);
-  //      }
-  //  }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        SendCommand("T3d.");
+    }
+    //  // TODO: Rename method, update argument and hook method into UI event
+    //  public void onButtonPressed(Uri uri) {
+    //      if (mListener != null) {
+    //          mListener.onFragmentInteraction(uri);
+    //      }
+    //  }
 //
-  //  @Override
-  //  public void onAttach(Context context) {
-  //      super.onAttach(context);
-  //      if (context instanceof OnFragmentInteractionListener) {
-  //          mListener = (OnFragmentInteractionListener) context;
-  //      } else {
-  //          throw new RuntimeException(context.toString()
-  //                  + " must implement OnFragmentInteractionListener");
-  //      }
-  //  }
+    //  @Override
+    //  public void onAttach(Context context) {
+    //      super.onAttach(context);
+    //      if (context instanceof OnFragmentInteractionListener) {
+    //          mListener = (OnFragmentInteractionListener) context;
+    //      } else {
+    //          throw new RuntimeException(context.toString()
+    //                  + " must implement OnFragmentInteractionListener");
+    //      }
+    //  }
 //
-  //  @Override
-  //  public void onDetach() {
-  //      super.onDetach();
-  //      mListener = null;
-  //  }
+    //  @Override
+    //  public void onDetach() {
+    //      super.onDetach();
+    //      mListener = null;
+    //  }
 //
-  //  /**
-  //   * This interface must be implemented by activities that contain this
-  //   * fragment to allow an interaction in this fragment to be communicated
-  //   * to the activity and potentially other fragments contained in that
-  //   * activity.
-  //   * <p>
-  //   * See the Android Training lesson <a href=
-  //   * "http://developer.android.com/training/basics/fragments/communicating.html"
-  //   * >Communicating with Other Fragments</a> for more information.
-  //   */
-  //  public interface OnFragmentInteractionListener {
-  //      // TODO: Update argument type and name
-  //      void onFragmentInteraction(Uri uri);
-  //  }
+    //  /**
+    //   * This interface must be implemented by activities that contain this
+    //   * fragment to allow an interaction in this fragment to be communicated
+    //   * to the activity and potentially other fragments contained in that
+    //   * activity.
+    //   * <p>
+    //   * See the Android Training lesson <a href=
+    //   * "http://developer.android.com/training/basics/fragments/communicating.html"
+    //   * >Communicating with Other Fragments</a> for more information.
+    //   */
+    //  public interface OnFragmentInteractionListener {
+    //      // TODO: Update argument type and name
+    //      void onFragmentInteraction(Uri uri);
+    //  }
 }

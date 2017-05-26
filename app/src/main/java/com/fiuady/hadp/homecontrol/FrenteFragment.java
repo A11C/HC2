@@ -26,9 +26,14 @@ import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.fiuady.db.Area_frente;
+import com.fiuady.db.Home;
+import com.fiuady.db.Pin_puerta;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,6 +54,16 @@ public class FrenteFragment extends Fragment implements mDialogFragment.mDialogF
     private BluetoothSocket connectedSocket;
     private CheckBox chksens;
     private int valor = 255;
+    private Home home;
+    private int perfid;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        connectedSocket = ((MainActivity)getActivity()).Socket();
+        perfid = getArguments().getInt("perf");
+        home = new Home(getContext());
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,13 +75,26 @@ public class FrenteFragment extends Fragment implements mDialogFragment.mDialogF
         intensidad = (SeekBar) rootView.findViewById(R.id.int_bar);
         chksens =(CheckBox) rootView.findViewById(R.id.luz_amb_chk);
 
+        ArrayList<Area_frente> area_frentes = new ArrayList<>(home.getAllFrente(perfid));
+        Area_frente area_frente = area_frentes.get(0);
+
+        valor = Integer.valueOf(area_frente.getIntensidad());
+        intensidad.setProgress(valor);
+        if(area_frente.getLuz().equals("L1d.")){
+            luzfrente.setChecked(false);
+        }else{
+            luzfrente.setChecked(true);
+        }
+
         luzfrente.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (luzfrente.isChecked()) {
                     SendCommand("L1"+valor+".");
+                    home.updateFrenteLuz(perfid,"L1a");
                 } else {
                     SendCommand("L1d.");
+                    home.updateFrenteLuz(perfid,"L1d.");
                 }
             }
         });
@@ -77,6 +105,7 @@ public class FrenteFragment extends Fragment implements mDialogFragment.mDialogF
                 if (luzfrente.isChecked()) {
                     SendCommand("L1"+i+".");
                 }
+                home.updateFrenteIntensidad(perfid,String.valueOf(i));
                 valor = i;
             }
 
@@ -90,6 +119,12 @@ public class FrenteFragment extends Fragment implements mDialogFragment.mDialogF
 
             }
         });
+
+        if(area_frente.getPuerta().equals("S1c.")){
+            puerta.setChecked(false);
+        }else{
+            puerta.setChecked(true);
+        }
         puerta.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -98,18 +133,26 @@ public class FrenteFragment extends Fragment implements mDialogFragment.mDialogF
                     fragment.setTargetFragment(FrenteFragment.this,0);
                     fragment.show(getFragmentManager(), "PIN");
                 }else{
-
+                    SendCommand("S1c.");
+                    home.updateFrentePuerta(perfid,"S1c.");
                 }
             }
         });
 
+        if(area_frente.getSensor().equals("Dia.")){
+            chksens.setChecked(true);
+        }else{
+            chksens.setChecked(false);
+        }
         chksens.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(chksens.isChecked()){
-
+                    SendCommand("D1a.");
+                    home.updateFrenteSensor(perfid,"D1a.");
                 }else{
-
+                    SendCommand("D1d.");
+                    home.updateFrenteSensor(perfid,"D1d.");
                 }
             }
         });
@@ -118,11 +161,19 @@ public class FrenteFragment extends Fragment implements mDialogFragment.mDialogF
     }
 
     @Override
-    public void pinswitch(String pin){
+    public void pinswitch(String pin) {
+        ArrayList<Pin_puerta> pin_puertas = new ArrayList<>(home.getAllPines(((MainActivity)getActivity()).getuserid()));
+        Pin_puerta pin_puerta = pin_puertas.get(0);
+        if(pin.equals(pin_puerta.getPin())){
+            SendCommand("S1a.");
+            home.updateFrentePuerta(perfid,"S1a.");
+        }else{
+            puerta.setChecked(false);
+        }
     }
 
+
     public void SendCommand(String command){
-        connectedSocket = ((MainActivity)getActivity()).Socket();
         try {
             if ((connectedSocket != null) && (connectedSocket.isConnected())) {
                 String toSend = command.trim();
@@ -134,7 +185,6 @@ public class FrenteFragment extends Fragment implements mDialogFragment.mDialogF
                     bw.write("\r\n");
                     bw.flush();
 
-                    Toast.makeText(getContext(), "[Enviado] " + toSend, Toast.LENGTH_SHORT).show();
                 }
 
             } else {
@@ -144,6 +194,11 @@ public class FrenteFragment extends Fragment implements mDialogFragment.mDialogF
             Toast.makeText(getContext(), "[Error] Ocurrió un problema durante el envío de datos!", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 
     // // TODO: Rename method, update argument and hook method into UI event

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
@@ -20,11 +21,16 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fiuady.db.Area_sala;
+import com.fiuady.db.Home;
+import com.fiuady.db.Pin_puerta;
+
 import org.w3c.dom.Text;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 
 
 /**
@@ -43,6 +49,17 @@ public class SalaFragment extends Fragment implements mDialogFragment.mDialogFra
 
     private Switch puertas, vents;
     private TextView pir, temp;
+    private int perfid;
+    private Home home;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        connectedSocket = ((MainActivity)getActivity()).Socket();
+        perfid = getArguments().getInt("perfid");
+        home = new Home(getContext());
+        SendCommand("T4a.");
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,6 +72,15 @@ public class SalaFragment extends Fragment implements mDialogFragment.mDialogFra
         pir = (TextView) rootView.findViewById(R.id.sensor_mov_text);
         temp = (TextView) rootView.findViewById(R.id.act_temp_sala_text);
 
+        ArrayList<Area_sala> area_salas = new ArrayList<>(home.getAllSala(perfid));
+        Area_sala area_sala = area_salas.get(0);
+
+        if(area_sala.getPuerta().equals("S1c.")){
+            puertas.setChecked(false);
+        }else{
+            puertas.setChecked(true);
+        }
+
         puertas.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -63,20 +89,36 @@ public class SalaFragment extends Fragment implements mDialogFragment.mDialogFra
                     fragment.setTargetFragment(SalaFragment.this,0);
                     fragment.show(getFragmentManager(), "PIN");
                 }else{
-
+                    SendCommand("S1c.");
                 }
             }
         });
 
-        vents.setText("Cerrada");
-        pir.setText("No hay movimiento");
-        temp.setText("35 °C");
-
         return rootView;
     }
 
+    public void state_change(String text){
+        if(text.equals("RS4A")) {
+            vents.setText("Abierta");
+        }else if(text.equals("RS4C")){
+            vents.setText("Cerrada");
+        }
+    }
+
+    public void temp_change(String text){
+        temp.setText(text + " °C");
+    }
+
+    public void pir_change(String text){
+        if (text.equals("PIRa")){
+            pir.setText("Hay movimiento");
+        }else{
+            pir.setText("No hay movimiento");
+        }
+
+    }
+
     public void SendCommand(String command){
-        connectedSocket = ((MainActivity)getActivity()).Socket();
         try {
             if ((connectedSocket != null) && (connectedSocket.isConnected())) {
                 String toSend = command.trim();
@@ -88,7 +130,6 @@ public class SalaFragment extends Fragment implements mDialogFragment.mDialogFra
                     bw.write("\r\n");
                     bw.flush();
 
-                    Toast.makeText(getContext(), "[Enviado] " + toSend, Toast.LENGTH_SHORT).show();
                 }
 
             } else {
@@ -102,11 +143,19 @@ public class SalaFragment extends Fragment implements mDialogFragment.mDialogFra
 
     @Override
     public void pinswitch(String pin) {
-        if(pin.equals("1234")){
-            Toast.makeText(getContext(), "PIN Introducido: " + pin, Toast.LENGTH_SHORT).show();
+        ArrayList<Pin_puerta> pin_puertas = new ArrayList<>(home.getAllPines(((MainActivity)getActivity()).getuserid()));
+        Pin_puerta pin_puerta = pin_puertas.get(0);
+        if(pin.equals(pin_puerta.getPin())){
+            SendCommand("S1a.");
         }else{
             puertas.setChecked(false);
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        SendCommand("T4d.");
     }
 
     // // TODO: Rename method, update argument and hook method into UI event

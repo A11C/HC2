@@ -11,7 +11,7 @@ CREATE TABLE [perfiles](
 CREATE TABLE [pin_puerta](
     [id] INTEGER PRIMARY KEY,
     [usuario_id] INTEGER NOT NULL REFERENCES cuentas([id]) UNIQUE,
-    [pin] INTEGER NOT NULL);
+    [pin] TEXT NOT NULL);
 
 CREATE TABLE [area_cochera](
     [id] INTEGER PRIMARY KEY,
@@ -30,29 +30,23 @@ CREATE TABLE [area_hab1](
     [id] INTEGER PRIMARY KEY,
     [perfil_id] INTEGER NOT NULL REFERENCES perfiles([id]),
     [luz] TEXT NOT NULL,
-    [luzr] TEXT NOT NULL,
-    [luzg] TEXT NOT NULL,
-    [luzb] TEXT NOT NULL,
+    [rgb] TEXT NOT NULL,
     [ventana] TEXT NOT NULL,
     [ventilador] TEXT NOT NULL,
     [autoventi] TEXT NOT NULL,
     [tempmin] TEXT NOT NULL,
-    [tempmax] TEXT NOT NULL,
-    [tempact] TEXT NOT NULL);
+    [tempmax] TEXT NOT NULL);
 
 CREATE TABLE [area_hab2](
     [id] INTEGER PRIMARY KEY,
     [perfil_id] INTEGER NOT NULL REFERENCES perfiles([id]),
     [luz] TEXT NOT NULL,
-    [luzr] TEXT NOT NULL,
-    [luzg] TEXT NOT NULL,
-    [luzb] TEXT NOT NULL,
+    [rgb] TEXT NOT NULL,
     [ventana] TEXT NOT NULL,
     [ventilador] TEXT NOT NULL,
     [autoventi] TEXT NOT NULL,
     [tempmin] TEXT NOT NULL,
-    [tempmax] TEXT NOT NULL,
-    [tempact] TEXT NOT NULL);
+    [tempmax] TEXT NOT NULL);
 
 CREATE TABLE [area_patio](
     [id] INTEGER PRIMARY KEY,
@@ -71,3 +65,13 @@ CREATE TABLE [area_sala](
     [puerta] TEXT NOT NULL,
     [ventana] TEXT NOT NULL,
     [sensormov] TEXT NOT NULL);
+
+CREATE TABLE [alarmas](
+    [id] INTEGER PRIMARY KEY,
+    [perfil_id] INTEGER NOT NULL REFERENCES perfiles([id]),
+    [puerta] TEXT NOT NULL,
+    [cochera] TEXT NOT NULL,
+    [sala] TEXT NOT NULL,
+    [habitacion1] TEXT NOT NULL,
+    [habitacion2] TEXT NOT NULL,
+    [sensor] TEXT NOT NULL);

@@ -4,17 +4,23 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.fiuady.db.Alarmas;
+import com.fiuady.db.Home;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 
 
 /**
@@ -25,7 +31,7 @@ import java.io.OutputStreamWriter;
  */
 public class AlarmsFragment extends Fragment {
 
-   // private OnFragmentInteractionListener mListener;
+    // private OnFragmentInteractionListener mListener;
 
     public AlarmsFragment() {
         // Required empty public constructor
@@ -33,6 +39,19 @@ public class AlarmsFragment extends Fragment {
 
     private Switch all, prtaf, cochera, vents, vent1, vent2, pir;
     private BluetoothSocket connectedSocket;
+    private String ini = "Aa000000.";
+    private Button off;
+
+    private int perfid;
+    private Home home;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        connectedSocket = ((MainActivity) getActivity()).Socket();
+        perfid = getArguments().getInt("perfid");
+        home = new Home(getContext());
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,25 +66,95 @@ public class AlarmsFragment extends Fragment {
         vent1 = (Switch) rootView.findViewById(R.id.vent_hab1_sw);
         vent2 = (Switch) rootView.findViewById(R.id.vent_hab2_sw);
         pir = (Switch) rootView.findViewById(R.id.sens_mov_sw);
+        off = (Button) rootView.findViewById(R.id.btn_desact);
+
+        ArrayList<Alarmas> alarmases = new ArrayList<>(home.getAlmarmas(perfid));
+        Alarmas alarmas = alarmases.get(0);
+
+        ini = "Aa"+alarmas.getSensor()+alarmas.getHabitacion2()+alarmas.getHabitacion1()+alarmas.getSala()+alarmas.getCochera()+alarmas.getPuerta()+".";
+
+        if(alarmas.getPuerta().equals("1")){
+            prtaf.setChecked(true);
+        }else{
+            prtaf.setChecked(false);
+        }
+        if(alarmas.getCochera().equals("1")){
+            cochera.setChecked(true);
+        }else{
+            cochera.setChecked(false);
+        }
+        if(alarmas.getSala().equals("1")){
+            vents.setChecked(true);
+        }else{
+            vents.setChecked(false);
+        }
+        if(alarmas.getHabitacion1().equals("1")){
+            vent1.setChecked(true);
+        }else{
+            vent1.setChecked(false);
+        }
+        if(alarmas.getHabitacion2().equals("1")){
+            vent2.setChecked(true);
+        }else{
+            vent2.setChecked(false);
+        }
+        if(alarmas.getSensor().equals("1")){
+            pir.setChecked(true);
+        }else{
+            pir.setChecked(false);
+        }
+
 
         all.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(all.isChecked()){
+                if (all.isChecked()) {
                     prtaf.setEnabled(false);
                     cochera.setEnabled(false);
                     vents.setEnabled(false);
                     vent1.setEnabled(false);
                     vent2.setEnabled(false);
                     pir.setEnabled(false);
-                }
-                else{
+                    ini = "Aa111111.";
+                    SendCommand(ini);
+                } else {
                     prtaf.setEnabled(true);
                     cochera.setEnabled(true);
                     vents.setEnabled(true);
                     vent1.setEnabled(true);
                     vent2.setEnabled(true);
                     pir.setEnabled(true);
+
+                    if (prtaf.isChecked()) {
+                        newcommand(3, true);
+                    } else {
+                        newcommand(3, false);
+                    }
+                    if (cochera.isChecked()) {
+                        newcommand(7, true);
+                    } else {
+                        newcommand(7, false);
+                    }
+                    if (vents.isChecked()) {
+                        newcommand(5, true);
+                    } else {
+                        newcommand(5, false);
+                    }
+                    if (vent1.isChecked()) {
+                        newcommand(4, true);
+                    } else {
+                        newcommand(4, false);
+                    }
+                    if (vent2.isChecked()) {
+                        newcommand(6, true);
+                    } else {
+                        newcommand(6, false);
+                    }
+                    if (pir.isChecked()) {
+                        newcommand(2, true);
+                    } else {
+                        newcommand(2, false);
+                    }
                 }
             }
         });
@@ -73,10 +162,12 @@ public class AlarmsFragment extends Fragment {
         prtaf.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(prtaf.isChecked()){
-
-                }else{
-
+                if (prtaf.isChecked()) {
+                    newcommand(3, true);
+                    home.updateAlarmaPuerta(perfid,"1");
+                } else {
+                    newcommand(3, false);
+                    home.updateAlarmaPuerta(perfid,"0");
                 }
             }
         });
@@ -84,10 +175,12 @@ public class AlarmsFragment extends Fragment {
         cochera.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(cochera.isChecked()){
-
-                }else{
-
+                if (cochera.isChecked()) {
+                    newcommand(7, true);
+                    home.updateAlarmaCochera(perfid,"1");
+                } else {
+                    newcommand(7, false);
+                    home.updateAlarmaCochera(perfid,"0");
                 }
             }
         });
@@ -95,10 +188,12 @@ public class AlarmsFragment extends Fragment {
         vents.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(vents.isChecked()){
-
-                }else{
-
+                if (vents.isChecked()) {
+                    newcommand(6, true);
+                    home.updateAlarmaSala(perfid,"1");
+                } else {
+                    newcommand(6, false);
+                    home.updateAlarmaSala(perfid,"0");
                 }
             }
         });
@@ -106,10 +201,12 @@ public class AlarmsFragment extends Fragment {
         vent1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(vent1.isChecked()){
-
-                }else{
-
+                if (vent1.isChecked()) {
+                    newcommand(4, true);
+                    home.updateAlarmaHab1(perfid,"1");
+                } else {
+                    newcommand(4, false);
+                    home.updateAlarmaHab1(perfid,"0");
                 }
             }
         });
@@ -117,10 +214,12 @@ public class AlarmsFragment extends Fragment {
         vent2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(vent2.isChecked()){
-
-                }else{
-
+                if (vent2.isChecked()) {
+                    newcommand(5, true);
+                    home.updateAlarmaHab2(perfid,"1");
+                } else {
+                    newcommand(5, false);
+                    home.updateAlarmaHab2(perfid,"0");
                 }
             }
         });
@@ -128,19 +227,44 @@ public class AlarmsFragment extends Fragment {
         pir.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(pir.isChecked()){
-
-                }else{
-
+                if (pir.isChecked()) {
+                    newcommand(2, true);
+                    home.updateAlarmaSensor(perfid,"1");
+                } else {
+                    newcommand(2, false);
+                    home.updateAlarmaSensor(perfid,"0");
                 }
+            }
+        });
+
+        off.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SendCommand("Ad.");
             }
         });
 
         return rootView;
     }
 
-    public void SendCommand(String command){
-        connectedSocket = ((MainActivity)getActivity()).Socket();
+    public void newcommand(int n, boolean chk) {
+        String aux = "";
+        for (int i = 0; i < ini.length(); i++) {
+            if (i != n) {
+                aux += ini.charAt(i);
+            } else {
+                if (chk) {
+                    aux += "1";
+                } else {
+                    aux += "0";
+                }
+            }
+        }
+        ini = aux;
+        SendCommand(ini);
+    }
+
+    public void SendCommand(String command) {
         try {
             if ((connectedSocket != null) && (connectedSocket.isConnected())) {
                 String toSend = command.trim();
@@ -152,7 +276,6 @@ public class AlarmsFragment extends Fragment {
                     bw.write("\r\n");
                     bw.flush();
 
-                    Toast.makeText(getContext(), "[Enviado] " + toSend, Toast.LENGTH_SHORT).show();
                 }
 
             } else {
